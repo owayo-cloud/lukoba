@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/login.css">
 </head>
 <body>
     <header>
@@ -16,5 +17,32 @@
             <a href="login.html">Login<span></span></a>
         </nav>
     </header>
+    <div class="container">
+        <div class="form_box">
+            <h1 id="title">Sign Up</h1>
+            <form>
+                <div class="input_group">
+                    <div class="input_field" id="nameField">
+                        <i class="fa-regular fa-user"></i>
+                        <input type="text" placeholder="Name">
+                    </div>
+                    <div class="input_field">
+                        <i class="fa-regular fa-envelope"></i>
+                        <input type="email" placeholder="Email">
+                    </div>
+                    <div class="input_field">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" placeholder="Password">
+                    </div>
+                    <p>Forgot Password? <a href="">Click Here!</a></p>
+                </div>  
+                <div class="btn_field">
+                    <button type="button" id="registerBtn">Sign Up</button>
+                    <button type="button" class="disable" id="loginBtn">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="../assets/JS/login.js"></script>
 </body>
 </html>
