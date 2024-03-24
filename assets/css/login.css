@@ -1,5 +1,5 @@
 .container{
-    background-image: linear-gradient(rgba(4,9,30,0.7),rgba(4,9,30,0.7)),url(images/bgg.jpg);
+    background-image: linear-gradient(rgba(4,9,30,0.7),rgba(4,9,30,0.7)),url(../images/down.jpeg);
     background-position: center;
     background-size: cover;
     position: relative;
@@ -13,7 +13,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    background: #fff;
+    background: transparent;
     padding: 50px 60px 70px;
     text-align: center;
 }
@@ -58,6 +58,7 @@ input{
 form p{
     text-align: left;
     font-size: 13px;
+    color: #ff0000;
 }
 form p a{
     text-decoration: none;

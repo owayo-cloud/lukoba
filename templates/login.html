@@ -6,43 +6,45 @@
     <title>Login</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/login.css">
+    <script src="https://kit.fontawesome.com/a960bf3c61.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="index.html">Home<span></span></span></a>
-            <a href="shows.html">Shows<span></span></a>
-            <a href="seats.html">Seat Selection<span></span></a>
-            <a href="bookings.html">Booking Confirmation<span></span></a>
-            <a href="login.html">Login<span></span></a>
-        </nav>
-    </header>
     <div class="container">
+        <header>
+            <nav>
+                <a href="index.html">Home<span></span></span></a>
+                <a href="shows.html">Shows<span></span></a>
+                <a href="seats.html">Seat Selection<span></span></a>
+                <a href="bookings.html">Booking Confirmation<span></span></a>
+                <a href="login.html">Login<span></span></a>
+            </nav>
+        </header>
         <div class="form_box">
-            <h1 id="title">Sign Up</h1>
-            <form>
+            <h1 id="title">Register</h1>
+            <form id="signupForm">
                 <div class="input_group">
                     <div class="input_field" id="nameField">
                         <i class="fa-regular fa-user"></i>
-                        <input type="text" placeholder="Name">
+                        <input type="text" id="name" placeholder="Name" required>
                     </div>
                     <div class="input_field">
                         <i class="fa-regular fa-envelope"></i>
-                        <input type="email" placeholder="Email">
+                        <input type="email" id="signupEmail" placeholder="Email" required>
                     </div>
                     <div class="input_field">
                         <i class="fa-solid fa-lock"></i>
-                        <input type="password" placeholder="Password">
+                        <input type="password" id="signupPassword" placeholder="Password" required>
                     </div>
                     <p>Forgot Password? <a href="">Click Here!</a></p>
                 </div>  
                 <div class="btn_field">
-                    <button type="button" id="registerBtn">Sign Up</button>
+                    <button type="submit" id="registerBtn">Register</button>
                     <button type="button" class="disable" id="loginBtn">Login</button>
                 </div>
             </form>
         </div>
     </div>
-    <script src="../assets/JS/login.js"></script>
+    
+    <script src="../assets/JS/signup.js"></script><!-- Link to external JavaScript file -->
 </body>
 </html>
