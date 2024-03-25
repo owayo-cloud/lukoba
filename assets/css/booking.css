@@ -1,0 +1,136 @@
+.seating_chart{
+    flex: 1;
+    background-color: transparent;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.seating_chart h2 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    color: #0ef;
+}
+.seats {
+    display: flex;
+    flex-wrap: wrap;
+    grid-template-columns: repeat(5, 1fr); /* Adjust as needed */
+    gap: 10px; /* Adjust as needed */
+}
+.seat {
+    width: 40px;
+    height: 40px;
+    padding: 0.5rem;
+    background-color: #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.seat.available {
+    background-color: #fff;
+}
+.seat.booked{
+    background-color: #9acd32;
+    cursor: not-allowed;
+}
+.seat.selected {
+    background-color: #0ef;
+}
+.seat_type {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.seat_type h3 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.seat_type input[type="radio"] {
+    display: none;
+}
+
+.seat_type label {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 5px 10px;
+    background-color: #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.seat_type input[type="radio"]:checked + label {
+    background-color: #b8e994;
+    color: #fff;
+}
+/* Booking details styles */
+.booking_details {
+    flex: 1;
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.booking_details h2 {
+    margin-bottom: 1rem;
+    color: #0ef;
+    font-weight: 600;
+}
+
+button {
+    display: block;
+    width: fit-content;
+    padding: 0.75rem;
+    background-color: #85ceeb;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+button:hover {
+    background-color: #0ef;
+}
+
+/* Footer styles */
+footer {
+    text-align: center;
+    padding: 1rem 0;
+    background-color: #333;
+    color: #fff;
+}
+.user_details{
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+.user_details h2 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.user_details label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.user_details input[type="text"],
+.user_details input[type="email"],
+.user_details input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
