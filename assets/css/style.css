@@ -803,4 +803,20 @@ p.end span i{
     margin: 0 8px;
     color: #85ceeb;
 } 
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #0ef;
+  border-radius: 2rem;
+  color: #1e1f26;
+  transition: .3s;
+  margin: 0 10px 8px 0;
+  
+}
+.right a{
+  text-decoration: none;
+  text-align: center;
+}
+
+
   
