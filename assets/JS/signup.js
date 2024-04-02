@@ -4,61 +4,93 @@ let nameField = document.getElementById("nameField");
 let title = document.getElementById("title");
 
 loginBtn.onclick = function(){
-    
     nameField.style.maxHeight = "0";
     title.innerHTML = "Login"
     registerBtn.classList.add("disable");
     loginBtn.classList.remove("disable");
 }
 registerBtn.onclick = function(){
-    
     nameField.style.maxHeight = "60px";
     title.innerHTML = "Register"
     loginBtn.classList.add("disable");
     registerBtn.classList.remove("disable");
 }
-document.addEventListener("DOMContentLoaded", function() {
-    // Select the signup form and relevant input fields
+
+document.addEventListener("DOMContentLoaded", function(){
     const signupForm = document.getElementById('signupForm');
     const nameInput = document.getElementById('name');
     const emailInput = document.getElementById('signupEmail');
     const passwordInput = document.getElementById('signupPassword');
+    const registerBtn = document.getElementById('registerBtn');
+    const loginBtn = document.getElementById('loginBtn');
 
-    signupForm.addEventListener('submit', function(event) { // Attaches an event listener to the form submission event
-        event.preventDefault(); // Prevents the default form submission
+    //Function for sending HTTP POST request
+    function postData(url, data) {
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .catch(error => console.error('Error:', error));
+    }
 
-        // Validate name, email, and password
+    //Function for handling registration
+    function handleRegistration(event) {
+        event.preventDefault();
+
         const name = nameInput.value.trim();
         const email = emailInput.value.trim();
         const password = passwordInput.value.trim();
 
+        // Validate inputs
         if (!name || !email || !password) {
-            alert('Please fill in all fields.'); // Display error message if any field is empty
+            alert('Please fill in all fields.');
             return;
         }
 
-        // Check if password meets criteria
-        if (password.length < 8) {
-            // Display error message if password length is less than 8
-            alert('Password must be at least 8 characters long.');
+        if (password.length < 8 || !/[A-Z]/.test(password) || !/\d/.test(password)) {
+            alert('Password must be at least 8 characters long and contain at least 1 capital letter and 1 number.');
             return;
+        }
+        else{
+            alert('Registration successful');
         }
 
-        if (!/[A-Z]/.test(password)) {
-            // Display error message if password doesn't contain at least 1 capital letter
-            alert('Password must contain at least 1 capital letter.');
-            return;
-        }
+        //sending data for registration back to backend
+        postData('http://localhost:8000/register', { username: name, email: email, password: password })
+        .then(response => {
+            if (response.status === 'success') {
+                alert(response.message);
+            } else {
+                alert(response.message);
+            }
+        });
+    }
 
-        if (!/\d/.test(password)) {
-            // Display different error message if password doesn't contain at least 1 number
-            alert('Password must contain at least 1 number.');
-            return;
-        }
-        
-        // Additional validation logic (e.g., checking email format, password strength) can be added here
-        // If validation passes, you can proceed with signing up (for demonstration, just showing an alert)
-        alert('Registration successfully!');
-        // Here, you can add code to redirect the user to a dashboard or perform other actions after signing up
-    });
+    //Function for handling login
+    function handleLogin(event){
+        event.preventDefault()
+
+        const email = email.value.trim(); // Assuming username is used for login
+        const password = passwordInput.value.trim();
+
+        //sending login dat to backend
+        postData('http://localhost:8000/login', {email: email, password:password})
+        .then(response => {
+            if(response.status === 'success'){
+                alert(response.message);
+
+                //either redirect user to dashboard or perform other actions
+            } else{
+                alert(response.message);
+            }
+        });
+    }
+
+    // event listeners for register and login buttons
+    registerBtn.addEventListener('click', handleRegistration);
+    loginBtn.addEventListener('click', handleLogin);
 });
