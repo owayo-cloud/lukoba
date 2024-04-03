@@ -3,138 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LuKoBa | Tickets</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <title>🍿LuKoBaShows</title>
+    <link rel="stylesheet" href="../assets/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="index.html">Home<span></span></span></a>
-            <a href="shows.html">Shows<span></span></a>
-            <a href="seats.html">Seat Selection<span></span></a>
-            <a href="login.html">Login<span></span></a>
+        <nav class="fullNav">
+            <div class="leftNav">
+                <div class="logo">
+                    <svg height = "30" width = "200" xmlns = "http:www.w3.org/2000/svg">
+                        <text x="10" y="22" font-size = "19" fill ="#0ef">🍿LuKoBaShows</text>
+                    </svg>
+                </div>   
+                <div class="search">
+                <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+                    <title>Search</title>
+                    <path
+                        d="M11.8 10.864L8.859 7.918a4.912 4.912 0 0 0-.444-6.47A4.888 4.888 0 0 0 4.928 0a4.888 4.888 0 0 0-3.485 1.449 4.942 4.942 0 0 0 0 6.979 4.888 4.888 0 0 0 3.485 1.449c1.052 0 2.105-.33 2.976-1.005l2.96 2.93a.658.658 0 0 0 .476.198.686.686 0 0 0 .477-.198.672.672 0 0 0-.016-.938zm-6.855-2.32c-.97 0-1.858-.38-2.549-1.054C1 6.09 1 3.802 2.396 2.387a3.578 3.578 0 0 1 2.549-1.054c.97 0 1.858.379 2.548 1.054s1.052 1.58 1.052 2.551c0 .971-.378 1.86-1.052 2.552a3.539 3.539 0 0 1-2.548 1.053z"
+                        fill="#777"></path>
+                </svg>
+                </div>
+                <input class="text" type="text" placeholder="search for movies, events, plays, sports and activities">
+            </div>
+            <div class="right">
+                <p>uchiha</p>
+                <div class="arrow">
+                    <img src="../assets/images/down-arrow1.svg" alt="">
+                </div>
+                <div class="sign">
+                    <button><a href="login.html" target="_self">Login</a></button>
+                </div>
+                <div class="bar">
+                    <svg width="22px" height="14px" xmlns="http://www.w3.org/2000/svg">
+                        <title>Hamburger Menu</title>
+                        <g fill-rule="nonzero" stroke="#FFF" stroke-width="1.5" fill="none" stroke-linecap="round">
+                            <path d="M1.611 1h20.614M1.611 7h20.614M1.611 13h20.614"></path>
+                        </g>
+                    </svg>
+                </div>
+            </div>
         </nav>
-    </header>
-    <!-- carousel -->
-    <div class="carousel">
-        <div class="list">
-            <div class="item">
-                <img src="../assets/images/ITT.jpg">
-                <div class="content">
-                    <div class="author">STEPHEN KING</div>
-                    <div class="title">IT</div>
-                    <div class="genre">Horror, Drama, Thriller</div>
-                    <div class="des">
-                        "It" (2017) is a horror film directed by Andy Muschietti, based on the 1986 novel of the same name by Stephen King. The story revolves around a group of children in the fictional town of Derry, Maine, who are terrorized by a shape-shifting entity that primarily takes the form of a malevolent clown named Pennywise. The entity preys on the children's deepest fears, often manifesting as their worst nightmares. As the children confront their fears and uncover the truth about the entity, they form a bond and make a pact to defeat "It" once and for all. The film explores themes of friendship, bravery, and the loss of innocence, as the children face both the supernatural horrors of Pennywise and the real-world challenges of growing up in a troubled town.
-                    </div>
-                    <div class="buttons">
-                        <button id="extras">SEE MORE</button>
-                        <button id="bkNow">BOOK NOW</button>
-                    </div>
-                </div>
+        <nav class="secNav">
+            <div class="secLeft">
+                <a href="index.html"><p>Movies</p></a>
+                <p>Stream</p>
+                <p>Events</p>
+                <p>Plays</p>
+                <p>Sports</p>
+                <p>Activities</p>
             </div>
-            <div class="item">
-                <img src="../assets/images/grinch.jpg">
-                <div class="content">
-                    <div class="author">Scott Mosier, Yarrow Cheney</div>
-                    <div class="title">The Grinch</div>
-                    <div class="genre">Family, Comedy, Fantasy</div>
-                    <div class="des">
-                        "The Grinch" (2018) is an animated Christmas comedy film based on the 1957 Dr. Seuss book "How the Grinch Stole Christmas!" and serves as the third screen adaptation of the story, following the 1966 television special and the 2000 live-action film. The movie tells the story of the Grinch, a cynical and misanthropic creature who lives in solitude atop Mount Crumpit with only his loyal dog, Max, for company. Disliking the festive spirit of the nearby town of Whoville, the Grinch devises a plan to ruin Christmas for the Whos by stealing all of their decorations, presents, and holiday feast. However, his scheme is complicated when he encounters Cindy Lou Who, a young girl with a heart of gold who believes there's more to Christmas than just material possessions.
+            <!--<div class="secRight">
+                <p>ListYourShow</p>
+                <p>Corporate</p>
+                <p>Offers</p>
+                <p>Gift Cards</p>
+            </div>-->
+        </nav>
+        <div class="main">
+            <section class="section">
+                <div class="slider">
+                  <div class="slide">
+                    <input type="radio" name="radio-btn" id="radio1" />
+                    <input type="radio" name="radio-btn" id="radio2" />
+                    <input type="radio" name="radio-btn" id="radio3" />
+                    <input type="radio" name="radio-btn" id="radio4" />
+                   
+                    <div class="st first">
+                      <img
+                        src="../assets/images/event1.avif" alt=""/>
                     </div>
-                    <div class="buttons">
-                        <button>SEE MORE</button>
-                        <button>BOOK NOW</button>
+                    <div class="st">
+                      <img
+                      src="../assets/images/event3.avif" alt=""/>
                     </div>
-                </div>
-            </div>
-            <div class="item">
-                <img src="../assets/images/infinity.jpg">
-                <div class="content">
-                    <div class="author"> Anthony, Joe Russo</div>
-                    <div class="title">Infinity War</div>
-                    <div class="genre">Superhero, Action, Sci-Fi, Thriller</div>
-                    <div class="des">
-                        It is based on the Marvel Comics superhero team the Avengers and serves as the sequel to 2012's "The Avengers" and 2015's "Avengers: Age of Ultron." The movie is part of the Marvel Cinematic Universe (MCU). The plot revolves around the Avengers and their allies as they come together to stop the powerful and malevolent titan Thanos from obtaining all six Infinity Stones, which would grant him the power to wipe out half of all life in the universe with a snap of his fingers. The film features an ensemble cast, including iconic Marvel characters like Iron Man, Captain America, Thor, Hulk, Black Widow, Spider-Man, Doctor Strange, and many others.                    </div>
-                    <div class="buttons">
-                        <button>SEE MORE</button>
-                        <button>BOOK NOW</button>
+                    <div class="st">
+                      <img
+                      src="../assets/images/event2.avif" alt=""/>
                     </div>
-                </div>
-            </div>
-            <div class="item">
-                <img src="../assets/images/the_nuns.jpg">
-                <div class="content">
-                    <div class="author">Corin Hardy</div>
-                    <div class="title">The NUN</div>
-                    <div class="genre">Supernatural, Horror</div>
-                    <div class="des">
-                        The movie is set in 1952 and follows a priest and a novitiate sent by the Vatican to investigate the mysterious suicide of a nun at a remote Romanian abbey. As they uncover dark secrets and confront malevolent forces, they encounter a demonic entity in the form of a nun, which terrorizes them and puts their faith to the ultimate test. "The Nun" explores themes of faith, evil, and the supernatural, delivering chilling scares and intense moments of suspense. With its eerie atmosphere, religious imagery, and terrifying apparitions, "The Nun" is a spine-tingling addition to the horror genre, offering fans of "The Conjuring" series another chilling installment.
+                    <div class="st">
+                        <img
+                        src="../assetsshow/images/event4.avif" alt=""/>
                     </div>
-                    <div class="buttons">
-                        <button>SEE MORE</button>
-                        <button>BOOK NOW</button>
-                    </div>
-                </div>
-            </div>
+                  </div>
+          <div class="nav_m">
+              <label for="radio1" class="m_btn"></label>
+              <label for="radio2" class="m_btn"></label>
+              <label for="radio3" class="m_btn"></label>
+              <label for="radio4" class="m_btn"></label>
+          </div>
         </div>
-        <!--thumbnails-->
-        <div class="thumbnail">
-            <div class="item">
-                <img src="../assets/images/ITT.jpg">
-                <div class="content">
-                    <div class="title">
-                        Stephen King
-                    </div>
-                    <div class="description">
-                        IT
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <img src="../assets/images/grinch.jpg">
-                <div class="content">
-                    <div class="title">
-                        Scott Mosier
-                    </div>
-                    <div class="description">
-                        The Grinch
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <img src="../assets/images/infinity.jpg">
-                <div class="content">
-                    <div class="title">
-                        Joe Russo
-                    </div>
-                    <div class="description">
-                        Infinity War
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <img src="../assets/images/the_nuns.jpg">
-                <div class="content">
-                    <div class="title">
-                        Corin Hardy
-                    </div>
-                    <div class="description">
-                        The Nun
-                    </div>
-                </div>
-            </div>
+    </section>
+</div>
+<div class="reCom">
+    <div class="next">
+        <div class="round">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 21 35" width="29px" height="20px">
+                <g fill="#FFFFFF" fill-rule="evenodd">
+                  <path d="M1.276 31.647a1.543 1.543 0 01.033-2.17l14.59-14.09a1.531 1.531 0 012.171.043c.59.61.566 1.592-.033 2.17L3.447 31.69a1.531 1.531 0 01-2.17-.043z"></path>
+                  <path d="M1.276 1.43A1.543 1.543 0 001.31 3.6L15.9 17.69a1.531 1.531 0 002.171-.043 1.543 1.543 0 00-.033-2.17L3.447 1.387a1.531 1.531 0 00-2.17.043z"></path>
+                </g>
+            </svg>         
         </div>
-        <!-- next prev -->
-
-        <div class="arrows">
-            <button id="prev"><</button>
-            <button id="next">></button>
-        </div>
-        <!-- time running -->
-        <div class="time"></div>
     </div>
-
-    <script src="../assets/JS/script.js"></script>
+    <div class="rec_head">
+        <h2>Recommended</h2>
+        <p><a href="#" target="_self">See All></a></p>
+    </div>
+    <div class="rec_card">
+            <div class="movie">
+                <figure>
+                    <img class="title" src="../assets/images/the_nuns.jpg" alt="" >
+                    <figcaption>The Nun</figcaption>
+                    <p>Horror/Adventure/Thriller</p>
+                </figure>
+            </div>
+            <div class="movie">
+                <figure>
+                    <img class="title" src="../assets/images/meg.jpg" alt="">
+                    <figcaption>The Meg</figcaption>
+                    <p>Action/Thriller</p>
+                </figure>
+            </div>
+            <div class="movie">
+                <figure>
+                    <img class="title" src="../assets/images/wednesday.jpg" alt="">
+                    <figcaption>Wednesday</figcaption>
+                    <p>Crime/Dram/Thriller</p>
+                </figure>
+            </div>
+            <div class="movie">
+                <figure>
+                    <img class="title" src="../assets/images/Black_Panther.webp" alt="">
+                    <figcaption>Black panther</figcaption>
+                    <p>Crime/Dram/Thriller</p>
+                </figure>
+            </div>
+            <div class="movie">
+                <figure>
+                    <img class="title" src="../assets/images/john_wick.jfif" alt="">
+                    <figcaption>john wick</figcaption>
+                    <p>Crime/Action/Thriller</p>
+                </figure>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="best">
+    <div class="container">
+        <div class="best-head">
+            <h2>Live Events</h2>
+        </div>
+        <div class="best-card">
+            <div class="movie">
+                <a href="recomended.html" target="_blank"><img src="../assets/images/live_events/1.avif" alt=""></a>
+            </div>
+            <div class="movie">
+                <a href="recomended.html" target="_blank"><img src="../assets/images/live_events/2.avif" alt=""></a>
+            </div>
+            <div class="movie">
+                <a href="recomended.html" target="_blank"><img src="../assets/images/live_events/3.avif" alt=""></a>
+            </div>
+            <div class="movie">
+                <a href="recomended.html" target="_blank"><img src="../assets/images/live_events/4.avif" alt=""></a>
+            </div>
+            <div class="movie">
+                <a href="recomended.html" target="_blank"><img src="../assets/images/live_events/5.avif" alt=""></a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="trend">
+    <div class="trend_head">
+        <h2> Now Trending</h2>
+    </div>
+    <div class="boxes">
+        <div class="box">
+            <h4>Garudan</h4>
+            <p>Movies</p>
+        </div>
+        <div class="box">
+            <h4>Leo</h4>
+            <p>Movies</p>
+        </div>
+        <div class="box">
+            <h4>Tiger 3</h4>
+            <p>Movies</p>
+        </div>
+        <div class="box">
+            <h4>Bandra</h4>
+            <p>Movies</p>
+        </div>
+        <div class="box">
+            <h4>Kannur Squad</h4>
+            <p>Movies</p>
+        </div>
+        <div class="box">
+            <h4>ICC Cricket World Cup</h4>
+            <p>Sports</p>
+        </div>
+        <div class="box">
+            <h4>Taylor Swift: The Eras Tour</h4>
+            <p>Movies</p>
+        </div>
+        <div class="box">
+            <h4>The Marvels</h4>
+            <p>Movies</p>
+        </div>
+        <div class="box">
+            <h4>Japan</h4>
+            <p>Movies</p>
+        </div>
+        <div class="box">
+            <h4>Jigarthanda Double X</h4>
+            <p>Movies</p>
+        </div>
+        <div class="box">
+            <h4>Dunki</h4>
+            <p>Movies</p>
+        </div>
+        <div class="box">
+            <h4>Tholvi Fc</h4>
+            <p>Movies</p>
+        </div>
+        <div class="box">
+            <h4>Salar</h4>
+            <p>Movies</p>
+        </div>
+    </div>
+</div> 
+    <div class="Top">
+        <h1>Movies By Genre</h1>
+        <div class="top_a">
+            <a href="" class="bwc__sc-1jgpgcm-4 jgzpRM">Drama</a><a href="" class="bwc__sc-1jgpgcm-4 jgzpRM">Thriller</a><a href="" class="bwc__sc-1jgpgcm-4 jgzpRM">Action</a><a href="" class="bwc__sc-1jgpgcm-4 jgzpRM">Comedy</a><a href="" class="bwc__sc-1jgpgcm-4 jgzpRM">Romance</a><a href="" class="bwc__sc-1jgpgcm-4 jgzpRM">Crime </a><a href="" class="bwc__sc-1jgpgcm-4 jgzpRM">Adventure</a><a href="" class="bwc__sc-1jgpgcm-4 jgzpRM">Fiction</a><a href="" class="bwc__sc-1jgpgcm-4 jgzpRM">Sci-fi</a><a href="" class="bwc__sc-1jgpgcm-4 jgzpRM">Political Movies</a>
+        </div>
+            <h1>Cinemas in Top Cities & Towns</h1>
+            <div class="top_a">
+                <a href="" class="bwc__sc-1jgpgcm-4 jgzpRM"> Nairobi</a><a href="" class="bwc__sc-1jgpgcm-4 jgzpRM">Nakuru</a><a href="" class="bwc__sc-1jgpgcm-4 jgzpRM">Kisumu</a><a href="" class="bwc__sc-1jgpgcm-4 jgzpRM">Mombasa</a><a href="" class="bwc__sc-1jgpgcm-4 jgzpRM">Eldoret</a><a href="" class="bwc__sc-1jgpgcm-4 jgzpRM">Kakamega</a>
+            </div>
+    </div>
 </body>
 </html>

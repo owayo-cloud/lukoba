@@ -1,0 +1,105 @@
+.form_box{
+    width: 90%;
+    max-width: 450px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: transparent;
+    padding: 50px 60px 70px;
+    text-align: center;
+}
+.form_box h1{
+    margin-top: 12px;
+    font-size: 30px;
+    margin-bottom: 60px;
+    color: #0ef;
+    position: relative;
+}
+.form_box h1::after{
+    content: '';
+    width: 50px;
+    height: 4px;
+    border-radius: 3px;
+    background: #0ef;
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.input_field{
+    background: #eaeaea;
+    margin: 15px 0;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    max-height: 65px;
+    transition: max-height 0.5s;
+    overflow: hidden;
+}
+.input_field input{
+    width: 100%;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    padding: 18px 15px;
+}
+.input_field i{
+    margin-left: 15px;
+    color: #999;
+}
+form p{
+    text-align: left;
+    font-size: 13px;
+    color: #ff0000;
+}
+form p a{
+    text-decoration: none;
+    color: #0ef;
+}
+.btn_field{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.btn_field button{
+    flex-basis: 48%;
+    background: #0ef;
+    color: #fff;
+    height: 40px;
+    border-radius: 20px;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    transition: background 1s;
+
+}
+.input_group{
+    height: 280px;
+}
+.btn_field button.disable{
+    background: #eaeaea;
+    color: #555;
+}
+.carousel_container {
+    position: relative;
+    overflow: hidden;
+}
+.carousel {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+.carousel_btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    padding: 10px;
+    cursor: pointer;
+}
+#prevBtn {
+    left: 10px;
+}
+#nextBtn {
+    right: 10px;
+}
