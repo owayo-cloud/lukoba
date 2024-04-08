@@ -75,14 +75,14 @@ document.addEventListener('DOMContentLoaded', function(){
         postData('http://localhost:8000/register', { username: name, email: email, password: password })
         .then(response => {
             if (response && response.status === 'success') {
-                alert('Registration Succesful:' + response.message);
+                alert('Registration Successful:' + response.message);
             } else {
                 alert('Registration failed:' + response.message);
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('An error occured during registration.');
+            alert('An error occurred during registration.');
         });
     }
     //Function for handling login
