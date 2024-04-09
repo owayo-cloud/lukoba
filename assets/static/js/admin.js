@@ -1,51 +1,86 @@
-const sideLinks = document.querySelectorAll('.sidebar .sideMenu li a:not(.logout)');
+function toggleForm(formType) {
+    const registrationFormContainer = document.getElementById('registrationFormContainer');
+    const loginFormContainer = document.getElementById('loginFormContainer');
 
-sideLinks.forEach(item => {
-    const li = item.parentElement;
-    item.addEventListener('click', () => {
-        sideLinks.forEach(i => {
-            i.parentElement.classList.remove('active');
-        })
-        li.classList.add('active');
-    })
+    if (formType === 'login') {
+        registrationFormContainer.style.display = 'none';
+        loginFormContainer.style.display = 'block';
+    } else if (formType === 'registration') {
+        registrationFormContainer.style.display = 'block';
+        loginFormContainer.style.display = 'none';
+    } else if (formType === 'forgot') {
+        // Handle forgot password functionality here
+        alert('Forgot Password functionality is not implemented yet.');
+    }
+}
+
+// Hide login form by default
+document.getElementById('loginFormContainer').style.display = 'none';
+
+document.getElementById('registrationForm').addEventListener('submit', function(event){
+    //prevent the default form submission
+    event.preventDefault();
+
+    //validate the form data
+    let username = document.getElementById('username').value.trim();
+    let email = document.getElementById('email').value.trim();
+    let password = document.getElementById('password').value.trim();
+    let profilePicture = document.getElementById('profilePicture').value.trim();
+
+    //perform validation checks
+    if (username === '' || email === '' || password === '' || profilePicture === '') {
+        alert('Please fill in all the fields');
+        return;
+    }
+    if (password.length < 8 || !/[A-Z]/.test(password) || !/\d/.test(password)) {
+        alert('Password must be at least 8 characters long and contain at least 1 capital letter and a number.');
+        return;
+    }
+
+    // Call the handleRegistration function
+    handleRegistration(username, email, password, profilePicture);
 });
-const menuBar = document.querySelector('.content nav .bx.bx-menu');
-const sideBar = document.querySelector('.sidebar');
 
-menuBar.addEventListener('click', () => {
-    sideBar.classList.toggle('close');
-});
-const searchBtn = document.querySelector('.content nav form .form_input button');
-const searchBtnIcon = document.querySelector('.content nav form .form_input button .bx');
-const searchForm = document.querySelector('.content nav form');
+function handleRegistration(username, email, password, profilePicture) {
+    const data = { username, email, password, profilePicture };
 
-searchBtn.addEventListener('click', function (e) {
-    if (window.innerWidth < 576) {
-        e.preventDefault;
-        searchForm.classList.toggle('show');
-        if (searchForm.classList.contains('show')) {
-            searchBtnIcon.classList.replace('bx-search', 'bx-x');
-        } else {
-            searchBtnIcon.classList.replace('bx-x', 'bx-search');
+    // Function for sending HTTP POST request
+    function postData(url, data) {
+        //validate URL
+        if (!url || typeof url !== 'string') {
+            return Promise.reject(new Error('Invalid URL provided'));
         }
+
+        // Validate data
+        if (!data || typeof data !== 'object' || Object.keys(data).length === 0) {
+            return Promise.reject(new Error('Invalid data provided'));
+        }
+
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .catch(error => {
+            console.error('Error:', error);
+            throw new Error('Failed to send POST request');
+        });
     }
-});
-window.addEventListener('resize', () => {
-    if (window.innerWidth < 768) {
-        sideBar.classList.add('close');
-    } else {
-        sideBar.classList.remove('close');
-    }
-    if (window.innerWidth > 576) {
-        searchBtnIcon.classList.replace('bx-x', 'bx-search');
-        searchForm.classList.remove('show');
-    }
-});
-const toggler = document.getElementById('theme_toggle');
-toggler.addEventListener('change', function () {
-    if (this.checked) {
-        document.body.classList.add('dark');
-    } else {
-        document.body.classList.remove('dark');
-    }
-});
+
+    // Sending registration back to backend
+    postData('http://localhost:8000/register', data)
+    .then(response => {
+        if (response && response.status === 'success') {
+            alert('Registration Successful:' + response.message);
+        } else {
+            alert('Registration failed:' + response.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred during registration.');
+    });
+}
