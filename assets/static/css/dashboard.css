@@ -122,13 +122,6 @@ body.dark .sidebar .sideMenu li.active{
 body.dark .sidebar .sideMenu li a:hover{
     color: #0ef;
 }
-.sidebar .sideMenu li.active a{
-    color: #388e3c;
-}
-body.dark .sidebar .sideMenu li.active a:hover{
-    color: #388e3c;
-    background-color: #25252c;
-}
 .sidebar.close .sideMenu li a{
     width: calc(48px - (4px * 2));
     transition: all .5s ease;
@@ -141,6 +134,21 @@ body.dark .sidebar .sideMenu li.active a:hover{
 }
 .sidebar .sideMenu li a.logout{
     color:#d32f2f;
+    font-weight: 600;
+    transition: .5s ease-in-out;
+}
+body.dark .sidebar .sideMenu li a.logout{
+    color:#d32f2f;
+    font-weight: 600;
+    transition: .5s ease-in-out;
+}
+.sidebar .sideMenu li a.logout:hover{
+    color: #0ef;
+    font-weight: 600;
+}
+body.dark .sidebar .sideMenu li a.logout:hover{
+    color: #0ef;
+    font-weight: 600;
 }
 .content{
     position: relative;
