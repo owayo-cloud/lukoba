@@ -41,6 +41,24 @@ document.getElementById('registrationForm').addEventListener('submit', function(
     handleRegistration(username, email, password, profilePicture);
 });
 
+document.getElementById('loginForm').addEventListener('submit', function(event){
+    //prevent the default form submission
+    event.preventDefault();
+
+    //validate the form data
+    let email = document.getElementById('loginEmail').value.trim();
+    let password = document.getElementById('loginPassword').value.trim();
+
+    //perform validation checks
+    if (email === '' || password === '') {
+        alert('Please fill in all the fields');
+        return;
+    }
+
+    // Call the handleLogin function
+    handleLogin(email, password);
+});
+
 function handleRegistration(username, email, password, profilePicture) {
     const data = { username, email, password, profilePicture };
 
@@ -82,5 +100,50 @@ function handleRegistration(username, email, password, profilePicture) {
     .catch(error => {
         console.error('Error:', error);
         alert('An error occurred during registration.');
+    });
+}
+
+function handleLogin(email, password) {
+    const data = { email, password };
+
+    // Function for sending HTTP POST request
+    function postData(url, data) {
+        //validate URL
+        if (!url || typeof url !== 'string') {
+            return Promise.reject(new Error('Invalid URL provided'));
+        }
+
+        // Validate data
+        if (!data || typeof data !== 'object' || Object.keys(data).length === 0) {
+            return Promise.reject(new Error('Invalid data provided'));
+        }
+
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .catch(error => {
+            console.error('Error:', error);
+            throw new Error('Failed to send POST request');
+        });
+    }
+
+    // Sending login data back to backend
+    postData('http://localhost:8000/login', data)
+    .then(response => {
+        if (response && response.status === 'success') {
+            alert('Login Successful:' + response.message);
+            // Redirect or perform other actions after successful login
+        } else {
+            alert('Login failed:' + response.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred during login.');
     });
 }
