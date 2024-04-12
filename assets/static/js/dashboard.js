@@ -50,3 +50,49 @@ toggler.addEventListener('change', function () {
         document.body.classList.remove('dark');
     }
 });
+//Ajax requests for login
+const loginBtn = document.querySelector('#login-btn');
+loginBtn.addEventListener('click', () =>{
+    const email = document.querySelector('#email').value;
+    const password = document.querySelector('#password').value;
+
+    //performing ajax requests
+    $.ajax({
+        url: "http://localhost:8000/login",
+        data: JSON.stringify({ email: email, password: password }),
+        contentType: "application/json",
+        success: function(response) {
+            console.log(response);
+            // Handle successful login response here
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+            // Handle login error here
+        }
+    })
+});
+
+// AJAX request for registration
+const registerBtn = document.querySelector('#register-btn');
+registerBtn.addEventListener('click', () => {
+    const username = document.querySelector('#username').value;
+    const email = document.querySelector('#email').value;
+    const password = document.querySelector('#password').value;
+    const profilePicture = document.querySelector('#profile-picture').value;
+
+    // Perform AJAX request
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8000/register",
+        data: JSON.stringify({ username: username, email: email, password: password, profilePicture: profilePicture }),
+        contentType: "application/json",
+        success: function(response) {
+            console.log(response);
+            // Handle successful registration response here
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+            // Handle registration error here
+        }
+    });
+});

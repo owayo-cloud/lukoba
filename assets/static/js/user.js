@@ -21,8 +21,6 @@ document.addEventListener('DOMContentLoaded', function(){
     const nameInput = document.getElementById('name');
     const emailInput = document.getElementById('signupEmail');
     const passwordInput = document.getElementById('signupPassword');
-    const registerBtn = document.getElementById('registerBtn');
-    const loginBtn = document.getElementById('loginBtn');
 
     //Function for sending HTTP POST request
     function postData(url, data) {
@@ -72,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function(){
         }
 
         //sending registration back to backend
-        postData('http://localhost:8000/register', { username: name, email: email, password: password })
+        postData('http://localhost:8000/user/register', { username: name, email: email, password: password })
         .then(response => {
             if (response && response.status === 'success') {
                 alert('Registration Successful:' + response.message);
@@ -93,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function(){
         const password = passwordInput.value.trim();
 
         //sending login data to backend
-        postData('http://localhost:8000/login', {email: email, password:password})
+        postData('http://localhost:8000/user/login', {email: email, password:password})
         .then(response => {
             if(response.status === 'success'){
                 alert(response.message);
