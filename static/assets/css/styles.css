@@ -1,0 +1,250 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap');
+*{ 
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Comic Neue", cursive;
+}
+body{
+    background-color: #000;
+    margin: 0;
+    justify-content: center;
+    min-height: 100vh;
+}
+.navF{
+    width: 100%;
+    height: 64px;
+    padding: 0;
+    box-shadow: none;
+    color: rgb(197, 185, 185);
+    background-color: #000fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.navL{
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    padding-top: 1px;
+    padding-bottom: 5px;
+}
+.logo{
+    padding-left: 20px;
+    padding-top: 2px;
+    margin-right: -54px;
+}
+.navL .search{
+    background-color: #fff;
+    margin-left: 75px;
+    margin-bottom: 18px;
+    width: 36px;
+    height: 36px;
+    margin-right: -55px;
+    text-align: center;
+    margin-top: 15px;
+    border-radius: 4px;
+}
+.navL .search svg {
+    text-align: center;
+    width: 13px;
+    height: 13px;
+    color: #f5f5f5;
+    margin: 10px 12px;
+}
+.navL input{
+    margin-inline: 0px;
+    margin-left: 50px;
+    margin-bottom: 18px;
+    width: 450px;
+    height: 36px;
+    border: none;
+    outline: none;
+    padding-left: 10px;
+    font-size: 14px;
+    color: rgb(153, 153, 153);
+    margin-top: 15px;
+    border-radius: 4px;
+}
+.tRight{
+    display: flex;
+    align-items: center;
+}
+.tRight p{
+    margin-inline: 22px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #f5f5f5;
+    margin-right: 5px;
+    transition: .5s ease-in-out;
+}
+.tRight p:hover{
+    color: #f1683a;
+    cursor: pointer;
+}
+.tRight p:hover::after{
+    content: "👌";
+}
+.tRight .arrow img{
+    width: 10px;
+    height: 10px;
+    margin-right: 20px;
+}
+.tRight .sign{
+    margin-right: 23px;
+}
+.tRight button{
+    color: #f5f5f5;
+    background-color: transparent;
+    font-size: 14px;
+    height: 25px;
+    line-height: 25px;
+    border: 1px solid #000fff;
+    display: block;
+}
+.tRight button a{
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+.tRight .bar svg{
+    width: 22px;
+    height: 14px;
+    line-height: 25px;
+    color: #0ef;
+    margin-top: 17px;
+    margin-right: 39px;
+    margin-left: auto;
+    margin-inline: 7px;
+    padding: 1px 4px 2px 4px;
+    height: 25px;
+    width: 60px;
+    border: none;
+    font-size: 22px;
+}
+.navS{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    background-color: rgb(26, 26, 48);
+}
+.navS .sLeft{
+    display: flex;
+    margin-left: 10px;
+    font-size: 16px;
+}
+.navS .sLeft a{
+    text-decoration: none;
+    color: #fff;
+    margin-inline: 7px;
+}
+.navS .sLeft a:hover{
+    color: #0ef;
+    cursor: pointer;
+}
+.carousel{
+    height: 100vh;
+    margin-top: 0px;
+    width: auto;
+    overflow: hidden;
+    position: relative;
+}
+.carousel .list .item{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0 0 0 0;
+}
+.carousel .list .item img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.carousel .list .item .content{
+    position: absolute;
+    top: 20%;
+    width: 1140px;
+    max-width: 80%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-right: 30%;
+    box-sizing: border-box;
+    color: #fff;
+    text-shadow: 0 5px 10px #0004;
+}
+.carousel .list .item .author{
+    font-weight: bold;
+    letter-spacing: 10px;
+    color: #0ef;
+}
+.carousel .list .item .title,
+.carousel .list .item .genre{
+    font-size: 40PX;
+    font-weight: bold;
+    line-height: 1.3em;
+}
+.carousel .list .item .genre{
+    font-size: 20PX;
+    color: #f1683a;
+}
+.carousel .list .item .buttons{
+    display: grid;
+    grid-template-columns: repeat(2, 130px);
+    grid-template-rows: 40px;
+    gap: 5px;
+    margin-top: 20px;
+}
+.carousel .list .item .buttons button{
+    border: 1px solid #000;
+    background-color: #0ef;
+    letter-spacing: 3px;
+    font-weight: 500;
+    font-family: 'Lucida Sans';
+    cursor: pointer;
+}
+.carousel .list .item .buttons button:nth-child(2){
+    background-color: transparent;
+    border: 1px solid #fff;
+    color: #0ef;
+    cursor: pointer;
+    transition: .5s ease-in-out;
+}
+.carousel .list .item .buttons button:nth-child(2):hover{
+    background-color: #f1683a;
+    color: #000;
+}
+.thumbnail{
+    position: absolute;
+    bottom: -100px;
+    left: 50%;
+    width: max-content;
+    z-index: 100;
+    display: flex;
+    gap: 20px;
+}
+.thumbnail .item{
+    width: 150px;
+    height: 220px;
+    flex-shrink: 0;
+    position: relative;
+}
+.thumbnail .item img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+}
+.thumbnail .item .content{
+    color: #fff;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+}
+.thumbnail .item .content .title{
+    font-weight: 500;
+}
+.thumbnail .item .content .description{
+    font-weight: 300;
+}
