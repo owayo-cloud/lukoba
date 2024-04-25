@@ -12,11 +12,9 @@
     <nav class="navF">
         <div class="navL">
             <div class="logo">
-                <a href="home.html">
                     <svg height = "30" width = "200" xmlns = "http:www.w3.org/2000/svg">
-                        <text x="10" y="22" font-size = "19" font-weight = "600" fill ="#000">🍿LuKoBaShows</text>
-                    </svg>
-                </a>
+                        <text onclick="redirectToHome()" x="10" y="22" font-size = "19" font-weight = "600" fill ="#0ef">🍿LuKoBaShows</text>
+                    </svg>          
             </div>
             <div class="search">
                 <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
@@ -62,8 +60,13 @@
     </div>
     <!--Thumbnail-->
     <div class="thumbnail">
-        <!--Thumbnails items appended dynamically-->>
+        <!--Thumbnails items appended dynamically-->
     </div>
+    <div class="arrows">
+        <button id="prev"><</button>
+        <button id="next">></button>
+    </div>
+    <div class="timer"></div>
     <script src="../static/assets/js/script.js"></script>
 </body>
 </html>

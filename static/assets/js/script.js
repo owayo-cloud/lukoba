@@ -1,6 +1,9 @@
 function redirectToIndex() {
     window.location.href = "index.html";
 }
+function redirectToHome() {
+    window.location.href = "home.html";
+}
 
 //carousel item data array
 const carouselData = [
