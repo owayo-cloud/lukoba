@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up & Login</title>
+    <link rel="stylesheet" href="../assets/css/signLog.css">
+</head>
+<body>
+    <header>
+        <nav class="navF">
+            <div class="navL">
+                <div class="logo">
+                    <svg height="30" width="200" xmlns="http://www.w3.org/2000/svg">
+                        <text onclick="redirectToIndex()" x="10" y="22" font-size="19" fill="#0ef">🍿LuKoBaShows</text>
+                    </svg>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="form_container">
+        <div class="form_box" id="rFormC">
+            <h2>Sign Up</h2>
+            <form id="rForm" enctype="multipart/form-data">
+                <label for="username">Username: </label>
+                <input type="text" id="username" name="username" required><br>
+                <label for="email">Email: </label>
+                <input type="email" id="email" name="email" required><br>
+                <label for="password">Password: </label>
+                <input type="password" id="password" name="password" required><br>
+                <button type="submit" id="registerBtn">Register</button>
+            </form>
+            <div class="form_footer">
+                <hr>
+                <p>Already have an account? <a href="#" onclick="toggleForm('login')">Login</a></p>
+            </div>
+        </div>
+        <div class="form_box" id="lFormC">
+            <h2>Login</h2>
+            <form id="lForm">
+                <label for="loginEmail">Email: </label>
+                <input type="email" id="lEmail" name="loginEmail" required><br>
+                <label for="loginPassword">Password:</label>
+                <input type="password" id="lPass" name="loginPassword" required><br>
+                <button type="submit" id="loginBtn">Login</button>
+            </form>
+            <div class="form_footer">
+                <hr>
+                <p>Forgot Password? <a href="#" onclick="toggleForm('forgot')">Click Here</a></p>
+                <p>Don't have an account yet? <a href="#" onclick="toggleForm('registration')">Sign Up</a></p>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/js/signLog.js"></script>
+</body>
+</html>

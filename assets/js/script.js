@@ -9,6 +9,11 @@ let thumbnailBorderDom = document.querySelector('.carousel .thumbnail');
 let thumbnailItemsDom = thumbnailBorderDom.querySelectorAll('.item');
 let timeDom = document.querySelector('.carousel .time');
 
+// redirect functions
+
+function redirectToLogin() {
+    window.location.href = "login.html";
+}
 function redirectToHome() {
     window.location.href = "home.html";
 }
@@ -20,9 +25,20 @@ let timeAutoNext = 5000;
 extras.onclick = function(){
     window.open('shows.html', '_self');
 }
-bkNow.onclick = function(){
-    window.open('seats.html', '_self');
-}
+document.addEventListener('DOMContentLoaded', function(){
+    const bkNow = document.getElementById('bkNow');
+    
+    bkNow.onclick = function(){
+        // Get the movie title dynamically from the content
+        let movieTitle = document.getElementById('movieTitle').innerText;
+        redirectToBooking('movieTitle'); 
+    }
+
+    function redirectToBooking(movie) {
+        window.location.href = `bookings.html?movie=${encodeURIComponent(movie)}`;
+    }
+});
+
 nextDom.onclick = function(){
     showSlider('next');    
 }

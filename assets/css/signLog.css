@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap');
+*{ 
+    font-family: "Comic Neue", cursive;
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+}
+header{
+    height: auto;
+    width: 100%;
+    max-width: 100%;
+    margin: auto;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 100;
+}
+.navF{
+    width: 100%;
+    height: 64px;
+    padding: 0;
+    box-shadow: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.navL{
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    padding-top: 1px;
+    padding-bottom: 5px;
+}
+.logo{
+    padding-left: 20px;
+    padding-top: 2px;
+    margin-right: -54px;
+    transition: .5s;
+    cursor: pointer;
+}
+label{
+    color: #0ef;
+}
+.form_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.form_box {
+    width: 300px;
+    background-color: transparent;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #0ef;
+}
+.form_box h2 {
+    margin-top: 0;
+    color: #0ef;
+    margin-left: 50px;
+}
+.form_footer {
+    margin-top: 20px;
+    text-align: center;
+}
+.form_footer hr {
+    margin-bottom: 10px;
+}
+.form_footer p {
+    margin: 0;
+    color: #f6f6f6;
+}
+.form_footer a {
+    color: #0ef;
+    text-decoration: none;
+}
+.form_footer a:hover {
+    text-decoration: underline;
+}
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="file"] {
+    background-color: #f6f6f6;
+    width: calc(100% - 30px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #0ef;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+button {
+    width: 50%;
+    font-weight: 500;
+    display:block;
+    margin-left: 50px;
+    padding: 10px;
+    background-color: #9acd32;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: .5s ease-in;
+}
+button:hover {
+    background-color: #0ef;
+}
+.error{
+    color: #ff0000;
+}

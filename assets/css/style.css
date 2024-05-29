@@ -109,6 +109,7 @@ header{
     margin-right: 23px;
 }
 .right button{
+    cursor: pointer;
     color: #000;
     background-color: #0ef;
     font-size: 14px;

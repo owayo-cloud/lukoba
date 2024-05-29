@@ -12,7 +12,7 @@
             <div class="navL">
                 <div class="logo">
                     <svg height = "30" width = "200" xmlns = "http:www.w3.org/2000/svg">
-                        <text x="10" y="22" font-size = "19" fill ="#0ef">🍿LuKoBaShows</text>
+                        <text onclick="redirectToHome()" x="10" y="22" font-size = "19" fill ="#0ef">🍿LuKoBaShows</text>
                     </svg>
                 </div>
                 <div class="search">
@@ -31,7 +31,7 @@
                     <img src="../assets/images/arrow1.svg" alt="">
                 </div>
                 <div class="sign">
-                    <button>Login</button>
+                    <button onclick="redirectToLogin()">Login</button>
                 </div>
                 <div id="welcomeMessage">Welcome <br>Unknown</div>
                 <div class="bar">
@@ -48,10 +48,9 @@
     <section>
         <nav class="navS">
             <div class="sLeft">
-                <a href="home.html">Home</a>
-                <a href="">Movies</a>
-                <a href="">Upcoming</a>
-                <a href="">Bookings</a>
+                <a href="index.html">Movies</a>
+                <a href="upcoming.html">Upcoming</a>
+                <a href="bookings.html">Bookings</a>
             </div>
         </nav>
     </section>
@@ -61,19 +60,19 @@
                 <img src="../assets/images/IT.jpg">
                 <div class="content">
                     <div class="author">STEPHEN KING</div>
-                    <div class="title">IT</div>
+                    <div class="title" id="movieTitle">IT</div>
                     <div class="genre">Horror, Drama, Thriller</div>
                     <div class="des">
                         "It" (2017) is a horror film directed by Andy Muschietti, based on the 1986 novel of the same name by Stephen King. The story revolves around a group of children in the fictional town of Derry, Maine, who are terrorized by a shape-shifting entity that primarily takes the form of a malevolent clown named Pennywise. The entity preys on the children's deepest fears, often manifesting as their worst nightmares. As the children confront their fears and uncover the truth about the entity, they form a bond and make a pact to defeat "It" once and for all. The film explores themes of friendship, bravery, and the loss of innocence, as the children face both the supernatural horrors of Pennywise and the real-world challenges of growing up in a troubled town.
                     </div>
                     <div class="buttons">
                         <button id="extras">SEE MORE</button>
-                        <button id="bkNow">BOOK NOW</button>
+                        <button onclick="redirectToBooking('IT')" id="bkNow">BOOK NOW</button>
                     </div>
                 </div>
             </div>
             <div class="item">
-                <img src="../assets/images/grinch.jpg">
+                <img src="../assets/images/the_nuns.jpg">
                 <div class="content">
                     <div class="author">Scott Mosier, Yarrow Cheney</div>
                     <div class="title">The Grinch</div>
@@ -83,7 +82,7 @@
                     </div>
                     <div class="buttons">
                         <button>SEE MORE</button>
-                        <button>BOOK NOW</button>
+                        <button onclick="redirectToBooking('The Grinch')">BOOK NOW</button>
                     </div>
                 </div>
             </div>
@@ -97,7 +96,7 @@
                         It is based on the Marvel Comics superhero team the Avengers and serves as the sequel to 2012's "The Avengers" and 2015's "Avengers: Age of Ultron." The movie is part of the Marvel Cinematic Universe (MCU). The plot revolves around the Avengers and their allies as they come together to stop the powerful and malevolent titan Thanos from obtaining all six Infinity Stones, which would grant him the power to wipe out half of all life in the universe with a snap of his fingers. The film features an ensemble cast, including iconic Marvel characters like Iron Man, Captain America, Thor, Hulk, Black Widow, Spider-Man, Doctor Strange, and many others.                    </div>
                     <div class="buttons">
                         <button>SEE MORE</button>
-                        <button>BOOK NOW</button>
+                        <button onclick="redirectToBooking('Infinity War')">BOOK NOW</button>
                     </div>
                 </div>
             </div>
@@ -111,7 +110,7 @@
                         The movie is set in 1952 and follows a priest and a novitiate sent by the Vatican to investigate the mysterious suicide of a nun at a remote Romanian abbey. As they uncover dark secrets and confront malevolent forces, they encounter a demonic entity in the form of a nun, which terrorizes them and puts their faith to the ultimate test. "The Nun" explores themes of faith, evil, and the supernatural, delivering chilling scares and intense moments of suspense. With its eerie atmosphere, religious imagery, and terrifying apparitions, "The Nun" is a spine-tingling addition to the horror genre, offering fans of "The Conjuring" series another chilling installment.
                     </div>
                     <div class="buttons">
-                        <button>SEE MORE</button>
+                        <button onclick="redirectToBooking('The Nun')">SEE MORE</button>
                         <button>BOOK NOW</button>
                     </div>
                 </div>
@@ -166,15 +165,12 @@
         </div>
         <!-- next & prev buttons -->
         <div class="arrows">
-            <button id="prev"><</button>
-            <button id="next">></button>
+            <button id="prev">&lt;</button>
+            <button id="next">&gt;</button>
         </div>
         <!-- running time -->
         <div class="time"></div>
-
         <script src="../assets/js/script.js"></script>
     </div>
-    <div class="timer"></div>
-    <script src="../static/assets/js/script.js"></script>
 </body>
 </html>
