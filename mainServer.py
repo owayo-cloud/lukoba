@@ -4,9 +4,14 @@ import json
 from urllib.parse import urlparse
 import logging
 from user import register_user, login_user
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+#import stripe
+
+#Stripe API key setup
+#stripe.api_key = "sk_test_51PLkYeP0uauYxIKVN5samJstvABm4A06IYCdnZkbrA35kHPs3SYithn1wucxtNsXdcqO34ogOYHSDm4c3prLDtrE00eqOl8GP9"
+
 
 class RequestHandler(http.server.SimpleHTTPRequestHandler):
     def end_headers(self):
