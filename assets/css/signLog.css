@@ -109,3 +109,18 @@ button:hover {
 .error{
     color: #ff0000;
 }
+/* Style the checkbox container */
+.check-cont {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+/* Style the checkbox */
+.check-cont input[type="checkbox"] {
+    margin-right: 10px;
+}
+/* Style the label for the checkbox */
+.check-cont label {
+    font-size: 16px;
+}

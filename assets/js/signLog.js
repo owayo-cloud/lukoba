@@ -48,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const username = document.getElementById('username').value.trim();
         const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value.trim();
+        const isAdmin = document.getElementById('isAdmin').checked;
 
         if (!username || !email || !password) {
             alert('Please fill in all fields.');
@@ -61,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Registration successful');
         }
 
-        postData('http://localhost:8000/user/register', { username, email, password })
+        postData('http://localhost:8000/user/register', { username, email, password, is_admin: isAdmin })
         .then(response => {
             if (response.status === 'success') {
                 document.cookie = `user_email=${email}; path=/;`;

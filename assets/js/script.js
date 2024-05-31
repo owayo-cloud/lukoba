@@ -34,8 +34,8 @@ document.addEventListener('DOMContentLoaded', function(){
         redirectToBooking('movieTitle'); 
     }
 
-    function redirectToBooking(movie) {
-        window.location.href = `bookings.html?movie=${encodeURIComponent(movie)}`;
+    function redirectToBooking(movieTitle) {
+        window.location.href = `booking.html?movie=${encodeURIComponent(movieTitle)}`;
     }
 });
 

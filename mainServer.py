@@ -4,11 +4,11 @@ import json
 from urllib.parse import urlparse
 import logging
 from user import register_user, login_user
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 #import stripe
-
 #Stripe API key setup
 #stripe.api_key = "sk_test_51PLkYeP0uauYxIKVN5samJstvABm4A06IYCdnZkbrA35kHPs3SYithn1wucxtNsXdcqO34ogOYHSDm4c3prLDtrE00eqOl8GP9"
 
@@ -49,7 +49,8 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         path = urlparse(self.path).path
 
         if path == '/user/register':
-            response_data = register_user(conn, cursor, data['username'], data['email'], data['password'])
+            is_admin = data.get('is_admin', False)
+            response_data = register_user(conn, cursor, data['username'], data['email'], data['password'], is_admin)
         elif path == '/user/login':
             response_data = login_user(cursor, data['email'], data['password'])
         else:
