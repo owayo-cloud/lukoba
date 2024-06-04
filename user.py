@@ -2,43 +2,31 @@ import mysql.connector
 import hashlib
 import logging
 
-def hash_password(password):
-    sha256_hash = hashlib.sha256() # Create a SHA-256 hash object
-    sha256_hash.update(password.encode()) # Update the hash object with the password bytes
-    hashed_password = sha256_hash.hexdigest() # Get the hashed password as a hexadecimal string
-    return hashed_password
+logger = logging.getLogger(__name__)
 
 def register_user(conn, cursor, username, email, password,is_admin=False):
     try:
         # Hash the password
-        hash_pass = hash_password(password)
+        hash_pass = hashlib.sha256(password.encode()).hexdigest()
         # Store the hashed password directly in the database
         cursor.execute("INSERT INTO users (username, email, password, is_admin) VALUES (%s, %s, %s, %s)", (username, email, hash_pass, is_admin))
         conn.commit()
         return {"status": "success", "message": "Registration successful!"}
     except mysql.connector.Error as e:
-        return {"status": "error", "message": "Registration failed."}
+        logger.error("Error registering user: %s", e)
+        return {"status": "error", "message": str(e)}
 
 def login_user(cursor, email, password):
     try:
-        cursor.execute("SELECT email, password FROM users WHERE email = %s", (email,))
+        hash_pass = hashlib.sha256(password.encode()).hexdigest()
+        cursor.execute("SELECT * FROM users WHERE email=%s AND password=%s", (email, hash_pass))
         user = cursor.fetchone()
         if user:
-            email = user[0]
-            stored_password_hash = user[1]
-            is_admin = user[2]
-            if stored_password_hash == hash_password(password):
-                if is_admin:
-                    return {"status": "success", "message": "Login successful!", "is_admin": is_admin}
-            else:
-                logging.error("Invalid password for user: %s", email)
-                return {"status": "error", "message": "Invalid email or password."}
+            logger.info("User found: %s", user)
+            return {"status": "success", "message": "Login successful", "user": {"id": user[0], "username": user[1], "email": user[2], "is_admin": user[4]}} 
         else:
-            logging.error("User not found for email: %s", email)
+            logger.warning("Invalid login attempt for email: %s", email)
             return {"status": "error", "message": "Invalid email or password."}
     except mysql.connector.Error as e:
-        logging.error("Database error: %s", e)
-        return {"status": "error", "message": "Login failed due to database error."}
-    except Exception as ex:
-        logging.error("Unexpected error occurred: %s", ex)
-        return {"status": "error", "message": "Unexpected error occurred during login."}
+        logger.error("Error logging in user: %s", e)
+        return {"status": "error", "message": str(e)}
