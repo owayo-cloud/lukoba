@@ -13,6 +13,16 @@ logger = logging.getLogger(__name__)
 #Stripe API key setup
 #stripe.api_key = "sk_test_51PLkYeP0uauYxIKVN5samJstvABm4A06IYCdnZkbrA35kHPs3SYithn1wucxtNsXdcqO34ogOYHSDm4c3prLDtrE00eqOl8GP9"
 
+def get_user_details(cursor, email):
+    try:
+        cursor.execute("SELECT id, username, email, is_admin FROM users WHERE email = %s", (email,))
+        user = cursor.fetchone()
+        if user:
+            user_id, username, email, is_admin = user
+            return {"status": "success", "message": "User details retrieved successfully", "user": {"id": user_id, "username": username, "email": email, "is_admin": is_admin}}
+    except mysql.connector.Error as e:
+        logger.error("Error fetching user details: %s", e)
+        return{"status": "error", "message": str(e)}
 
 class RequestHandler(http.server.SimpleHTTPRequestHandler):
     def end_headers(self):

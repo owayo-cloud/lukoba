@@ -89,7 +89,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.status === 'success') {
                 document.cookie = `user_email=${email}; path=/;`;
                 alert(response.message);
-                window.location.reload();
+
+                console.log('Before redirection');
+                if (response.user.is_admin) {
+                    window.location.href = 'admin.html';  // Redirect to the admin dashboard
+                } else {
+                    window.location.href = 'index.html';  // Redirect to the normal user dashboard
+                }
+                console.log('After redirection');
             } else {
                 alert(response.message);
             }

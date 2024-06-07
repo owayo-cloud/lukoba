@@ -39,6 +39,26 @@ document.addEventListener('DOMContentLoaded', function(){
     }
 });
 
+document.addEventListener('DOMContentLoaded', () =>{
+    //retrieve user info from local storage
+    const user = JSON.parse(localStorage.getItem('user'));
+    const usernameElement = document.getElementById('username');
+    const welcomeMessageElement = document.getElementById('welcomeMessage');
+
+    if (user){
+        document.getElementById('user-controls').style.display = 'block';
+    } else{
+        // If no user is logged in, show the login button
+        document.getElementById('sign').style.display = 'block';
+    }
+});
+
+document.getElementById('sign').addEventListener('click', redirectToLogin);
+
+function redirectToLogin(){
+    window.location.href = "login.html"
+}
+
 nextDom.onclick = function(){
     showSlider('next');    
 }

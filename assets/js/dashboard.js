@@ -79,7 +79,6 @@ document.addEventListener('DOMContentLoaded', function(){
 
     function logout(){
         //code for logout
-
         fetch('/logout', {
             method: 'POST',
             headers: {
@@ -96,6 +95,7 @@ document.addEventListener('DOMContentLoaded', function(){
             alert('An error occurred during logout.');
         });
     }
+    document.getElementById('logout-link').addEventListener('click', logout);
 
     // Fetch and update dashboard metrics
     function updateMetrics() {
