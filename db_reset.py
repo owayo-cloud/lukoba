@@ -3,23 +3,23 @@ import logging
 
 def clear_and_reset_db():
     try:
-        # Connect to the database
+        #connecting to the DB
         conn = mysql.connector.connect(
-            host='localhost',
-            username='root',
-            password='1738',
-            database='lukoba'
+            host = 'localhost',
+            username = 'root',
+            password = '1738',
+            database = 'lCinema'
         )
         cursor = conn.cursor()
+        print('Connection to the database successful')
 
-        # Delete all data from the tables
+        #deleting data from the tables
         cursor.execute("DELETE FROM movies")
-        # Add more delete statements for other tables if needed
 
-        # Reset auto-increment for the users table
-        cursor.execute("ALTER TABLE users AUTO_INCREMENT = 1")
+        #reset the auto increment to 1
+        cursor.execute("ALTER TABLE movies AUTO_INCREMENT = 1")
 
-        # Commit changes and close connection
+        #Commit changes and exit the DB
         conn.commit()
         cursor.close()
         conn.close()

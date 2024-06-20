@@ -1,6 +1,5 @@
 import mysql.connector
 import http.server
-from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 from urllib.parse import urlparse
 import logging
@@ -8,10 +7,6 @@ from user import register_user, login_user
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-#import stripe
-#Stripe API key setup
-#stripe.api_key = "sk_test_51PLkYeP0uauYxIKVN5samJstvABm4A06IYCdnZkbrA35kHPs3SYithn1wucxtNsXdcqO34ogOYHSDm4c3prLDtrE00eqOl8GP9"
 
 def get_user_details(cursor, email):
     try:
@@ -45,7 +40,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
                 host='localhost',
                 username='root',
                 password='1738',
-                database='lukoba'
+                database='lCinema'
             )
             cursor = conn.cursor()
         except mysql.connector.Error as e:

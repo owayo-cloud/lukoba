@@ -1,47 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap');
-*{ 
-    font-family: "Comic Neue", cursive;
-    margin: 0;
-    padding: 0;
-    background-color: #000;
-}
-header{
-    height: auto;
-    width: 100%;
-    max-width: 100%;
-    margin: auto;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    position: relative;
-    z-index: 100;
-}
-.navF{
-    width: 100%;
-    height: 64px;
-    padding: 0;
-    box-shadow: none;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.navL{
-    display: flex;
-    align-items: center;
-    margin-left: 20px;
-    padding-top: 1px;
-    padding-bottom: 5px;
-}
-.logo{
-    padding-left: 20px;
-    padding-top: 2px;
-    margin-right: -54px;
-    transition: .5s;
-    cursor: pointer;
-}
-label{
-    color: #0ef;
-}
 .form_container {
     display: flex;
     justify-content: center;
@@ -50,43 +6,48 @@ label{
 }
 .form_box {
     width: 300px;
+    height: 400px;
     background-color: transparent;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px #0ef;
+    box-shadow: 0 0 10px #000;
 }
 .form_box h2 {
     margin-top: 0;
-    color: #0ef;
-    margin-left: 50px;
+    color: #000;
+    margin-left: 30%;
 }
-.form_footer {
-    margin-top: 20px;
-    text-align: center;
+.form_box h2::after{
+    content: '';
+    width: 50px;
+    height: 4px;
+    border-radius: 3px;
+    background: #0ef;
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
 }
-.form_footer hr {
-    margin-bottom: 10px;
+.input_group{
+    height: 52px;
 }
-.form_footer p {
-    margin: 0;
-    color: #f6f6f6;
+.input_field{
+    background: #eaeaea;
+    margin: 15px 0;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    max-height: 40px;
+    transition: max-height 0.5s;
+    overflow: hidden;
 }
-.form_footer a {
-    color: #0ef;
-    text-decoration: none;
-}
-.form_footer a:hover {
-    text-decoration: underline;
-}
-input[type="text"],
-input[type="password"],
-input[type="email"],
-input[type="file"] {
-    background-color: #f6f6f6;
+.input_field input{
     width: calc(100% - 30px);
+    background: transparent;
+    border: 0;
+    outline: 0;
     padding: 10px;
-    margin-bottom: 10px;
-    border: 2px solid #0ef;
+    margin-bottom: 5px;
     border-radius: 5px;
     box-sizing: border-box;
 }
@@ -95,6 +56,7 @@ button {
     font-weight: 500;
     display:block;
     margin-left: 50px;
+    margin-top: 10px;
     padding: 10px;
     background-color: #9acd32;
     color: #000;
@@ -123,4 +85,30 @@ button:hover {
 /* Style the label for the checkbox */
 .check-cont label {
     font-size: 16px;
+}
+
+.input_field i{
+    margin-left: 15px;
+    color: #999;
+}
+.form_footer {
+    margin-top: 200px;
+    text-align: center;
+}
+ #lForm_footer{
+    margin-top: 120px;
+}
+.form_footer hr {
+    margin-bottom: 10px;
+}
+.form_footer p {
+    margin: 0;
+    color: #f6f6f6;
+}
+.form_footer a {
+    color: #01f;
+    text-decoration: none;
+}
+.form_footer a:hover {
+    text-decoration: underline;
 }

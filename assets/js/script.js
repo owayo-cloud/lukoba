@@ -1,108 +1,61 @@
-// get DOM
-let nextDom = document.getElementById('next');
-let prevDom = document.getElementById('prev');
-let extras = document.getElementById('extras');
-let bkNow = document.getElementById('bkNow'); 
-let carouselDom = document.querySelector('.carousel');
-let SliderDom = carouselDom.querySelector('.carousel .list');
-let thumbnailBorderDom = document.querySelector('.carousel .thumbnail');
-let thumbnailItemsDom = thumbnailBorderDom.querySelectorAll('.item');
-let timeDom = document.querySelector('.carousel .time');
-
 // redirect functions
-
 function redirectToLogin() {
     window.location.href = "login.html";
 }
-function redirectToHome() {
-    window.location.href = "home.html";
-}
 
-thumbnailBorderDom.appendChild(thumbnailItemsDom[0]);
+let items = document.querySelectorAll('.slider .list .item');
+let next = document.getElementById('next');
+let prev = document.getElementById('prev');
+let thumbnails = document.querySelectorAll('.thumbnail .item');
+
+// config param
+let countItem = items.length;
+let itemActive = 0;
 let timeRunning = 3000;
 let timeAutoNext = 5000;
-
-extras.onclick = function(){
-    window.open('shows.html', '_self');
-}
-document.addEventListener('DOMContentLoaded', function(){
-    const bkNow = document.getElementById('bkNow');
-    
-    bkNow.onclick = function(){
-        // Get the movie title dynamically from the content
-        let movieTitle = document.getElementById('movieTitle').innerText;
-        redirectToBooking('movieTitle'); 
+// event next click
+next.onclick = function(){
+    itemActive = itemActive + 1;
+    if(itemActive >= countItem){
+        itemActive = 0;
     }
-
-    function redirectToBooking(movieTitle) {
-        window.location.href = `booking.html?movie=${encodeURIComponent(movieTitle)}`;
+    showSlider();
+}
+//event prev click
+prev.onclick = function(){
+    itemActive = itemActive - 1;
+    if(itemActive < 0){
+        itemActive = countItem - 1;
     }
-});
-
-document.addEventListener('DOMContentLoaded', () =>{
-    //retrieve user info from local storage
-    const user = JSON.parse(localStorage.getItem('user'));
-    const usernameElement = document.getElementById('username');
-    const welcomeMessageElement = document.getElementById('welcomeMessage');
-
-    if (user){
-        document.getElementById('user-controls').style.display = 'block';
-    } else{
-        // If no user is logged in, show the login button
-        document.getElementById('sign').style.display = 'block';
-    }
-});
-
-document.getElementById('sign').addEventListener('click', redirectToLogin);
-
-function redirectToLogin(){
-    window.location.href = "login.html"
+    showSlider();
 }
-
-nextDom.onclick = function(){
-    showSlider('next');    
-}
-prevDom.onclick = function(){
-    showSlider('prev');    
-}
-let runTimeOut;
-let runNextAuto = setTimeout(() => {
+// auto run slider
+let refreshInterval = setInterval(() => {
     next.click();
 }, timeAutoNext)
-function showSlider(type){
-    let  SliderItemsDom = SliderDom.querySelectorAll('.carousel .list .item');
-    let thumbnailItemsDom = document.querySelectorAll('.carousel .thumbnail .item');
-    
-    if(type === 'next'){
-        SliderDom.appendChild(SliderItemsDom[0]);
-        thumbnailBorderDom.appendChild(thumbnailItemsDom[0]);
-        carouselDom.classList.add('next');
-    }else{
-        SliderDom.prepend(SliderItemsDom[SliderItemsDom.length - 1]);
-        thumbnailBorderDom.prepend(thumbnailItemsDom[thumbnailItemsDom.length - 1]);
-        carouselDom.classList.add('prev');
-    }
-    clearTimeout(runTimeOut);
-    runTimeOut = setTimeout(() => {
-        carouselDom.classList.remove('next');
-        carouselDom.classList.remove('prev');
-    }, timeRunning);
+function showSlider(){
+    // remove item active old
+    let itemActiveOld = document.querySelector('.slider .list .item.active');
+    let thumbnailActiveOld = document.querySelector('.thumbnail .item.active');
+    itemActiveOld.classList.remove('active');
+    thumbnailActiveOld.classList.remove('active');
 
-    clearTimeout(runNextAuto);
-    runNextAuto = setTimeout(() => {
+    // active new item
+    items[itemActive].classList.add('active');
+    thumbnails[itemActive].classList.add('active');
+
+    // clear auto time run slider
+    clearInterval(refreshInterval);
+    refreshInterval = setInterval(() => {
         next.click();
     }, timeAutoNext)
+    
 }
-//TOGGLE
 
-const ball = document.querySelector(".toggle-ball");
-const items = document.querySelectorAll(
-  ".container,.movie-list-title,.navbar-container,.sidebar,.left-menu-icon,.toggle"
-);
-
-ball.addEventListener("click", () => {
-  items.forEach((item) => {
-    item.classList.toggle("active");
-  });
-  ball.classList.toggle("active");
-});
+// click thumbnail
+thumbnails.forEach((thumbnail, index) => {
+    thumbnail.addEventListener('click', () => {
+        itemActive = index;
+        showSlider();
+    })
+})

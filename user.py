@@ -15,7 +15,7 @@ def register_user(conn, cursor, username, email, password,is_admin=False):
     except mysql.connector.Error as e:
         logger.error("Error registering user: %s", e)
         return {"status": "error", "message": str(e)}
-
+    
 def login_user(cursor, email, password):
     try:
         hash_pass = hashlib.sha256(password.encode()).hexdigest()
