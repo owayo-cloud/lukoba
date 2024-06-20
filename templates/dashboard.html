@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LuKoBa | Dashboard</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="../assets/css/dash.css">
+    <link rel="stylesheet" href="/static/css/dash.css">
 </head>
 <body>
     <!--Side Menu-->
@@ -121,6 +121,12 @@
             </div>
         </main>
     </div>
-    <script src="../assets/js/dash.js"></script>
 </body>
 </html>
+
+
+{% block extrascript %}
+        <script src="/static/js/dash.js"></script>
+
+{% endblock extrascript %}
+    
