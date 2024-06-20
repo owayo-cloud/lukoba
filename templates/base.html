@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title> LuKoBa | Home </title>
+	<link rel="stylesheet" href="/static/css/style.css">
+	<link rel="stylesheet" href="/static/css/home.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,700;1,300;1,400;1,700&display=swap"
+		rel="stylesheet">
+
+	{% block extrastyles %}
+
+	{% endblock extrastyles %}
+
+</head>
+
+<body>
+	<header>
+		<a href="/" class="logo">LuKoBa</a>
+	</header>
+	<section>
+		<div class="menu">
+			<a href="/">Home</a>
+			<a href="/movies">Movies</a>
+			<a href="/booking">Booking</a>
+			{% if session['user'] %}
+				{% if session['is_admin'] %}
+				<a href="/dashboard">Dashboard</a>
+				{% endif %}
+			<a href="/logout">Logout</a>
+			{% else %}
+			<a href="/login" class="sign" id="sign">Login</a>
+			{% endif %}
+		</div>
+	</section>
+	{% block content %}{% endblock %}
+
+	{% block extrascripts %}
+
+	{% endblock extrascripts %}
+</body>
+
+</html>
