@@ -2,7 +2,7 @@
 
 
 {% block extrastyles %}
-<title>Login</title>
+<title>Registration</title>
 <link rel="stylesheet" href="/static/css/signLog.css">
 <link rel="stylesheet" href="/static/css/style.css">
 {% endblock extrastyles %}
@@ -10,24 +10,27 @@
 {% block content %}
 <div class="form_container">
     <div class="form_box">
-        <h2>Login</h2>
+        <h2 id="title">Sign Up</h2>
         <form method="post">
             <div class="input_group">
+                <div class="input_field" id="nameField">
+                    <i class="fa-regular fa-user"></i>
+                    <input type="text" id="username" placeholder="Name" name="username" required>
+                </div>
                 <div class="input_field">
                     <i class="fa-regular fa-envelope"></i>
-                    <input type="email" id="lEmail" placeholder="Email" name="email" required>
+                    <input type="email" id="email" placeholder="Email" name="email" required>
                 </div>
                 <div class="input_field">
                     <i class="fa-solid fa-lock"></i>
-                    <input type="password" id="lPass" placeholder="Password" name="password" required>
+                    <input type="password" id="signupPassword" placeholder="Password" name="password" required>
                 </div>
-                <button type="submit" id="loginBtn">Login</button>
+                <button type="submit">Register</button>
             </div>
         </form>
-        <div class="form_footer" id="lForm_footer">
+        <div class="form_footer">
             <hr>
-            <p>Forgot Password? <a href="#" onclick="toggleForm('forgot')">Click Here</a></p>
-            <p> Don't have an account yet? <a href="/register">Sign Up</a></p>
+            <p>Already have an account? <a href="/login">Login</a></p>
         </div>
     </div>
 </div>
