@@ -11,8 +11,6 @@ from models import User, Movie, Booking
 init_db()
 
 env = Environment(loader=FileSystemLoader('templates'))
-
-
 class RequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == '/':
@@ -25,7 +23,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.handle_movies()
         elif self.path == '/dashboard':
             self.handle_dashboard()
-        elif self.path == '/book':
+        elif self.path == '/booking':
             self.handle_book()
         elif self.path == '/logout':  # Add endpoint for logout
             self.handle_logout()
@@ -102,7 +100,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         db = SessionLocal()
         movies = db.query(Movie).all()
         db.close()
-        template = env.get_template('book.html')
+        template = env.get_template('booking.html')
         session = self.get_session()
         if not session.get('user'):
             self.send_response(302)
