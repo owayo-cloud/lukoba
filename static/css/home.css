@@ -9,7 +9,7 @@
 }
 .text_box h1{
     font-size: 30px;
-    color: #0ef;
+    color: #fff;
     letter-spacing: 6px;
     text-transform: uppercase;
 }
@@ -17,6 +17,7 @@
     margin: 10px 0 40px;
     font-size: 14px;
     letter-spacing: 2px;
+    color: #000;
 }
 .slide_btn{
     display: inline-block;

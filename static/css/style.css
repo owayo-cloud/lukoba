@@ -27,6 +27,9 @@ header{
     position: relative;
     z-index: 100;
 }
+header a{
+    text-decoration: none;
+}
 header .logo{
     font-weight: Bold;
     letter-spacing: 6px;
