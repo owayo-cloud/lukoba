@@ -11,6 +11,8 @@ from models import User, Movie, Booking
 init_db()
 
 env = Environment(loader=FileSystemLoader('templates'))
+
+
 class RequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == '/':
@@ -23,6 +25,8 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.handle_movies()
         elif self.path == '/dashboard':
             self.handle_dashboard()
+        elif self.path == '/dashboard/movies':
+            self.handle_dashboard_movies()
         elif self.path == '/booking':
             self.handle_book()
         elif self.path == '/logout':  # Add endpoint for logout
@@ -58,7 +62,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/html')
         self.end_headers()
         self.wfile.write(template.render(session=session).encode())
-        
+
     def handle_movies(self):
         template = env.get_template('movies.html')
         session = self.get_session()
@@ -66,11 +70,22 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/html')
         self.end_headers()
         self.wfile.write(template.render(session=session).encode())
-        
+
     def handle_dashboard(self):
         session = self.get_session()
         if session.get('is_admin') == 'true':
             template = env.get_template('dashboard.html')
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html')
+            self.end_headers()
+            self.wfile.write(template.render(session=session).encode())
+        else:
+            self.send_error(403, "Forbidden")
+
+    def handle_dashboard_movies(self):
+        session = self.get_session()
+        if session.get('is_admin') == 'true':
+            template = env.get_template('dashboard_movies.html')
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
             self.end_headers()
@@ -126,10 +141,8 @@ class RequestHandler(BaseHTTPRequestHandler):
         if user and check_password_hash(user.password, password):  # type: ignore
             self.send_response(302)
             self.send_header('Location', '/')
-            cookie = cookies.SimpleCookie()
-            cookie['user'] = user.username  # type: ignore
-            cookie['is_admin'] = user.is_admin  # type: ignore
-            self.send_header('Set-Cookie', cookie.output(header='', sep=''))
+            self.send_header('Set-Cookie', f'user={user.username}')
+            self.send_header('Set-Cookie', 'is_admin=true')
             self.end_headers()
         else:
             self.send_response(302)
@@ -183,9 +196,8 @@ class RequestHandler(BaseHTTPRequestHandler):
     def handle_logout(self):  # Add this method
         self.send_response(302)
         self.send_header('Location', '/')
-        cookie = cookies.SimpleCookie()
-        cookie['user'] = ''
-        self.send_header('Set-Cookie', cookie.output(header='', sep=''))
+        self.send_header('Set-Cookie', 'user=')
+        self.send_header('Set-Cookie', 'is_admin=')
         self.end_headers()
 
     def get_session(self):
@@ -209,3 +221,4 @@ def run(server_class=HTTPServer, handler_class=RequestHandler, port=8000):
 
 if __name__ == '__main__':
     run()
+

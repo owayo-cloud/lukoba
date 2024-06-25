@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuKoBa | Dashboard</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/static/css/dash.css">
+</head>
+<body>
+    <!--Side Menu-->
+    <div class="sidebar">
+        <a href="#" class="logo"><i class='bx bxs-camera-movie'></i><div class="logo_name"><span>LuKoBa</span>Shows</div></a>
+        <ul class="sideMenu">
+            <li><a href="#" id="dashboard-link"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
+            <li><a href="/dashboard/movies" id="movies-link"><i class='bx bx-film'></i>Movies</a></li>
+            <li><a href="#" id="analytics-link"><i class='bx bx-analyse'></i>Analytics</a></li>
+            <li><a href="#" id="bookings-link"><i class='bx bx-ticket'></i>Bookings</a></li>
+            <li><a href="#" id="users-link"><i class='bx bx-group'></i>Users</a></li>
+            <li><a href="#" id="settings-link"><i class='bx bx-cog'></i>Settings</a></li>
+        </ul>
+        <ul class="sideMenu">
+            <li><a href="#" class="logout" id="logout-link"><i class='bx bx-log-out'></i>Sign Out</a></li>
+        </ul>
+    </div>
+    <!--Main Page-->
+    <div class="content">
+        <nav>
+            <i class='bx bx-menu'></i>
+            <form action="#" id="search-form">
+                <div class="form_input">
+                    <input type="search" placeholder="Search..." id="search-input">
+                    <button class="search-btn" type="submit"><i class='bx bx-search'></i></button>
+                </div>
+            </form>
+            <input type="checkbox" id="theme-toggle" hidden>
+            <label for="theme-toggle" class="theme-toggle"></label>
+            <a href="#" class="notify"><i class='bx bx-bell'></i><span class="count">12</span></a>
+            <div class="profile">
+                <div class="info">
+                    <p>Hello, <b id="admin-name">Uchiha</b></p>
+                    <small class="text-muted">Admin</small>
+                </div>
+            </div>
+        </nav>
+        <main>
+            
+            {% block content %}
+                
+            {% endblock content %}
+                
+        </main>
+    </div>
+</body>
+</html>
+
+
+{% block extrascript %}
+        <script src="/static/js/dash.js"></script>
+
+{% endblock extrascript %}
+    
