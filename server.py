@@ -1,18 +1,41 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import cgi
 import os
+import random
+import requests
 from jinja2 import Environment, FileSystemLoader
 from werkzeug.security import generate_password_hash, check_password_hash
 from http import cookies
 from db_setup import SessionLocal, init_db
 from models import User, Movie, Booking
+from urllib.parse import parse_qs
 
 # Initialize the database
-
 init_db()
+
+OMDB_API_KEY = 'e89e6bd6'
 
 env = Environment(loader=FileSystemLoader('templates'))
 
+PREDEFINED_TITLES = ['Inception', 'The Dark Knight', 'Interstellar', 'The Matrix', 'Pulp Fiction', 'Fight Club', 'The Shawshank Redemption', 'The Godfather', 'The Avengers', 'The Social Network']
+
+
+def get_movie_data(title):
+    url = f'http://www.omdbapi.com/?t={title}&apikey={OMDB_API_KEY}'
+    response = requests.get(url)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return None
+
+
+def search_movies(query):
+    url = f'http://www.omdbapi.com/?s={query}&apikey={OMDB_API_KEY}'
+    response = requests.get(url)
+    if response.status_code == 200:
+        return response.json().get('Search', [])
+    else:
+        return []
 
 class RequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -28,15 +51,8 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.handle_dashboard()
         elif self.path == '/dashboard/movies':
             self.handle_dashboard_movies()
-        elif self.path == '/dashboard/analytics':
-            self.handle_dashboard_analytics()
-        elif self.path == '/dashboard/bookings':
-            self.handle_dashboard_bookings()
-        elif self.path == '/dashboard/users':
-            self.handle_dashboard_users()
         elif self.path == '/booking':
             self.handle_book()
-        
         elif self.path == '/logout':  # Add endpoint for logout
             self.handle_logout()
         elif self.path.startswith('/static/'):  # Handle static file requests
@@ -93,44 +109,21 @@ class RequestHandler(BaseHTTPRequestHandler):
     def handle_dashboard_movies(self):
         session = self.get_session()
         if session.get('is_admin') == 'true':
+            query = self.path.split('?')[-1]
+            query_params = parse_qs(query)
+            title = query_params.get('title', [None])[0]
+            movies = []
+            if title:
+                movies = search_movies(title)
+            else:
+                # get random query from predefined_list and pass it as title
+                title = PREDEFINED_TITLES[random.randint(0, 9)]
+                movies = search_movies(title)
             template = env.get_template('dashboard_movies.html')
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
             self.end_headers()
-            self.wfile.write(template.render(session=session).encode())
-        else:
-            self.send_error(403, "Forbidden")
-
-    def handle_dashboard_analytics(self):
-        session = self.get_session()
-        if session.get('is_admin') == 'true':
-            template = env.get_template('dashboard_analytics.html')
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            self.wfile.write(template.render(session=session).encode())
-        else:
-            self.send_error(403, "Forbidden")
-
-    def handle_dashboard_bookings(self):
-        session = self.get_session()
-        if session.get('is_admin') == 'true':
-            template = env.get_template('dashboard_bookings.html')
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            self.wfile.write(template.render(session=session).encode())
-        else:
-            self.send_error(403, "Forbidden")
-
-    def handle_dashboard_users(self):
-        session = self.get_session()
-        if session.get('is_admin') == 'true':
-            template = env.get_template('dashboard_users.html')
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            self.wfile.write(template.render(session=session).encode())
+            self.wfile.write(template.render(session=session,movies=movies).encode())
         else:
             self.send_error(403, "Forbidden")
 
