@@ -1,0 +1,82 @@
+{% extends 'dashboard_base.html' %}
+{% block extrastyles %}
+<link rel="stylesheet" href="../static/css/dashUser.css">
+{% endblock extrastyles %}
+{% block content %}
+<div class="container">
+    <header>
+        <h1>Users Dashboard</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+                <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Users</li>
+            </ol>
+        </nav>
+        <button class="btn btn-primary float-right">Add New User</button>
+    </header>
+    <section class="search-filter mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <input type="text" class="form-control" placeholder="Search users...">
+            </div>
+            <div class="col-md-6">
+                <div class="form-row">
+                    <div class="col">
+                        <select class="form-control">
+                            <option value="">Filter by Role</option>
+                            <option value="admin">Admin</option>
+                            <option value="user">User</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select class="form-control">
+                            <option value="">Filter by Status</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <input type="date" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="user-table mt-4">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col"><input type="checkbox"></th>
+                    <th scope="col">Profile</th>
+                    <th scope="col">User ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Date Joined</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Sample User Row -->
+                <tr>
+                    <th scope="row"><input type="checkbox"></th>
+                    <td><img src="profile-pic.jpg" alt="Profile Picture" class="img-thumbnail" width="50"></td>
+                    <td>12345</td>
+                    <td>John Doe</td>
+                    <td>john.doe@example.com</td>
+                    <td>Admin</td>
+                    <td>Active</td>
+                    <td>2021-01-01</td>
+                    <td>
+                        <button class="btn btn-sm btn-warning">Edit</button>
+                        <button class="btn btn-sm btn-danger">Delete</button>
+                    </td>
+                </tr>
+                <!-- Repeat for other users -->
+            </tbody>
+        </table>
+    </section>
+</div>
+{% endblock content %}

@@ -150,7 +150,6 @@ body.dark .sidebar .sideMenu li a.logout:hover{
     bottom: -40px;
     left: 0;
     border-radius: 50%;
-    /* box-shadow: -20px -20px 0 #f6f6f6; */
 }
 .content nav a{
     color: #363949;
@@ -175,7 +174,6 @@ body.dark .sidebar .sideMenu li a.logout:hover{
     height: 100%;
     border: none;
     background: #eee;
-    border-radius: 36px 0 0 36px;
     outline: none;
     width: 100%;
     color: #363949;
@@ -191,7 +189,7 @@ body.dark .sidebar .sideMenu li a.logout:hover{
     font-size: 18px;
     border: none;
     outline: none;
-    border-radius: 0 36px 36px 0;
+    
     cursor: pointer;
 }
 .content nav .notify{

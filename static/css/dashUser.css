@@ -1,0 +1,47 @@
+.container{
+    padding: 20px;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.breadcrumb {
+    background: none;
+    padding: 0;
+    margin-bottom: 0;
+}
+
+.search-filter .form-control {
+    margin-bottom: 10px;
+}
+
+.user-table .table {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.user-table img.img-thumbnail {
+    border-radius: 50%;
+}
+
+.user-table th, .user-table td {
+    vertical-align: middle;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}

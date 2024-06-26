@@ -6,21 +6,25 @@
     <title>LuKoBa | Dashboard</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="/static/css/dash.css">
+
+    {% block extrastyles %}
+    
+	{% endblock extrastyles %}
+
 </head>
 <body>
     <!--Side Menu-->
     <div class="sidebar">
         <a href="#" class="logo"><i class='bx bxs-camera-movie'></i><div class="logo_name"><span>LuKoBa</span>Shows</div></a>
         <ul class="sideMenu">
-            <li><a href="#" id="dashboard-link"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
-            <li><a href="/dashboard/movies" id="movies-link"><i class='bx bx-film'></i>Movies</a></li>
-            <li><a href="#" id="analytics-link"><i class='bx bx-analyse'></i>Analytics</a></li>
-            <li><a href="#" id="bookings-link"><i class='bx bx-ticket'></i>Bookings</a></li>
-            <li><a href="#" id="users-link"><i class='bx bx-group'></i>Users</a></li>
-            <li><a href="#" id="settings-link"><i class='bx bx-cog'></i>Settings</a></li>
+            <li><a href="/dashboard"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
+            <li><a href="/dashboard/movies"><i class='bx bx-film'></i>Movies</a></li>
+            <li><a href="/dashboard/analytics"><i class='bx bx-analyse'></i>Analytics</a></li>
+            <li><a href="/dashboard/bookings"><i class='bx bx-book-content'></i>Bookings</a></li>
+            <li><a href="/dashboard/users"><i class='bx bx-group'></i>Users</a></li>
         </ul>
         <ul class="sideMenu">
-            <li><a href="#" class="logout" id="logout-link"><i class='bx bx-log-out'></i>Sign Out</a></li>
+            <li><a href="/logout"><i class='bx bx-log-out'></i>Sign Out</a></li>
         </ul>
     </div>
     <!--Main Page-->
