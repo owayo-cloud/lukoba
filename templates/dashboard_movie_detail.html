@@ -1,0 +1,70 @@
+{% extends 'dashboard_base.html' %}
+
+{% block extrastyles %}
+<link rel="stylesheet" href="/static/css/dashMovies.css">
+<style>
+    /* Additional specific styles for this page */
+    .movie-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .movie-details .poster {
+        flex: 0 0 30%;
+        max-width: 200px;
+    }
+
+    .movie-details .details {
+        flex: 0 0 70%;
+        padding-left: 20px;
+    }
+
+    .movie-details .details h2 {
+        margin-top: 0;
+    }
+
+    .movie-details .details p {
+        margin-bottom: 10px;
+    }
+</style>
+{% endblock extrastyles %}
+
+{% block content %}
+<div class="header">
+    <div class="left">
+        <h1>Movie Details</h1>
+        <ul class="breadcrumb">
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#" class="active">/ Movies</a></li>
+            <li><a href="#" class="active">/ {{movie.Title}}</a></li>
+        </ul>
+    </div>
+    <a href="#" class="report"><i class='bx bx-cloud-download'></i><span>Download CSV</span></a>
+</div>
+
+<div class="movie-details">
+    <div class="poster">
+        <img src="{{ movie.Poster }}" alt="Movie Poster">
+    </div>
+    <div class="details">
+        <h2>{{ movie.Title }}</h2>
+        <p><strong>Year:</strong> {{ movie.Year }}</p>
+        <p><strong>Rated:</strong> {{ movie.Rated }}</p>
+        <p><strong>Released:</strong> {{ movie.Released }}</p>
+        <p><strong>Runtime:</strong> {{ movie.Runtime }}</p>
+        <p><strong>Genre:</strong> {{ movie.Genre }}</p>
+        <p><strong>Director:</strong> {{ movie.Director }}</p>
+        <p><strong>Writer:</strong> {{ movie.Writer }}</p>
+        <p><strong>Actors:</strong> {{ movie.Actors }}</p>
+        <p><strong>Plot:</strong> {{ movie.Plot }}</p>
+        <p><strong>Language:</strong> {{ movie.Language }}</p>
+        <p><strong>Country:</strong> {{ movie.Country }}</p>
+        <p><strong>Awards:</strong> {{ movie.Awards }}</p>
+        <p><strong>IMDB Rating:</strong> {{ movie.imdbRating }}</p>
+        <p><strong>IMDB Votes:</strong> {{ movie.imdbVotes }}</p>
+    </div>
+</div>
+
+{% endblock content %}

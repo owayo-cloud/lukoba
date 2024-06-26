@@ -13,42 +13,120 @@
     margin-bottom: 0px;
     text-transform: capitalize;
 }
-.rec_card {
+.movies{
     display: flex;
-    padding-top: 28px;
-    margin-top: -22px;
-    padding-left: 23px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    gap: 20px;
+}
+.rec_card {
+    display: block;
 }
 .rec_card .movie {
     text-align: center;
-    width: 17%; 
     margin-left: 8px;
     margin-top: -5px;
     margin-right: 25px;
 }
 .rec_card .movie img {
-    width: 100%; /* Maintain the original image size */
-    height: 100%;
+    width: 200px; /* Maintain the original image size */
+    height: 300px;
     border-radius: 8px; 
     cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.rec_card .movie figcaption{
+
+.rec_card .movie img:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+.rec_card .movie .caption {
     color: #fff;
+    display: flex;
+    justify-content: center;
     font-size: 18px;
     font-weight: 500;
     margin-top: 10px;
-    margin-bottom: 10px;
-    margin-right: 200px;
-    white-space: nowrap;
+    max-width: 200px;
+    flex-wrap: wrap;
     cursor: pointer;
 }
+
 .rec_card .movie p{
     color: #0ef;
-    margin-right: 200px;
-    margin-top: 1px;
+    margin-top: 5px;
     font-size: 16px;
+    text-align: center;
     cursor: pointer;
 }
 figure{
     cursor: pointer;
+}
+
+/* General styles for movies and movie cards */
+.movies {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.rec_card {
+    text-decoration: none;
+    color: inherit;
+}
+
+.movie {
+    margin: 10px;
+    width: 200px;
+    text-align: center;
+}
+
+.movie img {
+    max-width: 100%;
+    height: auto;
+}
+
+.caption {
+    font-weight: bold;
+}
+
+/* Specific styles for movie details page */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.breadcrumb {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.breadcrumb li {
+    display: inline;
+}
+
+.breadcrumb li a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.breadcrumb li.active {
+    color: #000;
+}
+
+.report {
+    text-decoration: none;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+.report i {
+    margin-right: 5px;
 }

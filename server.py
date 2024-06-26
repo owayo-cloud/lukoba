@@ -21,7 +21,7 @@ PREDEFINED_TITLES = ['Inception', 'The Dark Knight', 'Interstellar', 'The Matrix
 
 
 def get_movie_data(title):
-    url = f'http://www.omdbapi.com/?t={title}&apikey={OMDB_API_KEY}'
+    url = f'http://www.omdbapi.com/?i={title}&apikey={OMDB_API_KEY}'
     response = requests.get(url)
     if response.status_code == 200:
         return response.json()
@@ -30,7 +30,7 @@ def get_movie_data(title):
 
 
 def search_movies(query):
-    url = f'http://www.omdbapi.com/?s={query}&apikey={OMDB_API_KEY}'
+    url = f'http://www.omdbapi.com/?s={query}&apikey={OMDB_API_KEY}&type=movie'
     response = requests.get(url)
     if response.status_code == 200:
         return response.json().get('Search', [])
@@ -51,6 +51,10 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.handle_dashboard()
         elif self.path == '/dashboard/movies':
             self.handle_dashboard_movies()
+        elif self.path.startswith('/dashboard/movies?title='):
+            self.handle_dashboard_movies()
+        elif self.path.startswith('/dashboard/movies/tt'):
+            self.handle_dashboard_movie_detail()
         elif self.path == '/booking':
             self.handle_book()
         elif self.path == '/logout':  # Add endpoint for logout
@@ -117,13 +121,31 @@ class RequestHandler(BaseHTTPRequestHandler):
                 movies = search_movies(title)
             else:
                 # get random query from predefined_list and pass it as title
-                title = PREDEFINED_TITLES[random.randint(0, 9)]
+                title = random.choice(PREDEFINED_TITLES)
                 movies = search_movies(title)
             template = env.get_template('dashboard_movies.html')
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
             self.end_headers()
             self.wfile.write(template.render(session=session,movies=movies).encode())
+        else:
+            self.send_error(403, "Forbidden")
+
+    def handle_dashboard_movie_detail(self):
+        session = self.get_session()
+        if session.get('is_admin') == 'true':
+            title = self.path.split('/')[-1]
+            if title:
+                movie = get_movie_data(title)
+                print(title,movie)
+                template = env.get_template('dashboard_movie_detail.html')
+                self.send_response(200)
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
+                self.wfile.write(template.render(
+                    session=session, movie=movie).encode()) 
+            else:
+                self.send_error(403, "Forbidden")
         else:
             self.send_error(403, "Forbidden")
 

@@ -13,18 +13,21 @@
     </div>
     <a href="#" class="report"><i class='bx bx-cloud-download'></i><span>Download CSV</span></a>
 </div>
-<div class="rec_head">
-    <h2>UPCOMING</h2>
-    <p><a href="#" target="_self">See All></a></p>
+
+<div class="movies">
+    {% for movie in movies %}
+    <a class="rec_card" href="/dashboard/movies/{{movie.imdbID}}">
+        <div class="movie">
+            <div >
+                <img src="{{movie.Poster}}" alt="">
+                <div class="caption text-center">{{movie.Title}}</div>
+                <p>{{movie.Year}}</p>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
 </div>
-<div class="rec_card">
-    <div class="movie">
-        <figure>
-            <img class="title" src="../assets/images/the_nuns.jpg" alt="" >
-            <figcaption>{movie Name}</figcaption>
-            <p>{genre}</p>
-        </figure>
-    </div>
-</div>
+
+
 
 {% endblock content %}
