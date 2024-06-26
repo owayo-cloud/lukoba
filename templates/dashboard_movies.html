@@ -1,4 +1,7 @@
 {% extends 'dashboard_base.html' %}
+{% block extrastyles %}
+<link rel="stylesheet" href="../static/css/dashMovies.css">
+{% endblock extrastyles %}
 {% block content %}
 <div class="header">
     <div class="left">
@@ -10,6 +13,18 @@
     </div>
     <a href="#" class="report"><i class='bx bx-cloud-download'></i><span>Download CSV</span></a>
 </div>
-
+<div class="rec_head">
+    <h2>UPCOMING</h2>
+    <p><a href="#" target="_self">See All></a></p>
+</div>
+<div class="rec_card">
+    <div class="movie">
+        <figure>
+            <img class="title" src="../assets/images/the_nuns.jpg" alt="" >
+            <figcaption>{movie Name}</figcaption>
+            <p>{genre}</p>
+        </figure>
+    </div>
+</div>
 
 {% endblock content %}

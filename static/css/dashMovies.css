@@ -1,0 +1,54 @@
+.rec_head{
+    padding-top: 10px;
+    padding-left: 0px;
+    justify-content: space-between;
+    display: flex;
+}
+.rec_head h2 {
+    display: flex;
+    margin-left: 25px;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 10px;
+    margin-bottom: 0px;
+    text-transform: capitalize;
+}
+.rec_card {
+    display: flex;
+    padding-top: 28px;
+    margin-top: -22px;
+    padding-left: 23px;
+}
+.rec_card .movie {
+    text-align: center;
+    width: 17%; 
+    margin-left: 8px;
+    margin-top: -5px;
+    margin-right: 25px;
+}
+.rec_card .movie img {
+    width: 100%; /* Maintain the original image size */
+    height: 100%;
+    border-radius: 8px; 
+    cursor: pointer;
+}
+.rec_card .movie figcaption{
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 200px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.rec_card .movie p{
+    color: #0ef;
+    margin-right: 200px;
+    margin-top: 1px;
+    font-size: 16px;
+    cursor: pointer;
+}
+figure{
+    cursor: pointer;
+}
