@@ -2,10 +2,10 @@
 {% block content %}
 <div class="header">
     <div class="left">
-        <h1>Movies</h1>
+        <h1 style="letter-spacing: 10px;">ANALYTICS</h1>
         <ul class="breadcrumb">
             <li><a href="#">Dashboard</a></li>
-            <li><a href="#" class="active">/ Movies</a></li>
+            <li><a href="#" class="active">/ Analytics</a></li>
         </ul>
     </div>
     <a href="#" class="report"><i class='bx bx-cloud-download'></i><span>Download CSV</span></a>
@@ -17,73 +17,33 @@
         </span></li>
     <li><i class='bx bx-show-alt'></i><span class="info">
             <h3 id="visitors">3,944</h3>
-            <p>Visitors</p>
+            <p>Users</p>
         </span></li>
-    <li><i class='bx bx-line-chart'></i><span class="info">
-            <h3 id="searches">14,721</h3>
-            <p>Searches</p>
+        <li><i class='bx bx-trending-up'></i><span class="info">
+            <h3 id="conversion-rate">12.4%</h3>
+            <p>Conversion Rate</p>
         </span></li>
     <li><i class='bx bx-dollar-circle'></i><span class="info">
-            <h3 id="revenue">$6,742</p>
+            <h3 id="revenue">$6,742</h3>
+            <p>Revenue</p>
         </span></li>
 </ul>
 <div class="bottom_data">
     <div class="orders">
-        <div class="header">
-            <i class='bx bx-receipt'></i>
-            <h3>Recent Bookings</h3>
-            <div>
-                <i class='bx bx-filter'></i>
-                <i class='bx bx-search'></i>
-            </div>
+        <div class="chart-container">
+            <canvas id="revenueChart"></canvas>
         </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>User</th>
-                    <th>Movie</th>
-                    <th>Booking Date</th>
-                    <th>Showtime</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody id="recent-bookings">
-                <!-- Booking rows will be populated here -->
-            </tbody>
-        </table>
     </div>
     <div class="reminders">
-        <div class="header">
-            <i class='bx bx-note'></i>
-            <h3>Movie Reminders</h3>
-            <div>
-                <i class='bx bx-filter'></i>
-                <i class='bx bx-plus'></i>
-            </div>
+        <div class="chart-container">
+            <canvas id="ticketsSoldChart"></canvas>
         </div>
-        <ul class="task-list" id="task-list">
-            <li class="completed">
-                <div class="task-title">
-                    <i class='bx bx-check-circle'></i>
-                    <p>Movie Premiere Preparation</p>
-                </div>
-                <i class='bx bx-dots-vertical-rounded'></i>
-            </li>
-            <li class="completed">
-                <div class="task-title">
-                    <i class='bx bx-check-circle'></i>
-                    <p>Review Upcoming Movies</p>
-                </div>
-                <i class='bx bx-dots-vertical-rounded'></i>
-            </li>
-            <li class="not-completed">
-                <div class="task-title">
-                    <i class='bx bx-x-circle'></i>
-                    <p>Check Movie Schedule</p>
-                </div>
-                <i class='bx bx-dots-vertical-rounded'></i>
-            </li>
-        </ul>
     </div>
 </div>
 {% endblock content %}
+
+{% block extrascript %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="../static/js/dash.js"></script>
+<script src="/static/js/dashAnalytics.js"></script>
+{% endblock extrascript %}
