@@ -238,7 +238,8 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.send_response(302)
             self.send_header('Location', '/')
             self.send_header('Set-Cookie', f'user={user.username}')
-            self.send_header('Set-Cookie', 'is_admin=true')
+            if user.is_admin: # type: ignore
+                self.send_header('Set-Cookie', 'is_admin=true')
             self.end_headers()
         else:
             self.send_response(302)
