@@ -51,13 +51,19 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.handle_dashboard()
         elif self.path == '/dashboard/movies':
             self.handle_dashboard_movies()
+        elif self.path == '/dashboard/analytics':
+            self.handle_dashboard_analytics()
+        elif self.path == '/dashboard/bookings':
+            self.handle_dashboard_bookings()
+        elif self.path == '/dashboard/users':
+            self.handle_dashboard_users()
         elif self.path.startswith('/dashboard/movies?title='):
             self.handle_dashboard_movies()
         elif self.path.startswith('/dashboard/movies/tt'):
             self.handle_dashboard_movie_detail()
         elif self.path == '/booking':
             self.handle_book()
-        elif self.path == '/logout':  # Add endpoint for logout
+        elif self.path == '/logout':
             self.handle_logout()
         elif self.path.startswith('/static/'):  # Handle static file requests
             static_path = os.path.join('static', self.path[len('/static/'):])
@@ -137,7 +143,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             title = self.path.split('/')[-1]
             if title:
                 movie = get_movie_data(title)
-                print(title,movie)
+                #print(title,movie)
                 template = env.get_template('dashboard_movie_detail.html')
                 self.send_response(200)
                 self.send_header('Content-type', 'text/html')
@@ -148,6 +154,40 @@ class RequestHandler(BaseHTTPRequestHandler):
                 self.send_error(403, "Forbidden")
         else:
             self.send_error(403, "Forbidden")
+
+    def handle_dashboard_analytics(self):
+        session = self.get_session()
+        if session.get('is_admin') == 'true':
+            template = env.get_template('dashboard_analytics.html')
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html')
+            self.end_headers()
+            self.wfile.write(template.render(session=session).encode())
+        else:
+            self.send_error(403, "Forbidden")
+    
+    def handle_dashboard_bookings(self):
+        session = self.get_session()
+        if session.get('is_admin') == 'true':
+            template = env.get_template('dashboard_bookings.html')
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html')
+            self.end_headers()
+            self.wfile.write(template.render(session=session).encode())
+        else:
+            self.send_error(403, "Forbidden")
+    
+    def handle_dashboard_users(self):
+        session = self.get_session()
+        if session.get('is_admin') == 'true':
+            template = env.get_template('dashboard_users.html')
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html')
+            self.end_headers()
+            self.wfile.write(template.render(session=session).encode())
+        else:
+            self.send_error(403, "Forbidden")
+
 
     def handle_login(self):
         template = env.get_template('login.html')

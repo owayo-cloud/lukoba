@@ -1,82 +1,89 @@
 {% extends 'dashboard_base.html' %}
-{% block extrastyles %}
-<link rel="stylesheet" href="../static/css/dashUser.css">
-{% endblock extrastyles %}
 {% block content %}
-<div class="container">
-    <header>
-        <h1>Users Dashboard</h1>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
-                <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Users</li>
-            </ol>
-        </nav>
-        <button class="btn btn-primary float-right">Add New User</button>
-    </header>
-    <section class="search-filter mt-4">
-        <div class="row">
-            <div class="col-md-6">
-                <input type="text" class="form-control" placeholder="Search users...">
-            </div>
-            <div class="col-md-6">
-                <div class="form-row">
-                    <div class="col">
-                        <select class="form-control">
-                            <option value="">Filter by Role</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">User</option>
-                        </select>
-                    </div>
-                    <div class="col">
-                        <select class="form-control">
-                            <option value="">Filter by Status</option>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                        </select>
-                    </div>
-                    <div class="col">
-                        <input type="date" class="form-control">
-                    </div>
-                </div>
+<div class="header">
+    <div class="left">
+        <h1 style="letter-spacing: 10px;">USERS</h1>
+        <ul class="breadcrumb">
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#" class="active">/users</a></li>
+        </ul>
+    </div>
+    <a href="#" class="report"><i class='bx bx-cloud-download'></i><span>Download CSV</span></a>
+</div>
+<ul class="insights">
+    <li><i class='bx bx-calendar-check'></i><span class="info">
+            <h3 id="tickets-sold">1,074</h3>
+            <p>Tickets Sold</p>
+        </span></li>
+    <li><i class='bx bx-show-alt'></i><span class="info">
+            <h3 id="visitors">3,944</h3>
+            <p>Visitors</p>
+        </span></li>
+    <li><i class='bx bx-trending-up'></i><span class="info">
+            <h3 id="conversion-rate">12.4%</h3>
+            <p>Conversion Rate</p>
+        </span></li>
+    <li><i class='bx bx-dollar-circle'></i><span class="info">
+            <h3 id="revenue">$6,742</p>
+        </span></li>
+</ul>
+<div class="bottom_data">
+    <div class="orders">
+        <div class="header">
+            <i class='bx bx-receipt'></i>
+            <h3>Recent Bookings</h3>
+            <div>
+                <i class='bx bx-filter'></i>
+                <i class='bx bx-search'></i>
             </div>
         </div>
-    </section>
-    <section class="user-table mt-4">
-        <table class="table table-striped">
+        <table>
             <thead>
                 <tr>
-                    <th scope="col"><input type="checkbox"></th>
-                    <th scope="col">Profile</th>
-                    <th scope="col">User ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Date Joined</th>
-                    <th scope="col">Actions</th>
+                    <th>User</th>
+                    <th>Movie</th>
+                    <th>Booking Date</th>
+                    <th>Showtime</th>
+                    <th>Status</th>
                 </tr>
             </thead>
-            <tbody>
-                <!-- Sample User Row -->
-                <tr>
-                    <th scope="row"><input type="checkbox"></th>
-                    <td><img src="profile-pic.jpg" alt="Profile Picture" class="img-thumbnail" width="50"></td>
-                    <td>12345</td>
-                    <td>John Doe</td>
-                    <td>john.doe@example.com</td>
-                    <td>Admin</td>
-                    <td>Active</td>
-                    <td>2021-01-01</td>
-                    <td>
-                        <button class="btn btn-sm btn-warning">Edit</button>
-                        <button class="btn btn-sm btn-danger">Delete</button>
-                    </td>
-                </tr>
-                <!-- Repeat for other users -->
+            <tbody id="recent-bookings">
+                <!-- Booking rows will be populated here -->
             </tbody>
         </table>
-    </section>
+    </div>
+    <div class="reminders">
+        <div class="header">
+            <i class='bx bx-note'></i>
+            <h3>Movie Reminders</h3>
+            <div>
+                <i class='bx bx-filter'></i>
+                <i class='bx bx-plus'></i>
+            </div>
+        </div>
+        <ul class="task-list" id="task-list">
+            <li class="completed">
+                <div class="task-title">
+                    <i class='bx bx-check-circle'></i>
+                    <p>Movie Premiere Preparation</p>
+                </div>
+                <i class='bx bx-dots-vertical-rounded'></i>
+            </li>
+            <li class="completed">
+                <div class="task-title">
+                    <i class='bx bx-check-circle'></i>
+                    <p>Review Upcoming Movies</p>
+                </div>
+                <i class='bx bx-dots-vertical-rounded'></i>
+            </li>
+            <li class="not-completed">
+                <div class="task-title">
+                    <i class='bx bx-x-circle'></i>
+                    <p>Check Movie Schedule</p>
+                </div>
+                <i class='bx bx-dots-vertical-rounded'></i>
+            </li>
+        </ul>
+    </div>
 </div>
 {% endblock content %}
