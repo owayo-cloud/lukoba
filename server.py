@@ -45,8 +45,6 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.handle_login()
         elif self.path == '/register':
             self.handle_register()
-        elif self.path == '/movies':
-            self.handle_movies()
         elif self.path == '/dashboard':
             self.handle_dashboard()
         elif self.path == '/dashboard/movies':
@@ -90,14 +88,6 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.send_error(404, "File not found")
 
     def handle_home(self):
-        template = env.get_template('movies.html')
-        session = self.get_session()
-        self.send_response(200)
-        self.send_header('Content-type', 'text/html')
-        self.end_headers()
-        self.wfile.write(template.render(session=session).encode())
-
-    def handle_movies(self):
         template = env.get_template('movies.html')
         session = self.get_session()
         self.send_response(200)
