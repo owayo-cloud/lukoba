@@ -10,7 +10,7 @@
     background-color: transparent;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px #000;
+    box-shadow: 0 0 10px #0ef;
 }
 .form_box h2 {
     margin-top: 0;
@@ -106,7 +106,7 @@ button:hover {
     color: #f6f6f6;
 }
 .form_footer a {
-    color: #01f;
+    color: #0ef;
     text-decoration: none;
 }
 .form_footer a:hover {

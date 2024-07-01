@@ -1,72 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LuKoBa | Booking</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Round|Material+Icons+Sharp|Material+Icons+Two+Tone" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="../static/css/booking.css">
-    <link rel="stylesheet" href="../static/css/style.css">
-</head>
-<body>
-    <header>
-        <div class="logo">LuKoBa</div>       
-    </header>
-    <section>
-        <div class="menu">
-            <a href="index.html">Home</a>
-            <a href="movies.html">Movies</a>
-            <a href="booking.html">Booking</a>
-            <button class="sign" id="sign" onclick="redirectToLogin()">Login</button>
+{% extends "base.html" %}
+
+{% block extrastyles %}
+<link rel="stylesheet" href="/static/css/booking.css">
+{% endblock extrastyles %}
+
+{% block content %}
+<div class="mid">
+    <div class="tickets">
+        <div class="ticket-selector">
+            <div class="heading">
+                <div class="title">Movie: <span id="movieTitle"></span></div>
+            </div>
+            <div class="seats">
+                <div class="status">
+                    <div class="item">Available</div>
+                    <div class="item">Booked</div>
+                    <div class="item">Selected</div>
+                </div>
+                <div class="all-seats">
+                    <!--Generated Dynamically in booking.js-->
+                </div>
+            </div>
+            <div class="timings">
+                <div class="dates">
+                    <input type="radio" name="date" id="d1" checked>
+                    <label for="d1" class="dates-item">
+                        <div class="day">Sun</div>
+                        <div class="date">11</div>
+                    </label>
+                    <input type="radio" name="date" id="d2" checked>
+                    <label for="d2" class="dates-item">
+                        <div class="day">Mon</div>
+                        <div class="date">12</div>
+                    </label>
+                </div>
+                <div class="times">
+                    <input type="radio" name="time" id="t1" checked>
+                    <label for="t1" class="time">1100Hrs</label>
+                    <input type="radio" name="time" id="t2" checked>
+                    <label for="t2" class="time">1430Hrs</label>
+                </div>
+            </div>
         </div>
-    </section>
-    <div class="mid">
-        <div class="tickets">
-            <div class="ticket-selector">
-                <div class="heading">
-                    <div class="title">Movie: <span id="movieTitle"></span></div>
-                </div>
-                <div class="seats">
-                    <div class="status">
-                        <div class="item">Available</div>
-                        <div class="item">Booked</div>
-                        <div class="item">Selected</div>
-                    </div>
-                    <div class="all-seats">
-                        <!--Generated Dynamically in booking.js-->
-                    </div>
-                </div>
-                <div class="timings">
-                    <div class="dates">
-                        <input type="radio" name="date" id="d1" checked>
-                        <label for="d1" class="dates-item">
-                            <div class="day">Sun</div>
-                            <div class="date">11</div>
-                        </label>
-                        <input type="radio" name="date" id="d2" checked>
-                        <label for="d2" class="dates-item">
-                            <div class="day">Mon</div>
-                            <div class="date">12</div>
-                        </label>
-                    </div>
-                    <div class="times">
-                        <input type="radio" name="time" id="t1" checked>
-                        <label for="t1" class="time">1100Hrs</label>
-                        <input type="radio" name="time" id="t2" checked>
-                        <label for="t2" class="time">1430Hrs</label>
-                    </div>
-                </div>
+        <div class="price">
+            <div class="total"><span><span class="count">0 </span>Tickets</span>
+                <div class="amount">0</div>
             </div>
-            <div class="price">
-                <div class="total"><span><span class="count">0</span>Tickets</span>
-                    <div class="amount">0</div>
-                </div>
-                <button type="button" onclick="handleBooking()">Book</button>
-            </div>
+            <button type="button" onclick="handleBooking()">Book</button>
         </div>
     </div>
-    <script src="../static/js/booking.js"></script>
-</body>
-</html>
+</div>
+{% endblock content %}
+{% block extrascripts %}
+<script src="/static/js/booking.js"></script>
+{% endblock extrascripts %}

@@ -90,7 +90,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.send_error(404, "File not found")
 
     def handle_home(self):
-        template = env.get_template('index.html')
+        template = env.get_template('movies.html')
         session = self.get_session()
         self.send_response(200)
         self.send_header('Content-type', 'text/html')

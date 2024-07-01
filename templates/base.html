@@ -6,12 +6,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title> LuKoBa | Home </title>
 	<link rel="stylesheet" href="/static/css/style.css">
-	<link rel="stylesheet" href="/static/css/home.css">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,700;1,300;1,400;1,700&display=swap"
-		rel="stylesheet">
-
 	{% block extrastyles %}
 
 	{% endblock extrastyles %}
@@ -20,13 +14,10 @@
 
 <body>
 	<header>
-		<a href="/" class="logo">LuKoBa</a>
-	</header>
-	<section>
-		<div class="menu">
-			<a href="/">Home</a>
-			<a href="/movies">Movies</a>
-			<a href="/booking">Booking</a>
+	<div class="logo">LuKoBa</div>
+        <nav>
+            <a href="/">Movies<span></span></span></a>
+            <a href="/booking">Booking<span></span></a>
 			{% if session['user'] %}
 				{% if session['is_admin'] %}
 				<a href="/dashboard">Dashboard</a>
@@ -35,12 +26,12 @@
 			{% else %}
 			<a href="/login" class="sign" id="sign">Login</a>
 			{% endif %}
-		</div>
-	</section>
+        </nav>
+    </header>
 	{% block content %}{% endblock %}
 
 	{% block extrascripts %}
-
+	<script src="/static/js/script.js"></script>
 	{% endblock extrascripts %}
 </body>
 

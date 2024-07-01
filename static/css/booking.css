@@ -1,30 +1,25 @@
 body{
     width: 100%;
     height: 100vh;
-    background: linear-gradient(
-      to right,
-      rgb(77, 198, 214),
-      rgb(190, 105, 48)
-    );
 }
 .mid{
     width: 100%;
-    height: 100%;
+    height: 90%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 .tickets{
-    width: 550px;
+    width: 500px;
     height: fit-content;
-    border: 0.4mm solid rgba(0, 0, 0, 0.08);
-    border-radius: 3mm;
+    border: 1mm solid #0ef;
+    border-radius: 2mm;
     box-sizing: border-box;
     padding: 10px;
-    max-height: 96vh;
+    max-height: 90vh;
     overflow: auto;
-    background: #f5f5f5;
-    box-shadow: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
+    background: transparent;
+    color: #f5f5f5;
 }
 .ticket-selector{
     background: rgba(116, 110, 110, 0.329);
@@ -45,6 +40,7 @@ body{
 .title{
     font-size: 16px;
     font-weight: 600;
+    color: #f1683a;
 }
 .seats{
     width: 100%;
@@ -131,6 +127,7 @@ input{
     align-items: center;
     justify-content: center;
     margin-top: 30px;
+    color: #000;
 }
 .dates{
     width: 100%;
@@ -192,16 +189,16 @@ input{
     justify-content: center;
     font-size: 16px;
     font-weight: bold;
-    color: #000;
+    color: #f5f5f5;
 }
 .total span {
     font-size: 12px;
     font-weight: bold;
+    color: #ffffff;
 }
 .price button {
     background: #0ef;
-    color: #000;
-    font-family: poppins;
+    color: #fff;
     font-size: 14px;
     padding: 7px 14px;
     border-radius: 2mm;
@@ -209,6 +206,7 @@ input{
     border: none;
     cursor: pointer;
     transition: .3s ease-in-out;
+    margin-top: 4px;
 }
 .price button:hover{
     background: #f1683a;

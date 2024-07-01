@@ -1,59 +1,59 @@
 {% extends "base.html" %}
 
-
 {% block extrastyles %}
-<title>Login</title>
-<link rel="stylesheet" href="/static/css/signLog.css">
 <link rel="stylesheet" href="/static/css/style.css">
 {% endblock extrastyles %}
 
 {% block content %}
-<!--sliders-->
-<div class="slider">
-    <!--slider list items-->
+<!-- Carousel -->
+<div class="carousel">
     <div class="list">
-        <div class="item active">
-            <img src="../assets/images/background_1.jpg" alt="">
+        <div class="item">
+            <img src="/static/image/IT.jpg">
             <div class="content">
-                <p>{MOVIE TITLE}</p>
-                <h2>{GENRE}</h2>
-                <h3>{Release Date}</h3>
+                <div class="title">{Title}</div>
+                <div class="genre">{Genre}</div>
+                <div class="des">{Description}</div>
+                <div class="buttons">
+                    <button id="extras">SEE MORE</button>
+                    <button id="bkNow">BOOK NOW</button>
+                </div>
             </div>
         </div>
         <div class="item">
-            <img src="../assets/images/5.jpg" alt="">
+            <img src="/static/image/maze.jpg">
             <div class="content">
-                <p>{MOVIE TITLE}</p>
-                <h2>{GENRE}</h2>
-                <h3>{Release Date}</h3>
+                <div class="title">{Title}</div>
+                <div class="genre">{Genre}</div>
+                <div class="des">{Description}</div>
+                <div class="buttons">
+                    <button>SEE MORE</button>
+                    <button>BOOK NOW</button>
+                </div>
             </div>
         </div>
     </div>
+    <!--thumbnails-->
     <div class="thumbnail">
-        <div class="item active">
-            <img src="../assets/images/background_1.jpg">
+        <div class="item">
+            <img src="/static/image/IT.jpg">
             <div class="content">
-                <div class="title">
-                    {Title}
-                </div>
+                <div class="title">{Title}</div>
             </div>
         </div>
         <div class="item">
-            <img src="../assets/images/5.jpg">
+            <img src="/static/image/maze.jpg">
             <div class="content">
-                <div class="title">
-                    {Title}
-                </div>
+                <div class="title">{Title}</div>
             </div>
         </div>
     </div>
-
-    <!-- next & prev buttons -->
+    <!-- next prev -->
     <div class="arrows">
-        <button id="prev">&lt;</button>
-        <button id="next">&gt;</button>
+        <button id="prev"><</button>
+        <button id="next">></button>
     </div>
-    <!-- running time -->
+    <!-- time running -->
     <div class="time"></div>
 </div>
 {% endblock content %}
