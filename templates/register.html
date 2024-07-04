@@ -40,5 +40,49 @@
 
 {% block extrascripts %}
 <script src="https://kit.fontawesome.com/a960bf3c61.js" crossorigin="anonymous"></script>
-<script src="/static/js/signLog.js" defer></script>
+<script>
+    document.querySelector('form').addEventListener('submit', function(event) {
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('signupPassword').value;
+    var username = document.getElementById('username').value;
+
+    // Email validation
+    if (!validateEmail(email)) {
+        alert("Please enter a valid email address.");
+        event.preventDefault(); // Prevent form submission
+    }
+
+    // Password validation
+    if (!validatePassword(password)){
+        alert("Password must be at least 8 characters long and contain at least one capital letter.");
+        event.preventDefault(); // Prevent form submission
+    }
+
+    // Username validation
+    if (username.trim() === "") {
+        alert("Username cannot be empty.");
+        event.preventDefault(); // Prevent form submission
+    }
+
+    // If any validation fails
+    if (!validateEmail(email) || !validatePassword(password) || username.trim() === "") {
+        alert("Registration failed. Please check the inputs and try again.");
+        event.preventDefault(); // Prevent form submission
+    }
+
+    // If all validations pass
+    if (validateEmail(email) && validatePassword(password) && username.trim() !== "") {
+        alert("Registration successful!");
+    }
+});
+
+function validateEmail(email) {
+    var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+}
+function validatePassword(password){
+    var re = /^(?=.*[A-Z]).{8,}$/;
+    return re.test(password);
+}
+</script>
 {% endblock extrascripts %}

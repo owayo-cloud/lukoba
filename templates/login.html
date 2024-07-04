@@ -37,5 +37,20 @@
 
 {% block extrascripts %}
 <script src="https://kit.fontawesome.com/a960bf3c61.js" crossorigin="anonymous"></script>
-<script src="/static/js/signLog.js" defer></script>
+
+<script>
+    document.getElementById('loginBtn').addEventListener('click', function(event){
+        var email = document.getElementById('lEmail').value;
+        var password = document.getElementById('lPass').value;
+
+        // if all validations pass
+        if (email && password){
+            alert("Login Succesful");
+        } else{
+            alert("Login failed. Unrecognized user.");
+            event.preventDefault(); //prevents form submission
+        }
+    });
+
+</script>
 {% endblock extrascripts %}
