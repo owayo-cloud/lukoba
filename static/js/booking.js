@@ -6,19 +6,20 @@ function redirectToLogin(){
 }
 //Generate seat checkboxes
 let seats = document.querySelector(".all-seats");
-for (var i = 0; i < 60; i++) {
-  let randint = Math.floor(Math.random() * 2);
-  let booked = randint === 1 ? "booked" : "";
-  seats.insertAdjacentHTML(
-    "beforeend",
-    '<input type="checkbox" name="tickets" id="s' +
-      (i + 2) +
-      '" /><label for="s' +
-      (i + 2) +
-      '" class="seat ' +
-      booked +
-      '"></label>'
-  );
+let rows = "JIHGFEDCBA"; // Define 10 rows for simplicity
+let cols = 6; // Define 6 columns
+
+for (let row = 0; row < rows.length; row++) {
+  for (let col = 1; col <= cols; col++) {
+    let seatLabel = rows[row] + col;
+    let randint = Math.floor(Math.random() * 2);
+    let booked = randint === 1 ? "booked" : "";
+    seats.insertAdjacentHTML(
+      "beforeend",
+      '<input type="checkbox" name="tickets" id="' + seatLabel + '" />' +
+      '<label for="' + seatLabel + '" class="seat ' + booked + '">' + seatLabel + '</label>'
+    );
+  }
 }
 //Add event listeners to seat checkboxes
 let tickets = seats.querySelectorAll("input");

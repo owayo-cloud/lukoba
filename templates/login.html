@@ -23,9 +23,14 @@
                 </div>
                 <button type="submit" id="loginBtn">Login</button>
             </div>
+            
         </form>
+        
         <div class="form_footer" id="lForm_footer">
-            <hr>
+           <div>
+            {{session.error}}
+            </div>
+             <hr>
             <p>Forgot Password? <a href="#" onclick="toggleForm('forgot')">Click Here</a></p>
             <p> Don't have an account yet? <a href="/register">Sign Up</a></p>
         </div>
@@ -45,7 +50,7 @@
 
         // if all validations pass
         if (email && password){
-            alert("Login Succesful");
+            return ;
         } else{
             alert("Login failed. Unrecognized user.");
             event.preventDefault(); //prevents form submission
