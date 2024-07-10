@@ -181,7 +181,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 
     def handle_login(self):
         template = env.get_template('login.html')
-        session = {}  # Retrieve session
+        session = self.get_session()  # Retrieve session
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
@@ -232,13 +232,9 @@ class RequestHandler(BaseHTTPRequestHandler):
                 self.send_header('Set-Cookie', 'is_admin=true')
             self.end_headers()
         else:
-            template = env.get_template('login.html')
-            session = {'error':'Invalid login credentials'}  # Retrieve session
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
+            self.send_response(302)
+            self.send_header('Location', '/login')
             self.end_headers()
-            # Pass session to the template
-            self.wfile.write(template.render(session=session).encode())
 
     def handle_register_post(self):
         form = cgi.FieldStorage(fp=self.rfile, headers=self.headers, environ={
@@ -299,19 +295,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                 session['user'] = cookie['user'].value
             if 'is_admin' in cookie:
                 session['is_admin'] = cookie['is_admin'].value
-
-        if not session['user']:
-            self.redirect_to_login()
-            return {}
-
         return session
-
-    def redirect_to_login(self):
-        self.send_response(302)
-        self.send_header('Location', '/login')
-        self.end_headers()
-
-
 
 
 def run(server_class=HTTPServer, handler_class=RequestHandler, port=8000):
