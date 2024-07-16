@@ -1,85 +1,168 @@
-.container{
+.container {
     min-height: calc(100vh - 50px);
     color: #f1683a;
 }
-.content-container{
+
+.content-container {
     margin-left: 15px;
+    margin-top: 10px;
 }
-.movie-list-container{
+.movie-list-title {
+    text-align: center;
+    margin-top: 20px; 
+    margin-bottom: 10px; 
+    position: relative;
+    cursor: default; 
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    transition: .3s ease-in-out;
+}
+.movie-list-title::after{
+    content: '';
+    display: block;
+    width: 50%;
+    height: 2px;
+    background-color: #f1683a; /* Color of the underline */
+    position: absolute;
+    bottom: -5px; /* Adjust as needed */
+    left: 25%; /* Center the underline */
+    transform: scaleX(0);
+    transition: transform 0.3s;
+}
+.movie-list-title:hover{
+    color: #007BFF;
+}
+.movie-list-title:hover::after{
+    transform: scaleX(1);
+}
+#search-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.form_input {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+#search-input {
+    width: 100%;
+    padding: 10px 20px;
+    border: .5px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+    height: 36px;
+    background-color: transparent;
+    color: #f5f5f5;
+}
+
+#search-input:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+.search-btn {
+    position: absolute;
+    right: .5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0;
+    color: #007BFF;
+    transition: color 0.3s;
+}
+
+.search-btn:hover {
+    color: #0056b3;
+}
+
+.search-btn i {
+    font-size: 24px;
+}
+
+.movie-list-container {
     padding: 0 20px;
 }
-.movie-list-wrapper{
+
+.movie-list-wrapper {
     position: relative;
     overflow: hidden;
 }
-.movie-list{
+
+.movie-list {
     display: flex;
-    align-items: center;
-    height: 300px;
-    transform: translateX(0);
-    transition: all 1s ease-in-out;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
 }
-.movie-list-item{
-    margin-inline: 5px;
-    position: relative;
-}
-.movie-list-item:hover .movie-list-item-img{
-    transform: scale(1.2);
-    margin: 0 30px;
-    opacity: 0.5;
-}
-.movie-list-title{
-    letter-spacing: 10px;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-}
-.movie-list-title:hover{
-    color: #0ef;
-}
-.movie-list-item:hover .movie-list-item-title,
-.movie-list-item:hover .movie-list-item-genre,
-.movie-list-item:hover .movie-list-item-button{
-  opacity: 1;
-}
-.movie-list-item-img{
-    margin-top: 10px;
-    transition: all 1s ease-in-out;
+
+.movie-list-item {
     width: 200px;
-    height: 350px;
-    object-fit: cover;
-    border-radius: 10px;
+    position: relative;
+    transition: transform 0.3s;
+    overflow: hidden;
 }
-.movie-list-item-title{
-    padding: 0 10px;
-    font-size: 25px;
-    font-weight: bold;
+.movie-list-item:hover .movie-list-item-button{
+    opacity: 1;
+}
+.movie-list-item:hover {
+    transform: scale(1.05);
+}
+.movie-list-item-img {
+    display: block;
+    width: 100%;
+    height: 300px;
+    transition: transform 0.3s ease-in-out;
+}
+.movie-list-item-info {
     position: absolute;
-    top: 20%;
-    left: 50px;
-    opacity: 0;
-    transition: 1s all ease-in-out;
-}
-.movie-list-item-genre{
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.7);
     padding: 10px;
-    font-size: 14px;
-    position: absolute;
-    top: 30%;
-    left: 50px;
-    width: 230px;
+    border-radius: 0 0 10px 10px;
+    box-sizing: border-box;
     opacity: 0;
-    transition: 1s all ease-in-out;
+    transition: opacity 0.3s;
 }
-.movie-list-item-button{
-    padding: .3rem .7rem;
+.movie-list-item:hover .movie-list-item-info{
+    opacity: 1;
+}
+.movie-list-item-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+}
+.movie-list-item-genre {
+    font-size: 14px;
+    color: #ccc;
+}
+.movie-list-item-button {
+    position: absolute;
+    bottom: 10px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.5rem 1rem;
     background-color: #0ef;
     border-radius: 10px;
     outline: none;
     border: none;
     color: #000;
-    transition: .3s all ease-in-out;
-    position: absolute;
-    bottom: 30px;
-    left: 20px;
+    transition: background-color 0.3s, opacity 0.3s;
     opacity: 0;
     cursor: pointer;
+}
+.movie-list-item:hover .movie-list-item-button {
+    opacity: 1;
+}
+.movie-list-item-button:hover {
+    background-color: #0bf;
 }

@@ -177,6 +177,11 @@ body.dark .sidebar .sideMenu li a.logout:hover{
     outline: none;
     width: 100%;
     color: #363949;
+    transition: border-color 0.3s;
+}
+.content nav form .form_input input:focus{
+    border-color: #007BFF;
+    outline: none;
 }
 .content nav form .form_input button{
     width: auto;

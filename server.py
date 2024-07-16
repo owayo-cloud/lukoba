@@ -97,13 +97,22 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(template.render(session=session).encode())
 
     def handle_movies(self):
-        template = env.get_template('movies.html')
         session = self.get_session()
+        query = self.path.split('?')[-1]
+        query_params = parse_qs(query)
+        title = query_params.get('title', [None])[0]
+        movies = []
+        if title:
+            movies = search_movies(title)
+        else:
+            # get random query from predefined_list and pass it as title
+            title = random.choice(PREDEFINED_TITLES)
+            movies = search_movies(title)
+        template = env.get_template('movies.html')
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
-        self.wfile.write(template.render(session=session).encode())
-
+        self.wfile.write(template.render(session=session,movies=movies).encode())
     def handle_dashboard(self):
         session = self.get_session()
         if session.get('is_admin') == 'true':
