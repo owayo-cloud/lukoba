@@ -19,7 +19,6 @@ env = Environment(loader=FileSystemLoader('templates'))
 
 PREDEFINED_TITLES = ['Inception', 'The Dark Knight', 'Interstellar', 'The Matrix', 'Pulp Fiction', 'Fight Club', 'The Shawshank Redemption', 'The Godfather', 'The Avengers', 'The Social Network']
 
-
 def get_movie_data(title):
     url = f'http://www.omdbapi.com/?i={title}&apikey={OMDB_API_KEY}'
     response = requests.get(url)
@@ -41,6 +40,8 @@ class RequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == '/':
             self.handle_home()
+        elif self.path == '/movies':
+            self.handle_movies()
         elif self.path == '/login':
             self.handle_login()
         elif self.path == '/register':
@@ -88,6 +89,14 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.send_error(404, "File not found")
 
     def handle_home(self):
+        template = env.get_template('home.html')
+        session = self.get_session()
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+        self.wfile.write(template.render(session=session).encode())
+
+    def handle_movies(self):
         template = env.get_template('movies.html')
         session = self.get_session()
         self.send_response(200)

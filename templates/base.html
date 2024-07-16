@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title> LuKoBa | Home </title>
-	<link rel="stylesheet" href="/static/css/style.css">
-	{% block extrastyles %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuKoBa | Home </title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    {% block extrastyles %}
 
 	{% endblock extrastyles %}
 
 </head>
-
 <body>
-	<header>
-	<div class="logo">LuKoBa</div>
+    <header>
+        <a href="/" class="logo"><div class="logo_name"><span>LuK</span>oBa</div></a>
         <nav>
-            <a href="/">Movies<span></span></span></a>
-            <a href="/booking">Booking<span></span></a>
-			{% if session['user'] %}
+            <a href="/">Home</a>
+            <a href="/movies">Movies</a>
+            <a href="/booking">Booking</a>
+            {% if session['user'] %}
 				{% if session['is_admin'] %}
 				<a href="/dashboard">Dashboard</a>
 				{% endif %}
@@ -28,11 +29,12 @@
 			{% endif %}
         </nav>
     </header>
-	{% block content %}{% endblock %}
+
+    {% block content %}{% endblock %}
 
 	{% block extrascripts %}
 	<script src="/static/js/script.js"></script>
 	{% endblock extrascripts %}
-</body>
 
+</body>
 </html>

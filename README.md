@@ -22,6 +22,17 @@ This project is a simple movie booking web application where users can register,
 -   Admin User Management through CLI
 -   Session Management with Cookies
 
+## Movie Seat Booking
+
+Display seats in a theater to select from in order to purchase tickets
+
+- Display UI with movie select, screen, seats, legend & seat info
+- User can select a movie/price
+- User can select/deselect seats
+- User can not select occupied seats
+- Number of seats and price will update
+- Save seats, movie and price to local storage so that UI is still populated on refresh
+
 ## Setup
 
 ### Prerequisites

@@ -9,7 +9,7 @@
     <div class="tickets">
         <div class="ticket-selector">
             <div class="heading">
-                <div class="title">Movie: <span id="movieTitle">{{ movie_title }}</span></div>
+                <div class="title">Movie: </div>
             </div>
             <div class="seats">
                 <div class="status">
@@ -17,8 +17,9 @@
                     <div class="item">Booked</div>
                     <div class="item">Selected</div>
                 </div>
+                <div class="screen"></div>
                 <div class="all-seats">
-                    <!--Generated Dynamically in booking.js-->
+                    <!--Dynamically generated in booking.js-->
                 </div>
             </div>
             <div class="timings">
@@ -30,16 +31,6 @@
                     </label>
                     <input type="radio" name="date" id="d2" checked>
                     <label for="d2" class="dates-item">
-                        <div class="day">{Day}</div>
-                        <div class="date">{Date}</div>
-                    </label>
-                    <input type="radio" name="date" id="d3" checked>
-                    <label for="d3" class="dates-item">
-                        <div class="day">{Day}</div>
-                        <div class="date">{Date}</div>
-                    </label>
-                    <input type="radio" name="date" id="d4" checked>
-                    <label for="d4" class="dates-item">
                         <div class="day">{Day}</div>
                         <div class="date">{Date}</div>
                     </label>
@@ -55,12 +46,11 @@
                     <label for="t4" class="time">{Times}</label>
                 </div>
             </div>
-        </div>
-        <div class="price">
-            <div class="total"><span><span class="count">0 </span>Tickets</span>
-                <div class="amount">0</div>
+            <div class="price">
+                <p class="text">You have selected <span id="count">0</span> seat(s) for a price of Ksh.<span id="total">0</span
+                    >
+                  </p>
             </div>
-            <button type="button" onclick="handleBooking()">Book</button>
         </div>
     </div>
 </div>

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!--Carousel-->
+<div class="carousel">
+    <div class="list">
+        <div class="item">
+            <img src="/static/image/IT.jpg" alt="">
+            <div class="content">
+                <div class="title">{Title}</div>
+                <div class="genre">{Genre}</div>
+                <div class="des">{description}</div>
+                <div class="buttons">
+                    <button id="extras">Trailer</button>
+                    <button id="bkNow">BOOK NOW</button>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <img src="/static/image/maze.jpg" alt="">
+            <div class="content">
+                <div class="title">{Title}</div>
+                <div class="genre">{Genre}</div>
+                <div class="des">{description}</div>
+                <div class="buttons">
+                    <button id="extras">Trailer</button>
+                    <button id="bkNow">BOOK NOW</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Thumbnails-->
+    <div class="thumbnail">
+        <div class="item active">
+            <img src="/static/image/IT.jpg">
+            <div class="content">
+                <div class="title">{Title}</div>
+            </div>
+        </div>
+        <div class="item">
+            <img src="/static/image/maze.jpg">
+            <div class="content">
+                <div class="title">{Title}</div>
+            </div>
+        </div>
+    </div>
+    <!-- next prev -->
+    <div class="arrows">
+        <button id="prev">&lt</button>
+        <button id="next">&gt</button>
+    </div>
+    <!-- time running -->
+    <div class="time"></div>
+</div>
+{% endblock content %}
+{% block extrascripts %}
+<script src="/static/js/script.js"></script>
+{% endblock extrascripts %}
