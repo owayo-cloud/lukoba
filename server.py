@@ -42,6 +42,8 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.handle_home()
         elif self.path == '/movies':
             self.handle_movies()
+        elif self.path.startswith('/movies?title='):
+            self.handle_movies()
         elif self.path == '/login':
             self.handle_login()
         elif self.path == '/register':
@@ -101,6 +103,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         query = self.path.split('?')[-1]
         query_params = parse_qs(query)
         title = query_params.get('title', [None])[0]
+        print(title,query_params)
         movies = []
         if title:
             movies = search_movies(title)
@@ -113,6 +116,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/html')
         self.end_headers()
         self.wfile.write(template.render(session=session,movies=movies).encode())
+
     def handle_dashboard(self):
         session = self.get_session()
         if session.get('is_admin') == 'true':
