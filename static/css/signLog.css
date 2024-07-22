@@ -6,7 +6,6 @@
 }
 .form_box{
     width: 300px;
-    height: 400px;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px #0ef;
@@ -14,14 +13,16 @@
 .form_box h2 {
     margin-top: 0;
     color: #f1683a;
-    margin-left: 20%;
     letter-spacing: 4px;
     text-transform: uppercase;
+    text-align: center;
 }
 .input_group{
-    height: 52px;
+    display: flex;
+    flex-direction: column;
 }
 .input_field{
+    position: relative;
     background: #eaeaea;
     margin: 15px 0;
     border-radius: 3px;
@@ -31,8 +32,12 @@
     transition: max-height 0.5s;
     overflow: hidden;
 }
+.input_field i{
+    margin-left: 15px;
+    color: #999;
+}
 .input_field input{
-    width: calc(100% - 30px);
+    width: calc(100% - 50px);
     background: transparent;
     border: 0;
     outline: 0;
@@ -41,13 +46,49 @@
     border-radius: 5px;
     box-sizing: border-box;
 }
+.toggle-password{
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.toggle-password:hover{
+    color: #f1683a;
+}
+/* Ensure the eye icon is properly aligned and sized */
+.toggle-password i {
+    margin: 0;
+}
+.checkbox_group {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+}
+
+.checkbox_group input[type="checkbox"] {
+    margin-right: 10px;
+    accent-color: #f1683a; /* Adjust the color as needed */
+}
+
+.checkbox_group label {
+    color: #eaeaea;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.checkbox_group input[type="checkbox"]:hover + label {
+    color: #f1683a;
+}
 button {
     letter-spacing: 4px;
     width: 50%;
     font-weight: 500;
     display:block;
-    margin-left: 60px;
-    margin-top: 10px;
+    margin: 15px auto;
     padding: 10px;
     background-color: #9acd32;
     color: #000;
@@ -62,16 +103,15 @@ button:hover {
 .error{
     color: #ff0000;
 }
-.input_field i{
-    margin-left: 15px;
-    color: #999;
-}
+
 .form_footer {
     margin-top: 200px;
-    text-align: center;
 }
 #lForm_footer{
-    margin-top: 120px;
+    margin-top: 20px;
+}
+#rForm_footer{
+    margin-top: 20px;
 }
 .form_footer hr {
     margin-bottom: 10px;

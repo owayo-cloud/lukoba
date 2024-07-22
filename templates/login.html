@@ -19,18 +19,21 @@
                 <div class="input_field">
                     <i class="fa-solid fa-lock"></i>
                     <input type="password" id="lPass" placeholder="Password" name="password" required>
+                    <span class="toggle-password" onclick="togglePassword('lPass', this)"><i class="fa-solid fa-eye"></i></span>
                 </div>
+                <!--<div class="checkbox_group">
+                    <input type="checkbox" id="rememberMe" name="remember">
+                    <label for="rememberMe">Remember Me</label>
+                </div>-->
                 <button type="submit" id="loginBtn">Login</button>
-            </div>
-            
+            </div>  
         </form>
-        
         <div class="form_footer" id="lForm_footer">
            <div>
             {{session.error}}
             </div>
              <hr>
-            <p>Forgot Password? <a href="#" onclick="toggleForm('forgot')">Click Here</a></p>
+            <p>Forgot Password? <a href="/forgot-password"('forgot')">Click Here</a></p>
             <p> Don't have an account yet? <a href="/register">Sign Up</a></p>
         </div>
     </div>
@@ -38,11 +41,23 @@
 
 {% endblock content %}
 
-
 {% block extrascripts %}
 <script src="https://kit.fontawesome.com/a960bf3c61.js" crossorigin="anonymous"></script>
-
 <script>
+    function togglePassword(inputId, toggleIcon) {
+    const passwordField = document.getElementById(inputId);
+    const eyeIcon = toggleIcon.querySelector('i');
+
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+        eyeIcon.classList.remove('fa-eye'); // Remove open eye icon
+        eyeIcon.classList.add('fa-eye-slash'); // Add closed eye icon
+    } else {
+        passwordField.type = "password";
+        eyeIcon.classList.remove('fa-eye-slash'); // Remove closed eye icon
+        eyeIcon.classList.add('fa-eye'); // Add open eye icon
+    }
+}
     document.getElementById('loginBtn').addEventListener('click', function(event){
         var email = document.getElementById('lEmail').value;
         var password = document.getElementById('lPass').value;

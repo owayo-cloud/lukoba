@@ -24,11 +24,12 @@
                 <div class="input_field">
                     <i class="fa-solid fa-lock"></i>
                     <input type="password" id="signupPassword" placeholder="Password" name="password" required>
+                    <span class="toggle-password" onclick="togglePassword('signupPassword', this)"><i class="fa-solid fa-eye"></i></span>
                 </div>
                 <button type="submit">REGISTER</button>
             </div>
         </form>
-        <div class="form_footer">
+        <div class="form_footer" id="rForm_footer">
             <hr>
             <p>Already have an account? <a href="/login">Login</a></p>
         </div>
@@ -37,10 +38,23 @@
 
 {% endblock content %}
 
-
 {% block extrascripts %}
 <script src="https://kit.fontawesome.com/a960bf3c61.js" crossorigin="anonymous"></script>
 <script>
+    function togglePassword(inputId, toggleIcon) {
+    const passwordField = document.getElementById(inputId);
+    const eyeIcon = toggleIcon.querySelector('i');
+
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+        eyeIcon.classList.remove('fa-eye'); // Remove open eye icon
+        eyeIcon.classList.add('fa-eye-slash'); // Add closed eye icon
+    } else {
+        passwordField.type = "password";
+        eyeIcon.classList.remove('fa-eye-slash'); // Remove closed eye icon
+        eyeIcon.classList.add('fa-eye'); // Add open eye icon
+    }
+}
     document.querySelector('form').addEventListener('submit', function(event) {
     var email = document.getElementById('email').value;
     var password = document.getElementById('signupPassword').value;

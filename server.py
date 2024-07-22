@@ -7,7 +7,7 @@ from jinja2 import Environment, FileSystemLoader
 from werkzeug.security import generate_password_hash, check_password_hash
 from http import cookies
 from db_setup import SessionLocal, init_db
-from models import User, Movie,Showtime, Booking, Payment
+from models import User, Movie, Booking
 from urllib.parse import parse_qs
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
