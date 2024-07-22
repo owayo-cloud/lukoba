@@ -9,6 +9,11 @@ from http import cookies
 from db_setup import SessionLocal, init_db
 from models import User, Movie, Booking
 from urllib.parse import parse_qs
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+import threading
+import time
+import sys
 
 # Initialize the database
 init_db()
@@ -318,15 +323,41 @@ class RequestHandler(BaseHTTPRequestHandler):
             if 'is_admin' in cookie:
                 session['is_admin'] = cookie['is_admin'].value
         return session
+class ChangeHandler(FileSystemEventHandler):
+    def __init__(self, restart_function):
+        super().__init__()
+        self.restart_function = restart_function
 
+    def on_modified(self, event):
+        if event.src_path.endswith('.py'):
+            print(f'{event.src_path} has been modified, restarting server...')
+            self.restart_function()
+
+def restart_server():
+    print('Restarting server...')
+    python = sys.executable
+    os.execl(python, python, *sys.argv)
 
 def run(server_class=HTTPServer, handler_class=RequestHandler, port=8000):
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
     print(f'Starting httpd server on port {port}')
     print(f'Open your browser and visit http://localhost:{port}/')
-    httpd.serve_forever()
 
+    observer = Observer()
+    event_handler = ChangeHandler(restart_server)
+    observer.schedule(event_handler, path='.', recursive=True)
+    observer_thread = threading.Thread(target=observer.start)
+    observer_thread.daemon = True
+    observer_thread.start()
+
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        pass
+    httpd.server_close()
+    observer.stop()
+    observer_thread.join()
 
 if __name__ == '__main__':
     run()

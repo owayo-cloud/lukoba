@@ -64,7 +64,6 @@
     border-color: #007BFF;
     outline: none;
 }
-
 .search-btn {
     position: absolute;
     right: .5px;
@@ -86,7 +85,6 @@
 .search-btn i {
     font-size: 24px;
 }
-
 .movie-list-container {
     padding: 0 20px;
 }
@@ -159,6 +157,9 @@
     transition: background-color 0.3s, opacity 0.3s;
     opacity: 0;
     cursor: pointer;
+}
+a{
+    text-decoration: none;
 }
 .movie-list-item:hover .movie-list-item-button {
     opacity: 1;

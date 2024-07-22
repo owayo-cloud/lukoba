@@ -25,7 +25,7 @@
                             <span class="movie-list-item-title">{{ movie.Title }}</span>
                             <p class="movie-list-item-genre">{{ movie.Genre }}</p>
                         </div>
-                        <button class="movie-list-item-button">Watch</button>
+                        <a class="movie-list-item-button" href="/watch/{{movie.id}}">Watch</a>
                     </div>
                 {% endfor %}
                 </div>
