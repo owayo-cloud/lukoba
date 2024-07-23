@@ -1,48 +1,40 @@
-.mid{
-    width: 90%;
-    height: 100%;
+.mid {
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
-.tickets{
-    width: 400px;
-    height: fit-content;
+.tickets {
+    background-color: transparent;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    width: 90%;
+    max-width: 700px;
+    margin: 20px;
     border: 1mm solid #0ef;
-    border-radius: 2mm;
-    box-sizing: border-box;
-    padding: 10px;
-    max-height: 90vh;
-    overflow: auto;
-    background: transparent;
-    font-size: 10.5px;
 }
 .tickets label{
     color: #000;
 }
-.ticket-selector{
-    background: rgba(116, 110, 110, 0.329);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
-    box-sizing: border-box;
+.ticket-selector {
     padding: 20px;
-    color: #ffffff;
 }
-.heading{
-    width: 100%;
+.heading {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
 }
-.title{
-    font-size: 16px;
-    font-weight: 600;
-    color: #f1683a;
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 4px;
 }
 .seats{
+    margin-bottom: 20px;
     width: 100%;
     display: flex;
     align-items: center;

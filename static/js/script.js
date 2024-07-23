@@ -16,6 +16,8 @@ nextDom.onclick = function(){
 prevDom.onclick = function(){
     showSlider('prev');    
 }
+
+// Auto-slide setup
 let runTimeOut;
 let runNextAuto = setTimeout(() => {
     next.click();
@@ -87,6 +89,7 @@ function showSpecificSlider(index) {
     // Update active class
     updateActiveClass();
 
+    // Reset-Auto-slide timer
     clearTimeout(runTimeOut);
     runTimeOut = setTimeout(() => {
         carouselDom.classList.remove('next');
@@ -101,8 +104,8 @@ function showSpecificSlider(index) {
 
 // Update active class for the carousel and thumbnails
 function updateActiveClass() {
-    let SliderItemsDom = SliderDom.querySelectorAll('.carousel .list .item');
-    let thumbnailItemsDom = thumbnailBorderDom.querySelectorAll('.carousel .thumbnail .item');
+    let SliderItemsDom = SliderDom.querySelectorAll('.item');
+    let thumbnailItemsDom = thumbnailBorderDom.querySelectorAll('.item');
 
     SliderItemsDom.forEach(item => item.classList.remove('active'));
     thumbnailItemsDom.forEach(item => item.classList.remove('active'));

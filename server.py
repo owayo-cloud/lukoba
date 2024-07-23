@@ -91,16 +91,40 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.handle_register_post()
         elif self.path == '/book':
             self.handle_book_post()
+        elif self.path == '/dashboard/movies/add':
+            self.handle_add_movie_post()
         else:
             self.send_error(404, "File not found")
 
+    def handle_add_movie_post(self):
+        form = cgi.FieldStorage(fp=self.rfile, headers=self.headers, environ={'REQUEST_METHOD': 'POST'})
+        movie = form.getvalue('movie_id')
+        title = form.getvalue('title')
+        genre = form.getvalue('genre')
+        description = form.getvalue('description')
+        poster = form.getvalue('poster')
+
+        db = SessionLocal()
+        new_movie = Movie(title=title, genre=genre, description=description, poster=poster)
+        db.add(new_movie)
+        db.commit()
+        db.close()
+        
+        self.send_response(302)
+        self.send_header('Location', '/dashboard/movies')
+        self.end_headers()
+
     def handle_home(self):
+        db = SessionLocal()
+        movies = db.query(Movie).all()
+        db.close()
+
         template = env.get_template('home.html')
         session = self.get_session()
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
-        self.wfile.write(template.render(session=session).encode())
+        self.wfile.write(template.render(session=session, movies=movies).encode())
 
     def handle_movies(self):
         session = self.get_session()
@@ -167,7 +191,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                 self.wfile.write(template.render(
                     session=session, movie=movie).encode()) 
             else:
-                self.send_error(403, "Forbidden")
+                self.send_error(404, "Movie not found")
         else:
             self.send_error(403, "Forbidden")
 

@@ -1,58 +1,48 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!--Carousel-->
+<!-- Carousel -->
 <div class="carousel">
     <div class="list">
-        <div class="item">
-            <img src="/static/image/IT.jpg" alt="">
+        {% for movie in movies %}
+        <div class="item {% if loop.first %}active{% endif %}">
+            <img src="{{ movie.poster }}" alt="{{ movie.title }}">
             <div class="content">
-                <div class="title">{Title}</div>
-                <div class="genre">{Genre}</div>
-                <div class="des">{description}</div>
+                <div class="title">{{ movie.title }}</div>
+                <div class="genre">{{ movie.genre }}</div>
+                <div class="des">{{ movie.description }}</div>
                 <div class="buttons">
                     <button id="extras">Trailer</button>
                     <button id="bkNow">BOOK NOW</button>
                 </div>
             </div>
         </div>
-        <div class="item">
-            <img src="/static/image/maze.jpg" alt="">
-            <div class="content">
-                <div class="title">{Title}</div>
-                <div class="genre">{Genre}</div>
-                <div class="des">{description}</div>
-                <div class="buttons">
-                    <button id="extras">Trailer</button>
-                    <button id="bkNow">BOOK NOW</button>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
     </div>
-    <!--Thumbnails-->
+
+    <!-- Thumbnails -->
     <div class="thumbnail">
-        <div class="item active">
-            <img src="/static/image/IT.jpg">
+        {% for movie in movies %}
+        <div class="item {% if loop.first %}active{% endif %}">
+            <img src="{{ movie.poster }}" alt="{{ movie.title }}">
             <div class="content">
-                <div class="title">{Title}</div>
+                <div class="title">{{ movie.title }}</div>
             </div>
         </div>
-        <div class="item">
-            <img src="/static/image/maze.jpg">
-            <div class="content">
-                <div class="title">{Title}</div>
-            </div>
-        </div>
+        {% endfor %}
     </div>
-    <!-- next prev -->
+
+    <!-- Next Prev -->
     <div class="arrows">
-        <button id="prev">&lt</button>
-        <button id="next">&gt</button>
+        <button id="prev">&lt;</button>
+        <button id="next">&gt;</button>
     </div>
-    <!-- time running -->
+
+    <!-- Time Running -->
     <div class="time"></div>
 </div>
 {% endblock content %}
+
 {% block extrascripts %}
 <script src="/static/js/script.js"></script>
 {% endblock extrascripts %}

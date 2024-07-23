@@ -41,7 +41,13 @@
             <li><a href="#" class="active">/ {{movie.Title}}</a></li>
         </ul>
     </div>
-    <a style="background-color: #f1683a" href="#" class="report"><i class='bx bx-comment-add'></i><span">Add</span></a>
+    <form method="post" action="/dashboard/movies/add">
+        <input type="hidden" name="title" value="{{movie.Title}}">
+        <input type="hidden" name="genre" value="{{movie.Genre}}">
+        <input type="hidden" name="description" value="{{movie.Plot}}">
+        <input type="hidden" name="poster" value="{{movie.Poster}}">
+        <button type="submit" style="cursor: pointer; background-color: #f1683a"  class="report"><i class='bx bx-comment-add'></i><span">Add Movie</span></button>
+    </form>
 </div>
 
 <div class="movie-details">

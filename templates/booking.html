@@ -19,42 +19,41 @@
                 </div>
                 <div class="screen"></div>
                 <div class="all-seats">
-                    <!--Dynamically generated in booking.js-->
+                    <!-- Seats will be dynamically generated here -->
                 </div>
             </div>
             <div class="timings">
                 <div class="dates">
                     <input type="radio" name="date" id="d1" checked>
                     <label for="d1" class="dates-item">
-                        <div class="day">{Day}</div>
-                        <div class="date">{Date}</div>
+                        <div class="day">Fri</div>
+                        <div class="date">23 Jul</div>
                     </label>
-                    <input type="radio" name="date" id="d2" checked>
+                    <input type="radio" name="date" id="d2">
                     <label for="d2" class="dates-item">
-                        <div class="day">{Day}</div>
-                        <div class="date">{Date}</div>
+                        <div class="day">Sat</div>
+                        <div class="date">24 Jul</div>
                     </label>
                 </div>
                 <div class="times">
                     <input type="radio" name="time" id="t1" checked>
-                    <label for="t1" class="time">{Times}</label>
-                    <input type="radio" name="time" id="t2" checked>
-                    <label for="t2" class="time">{Times}</label>
-                     <input type="radio" name="time" id="t3" checked>
-                    <label for="t3" class="time">{Times}</label>
-                    <input type="radio" name="time" id="t4" checked>
-                    <label for="t4" class="time">{Times}</label>
+                    <label for="t1" class="time">12:00 PM</label>
+                    <input type="radio" name="time" id="t2">
+                    <label for="t2" class="time">03:00 PM</label>
+                    <input type="radio" name="time" id="t3">
+                    <label for="t3" class="time">06:00 PM</label>
+                    <input type="radio" name="time" id="t4">
+                    <label for="t4" class="time">09:00 PM</label>
                 </div>
             </div>
             <div class="price">
-                <p class="text">You have selected <span id="count">0</span> seat(s) for a price of Ksh.<span id="total">0</span
-                    >
-                  </p>
+                <p class="text">You have selected <span id="count">0</span> seat(s) for a price of Ksh.<span id="total">0</span></p>
             </div>
         </div>
     </div>
 </div>
 {% endblock content %}
+
 {% block extrascripts %}
 <script src="/static/js/booking.js"></script>
 {% endblock extrascripts %}

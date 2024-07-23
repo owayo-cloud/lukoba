@@ -18,8 +18,11 @@ class Movie(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, index=True)
+    genre = Column(String)
+    # imdb = Column(String)    
+    description = Column(String)
+    poster = Column(String)  # URL to the movie poster
     bookings = relationship("Booking", backref="movie")
-
 
 class Booking(Base):
     __tablename__ = 'bookings'
