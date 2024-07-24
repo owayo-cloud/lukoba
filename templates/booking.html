@@ -9,7 +9,7 @@
     <div class="tickets">
         <div class="ticket-selector">
             <div class="heading">
-                <div class="title">Movie: </div>
+                <div class="title">Movie: {{movie}}</div>
             </div>
             <div class="seats">
                 <div class="status">
@@ -23,31 +23,26 @@
                 </div>
             </div>
             <div class="timings">
-                <div class="dates">
-                    <input type="radio" name="date" id="d1" checked>
-                    <label for="d1" class="dates-item">
-                        <div class="day">Fri</div>
-                        <div class="date">23 Jul</div>
-                    </label>
-                    <input type="radio" name="date" id="d2">
-                    <label for="d2" class="dates-item">
-                        <div class="day">Sat</div>
-                        <div class="date">24 Jul</div>
-                    </label>
+                <div class="date-selector">
+                    <label for="movie-date">Select Date:</label>
+                    <input type="date" id="movie-date" name="date">
                 </div>
                 <div class="times">
-                    <input type="radio" name="time" id="t1" checked>
+                    <input type="radio" name="time" id="t1" value="12:00 PM" checked>
                     <label for="t1" class="time">12:00 PM</label>
-                    <input type="radio" name="time" id="t2">
+                    <input type="radio" name="time" id="t2" value="03:00 PM">
                     <label for="t2" class="time">03:00 PM</label>
-                    <input type="radio" name="time" id="t3">
+                    <input type="radio" name="time" id="t3" value="06:00 PM">
                     <label for="t3" class="time">06:00 PM</label>
-                    <input type="radio" name="time" id="t4">
+                    <input type="radio" name="time" id="t4" value="09:00 PM">
                     <label for="t4" class="time">09:00 PM</label>
                 </div>
             </div>
             <div class="price">
                 <p class="text">You have selected <span id="count">0</span> seat(s) for a price of Ksh.<span id="total">0</span></p>
+            </div>
+            <div class="book-button-container">
+                <button id="book-button" onclick="submitBooking()">Book Now</button>
             </div>
         </div>
     </div>

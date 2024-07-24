@@ -1,178 +1,169 @@
+body {
+    background: linear-gradient(135deg, #034044 0%, #381c02 100%);
+    margin: 0;
+    padding: 0;
+}
 .mid {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    height: 90vh;
+    width: 90vw; 
+    padding: 20px;
+    box-sizing: border-box;
 }
 .tickets {
-    background-color: transparent;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
-    width: 90%;
-    max-width: 700px;
-    margin: 20px;
-    border: 1mm solid #0ef;
-}
-.tickets label{
-    color: #000;
-}
-.ticket-selector {
+    background: #1e272e;
     padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    width: 100%; 
+    max-width: 700px;
+    color: #ffffff;
 }
-.heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-}
-.title {
+.ticket-selector .heading .title {
     font-size: 24px;
     font-weight: bold;
+    margin-bottom: 10px;
     letter-spacing: 4px;
 }
-.seats{
+.seats .status {
+    display: flex;
+    justify-content: space-between;
     margin-bottom: 20px;
-    width: 100%;
+}
+.status .item {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #e0e0e0;
+    font-size: 14px;
+}
+.status .item:nth-child(1) {
+    background-color: #4caf50;
+}
+.status .item:nth-child(2) {
+    background-color: #f44336;
+}
+.status .item:nth-child(3) {
+    background-color: #ffc107;
+}
+.seats .screen {
+    background: linear-gradient(to bottom, #e6eaec, #49637c);
+    height: 30px;
+    border-radius: 1px;
+    margin: 20px 0;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
     display: flex;
-    align-items: center;
     justify-content: center;
-    flex-direction: column;
-    min-height: 100px;
-    position: relative;
-}
-.status{
-    width: 100%;
-    display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    color: #fff;
+    font-weight: bold;
+    font-size: 14px;
 }
-.item{
-    font-size: 12px;
-    position: relative;
-}
-.item::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: -12px;
-    transform: translate(0, -50%);
-    width: 10px;
-    height: 10px;
-    background: rgb(255, 255, 255);
-    outline: 0.2mm solid rgb(120, 120, 120);
-    border-radius: 0.3mm;
-}
-.item:nth-child(2)::before{
-    background: #f1683a;
-    outline: none;
-}
-.item:nth-child(3)::before{
-    background: rgb(17, 196, 209);
-    outline: none;
-}
-.screen{
-    background-color: #fff;   
-    height: 100px;
-    width: 90%;
-    margin: 10px 0;
-    transform: rotateX(-40deg);
-    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.7);
-}
-.all-seats{
+.all-seats {
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    grid-gap: 15px;
-    margin: 60px 0;
-    margin-top: 1px;
+    grid-template-columns: repeat(5, 1fr);
+    /*grid-template-columns: repeat(auto-fit, minmax(50px, 1fr)); /* Responsive grid layout */
+    gap: 10px;
+    justify-items: center; 
     position: relative;
+    margin-bottom: 20px;
 }
-.seat{
-    width: 20px;
-    height: 20px;
-    background: #ffffff;
-    border-radius: 0.5mm;
-    outline: 0.3mm solid rgb(100, 211, 219);
+.all-seats .seat {
+    background-color: #34495e; 
+    height: 40px; 
+    width: 40px; 
+    border-radius: 5px;
+    border: 1px solid #fff; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ecf0f1; 
     cursor: pointer;
+    transition: background-color 0.3s ease;
+}   
+.seat:hover {
+    background-color: #0ef; 
 }
-.all-seats input:checked + label{
-    background: #0ef;
-    outline: none;
+.all-seats .seat.selected {
+    background-color: #ffc107;
 }
-.seat.booked{
-    background: #f1683a;
-    outline: none;
+.all-seats .seat.booked {
+    background-color: #f44336;
+    cursor: not-allowed;
 }
-input{
+/* Hide checkboxes beside seats */
+.all-seats input[type="checkbox"] {
     display: none;
 }
-.timings{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px;
-    color: #000;
+.timings {
+    margin: 20px 0;
 }
-.dates{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.dates-item{
-    width: 50px;
-    height: 40px;
-    background: #f5f5f5;
+.date-selector {
+    margin-bottom: 10px;
     text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 10px 0;
-    border-radius: 2mm;
-    outline: 0.3mm solid #f1683a;
-    cursor: pointer;
 }
-.day{
-    font-size: 12px;
-    font-weight: bold;
+.date-selector label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
 }
-.times{
+.date-selector input[type="date"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #0ef;
+    border-radius: 5px;
     width: 100%;
+    max-width: 300px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+.date-selector input[type="date"]:focus {
+    border-color: #f1683a; /* pale violet red border on focus */
+    outline: none;
+}
+.times {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 10px;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
-.time{
-    font-size: 14px;
-    font-weight: bold;
-    width: fit-content;
-    padding: 7px 14px;
-    background: rgb(255, 255, 255);
-    border-radius: 2mm;
-    outline: 0.3px solid #f1683a;
+.times .time {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #34495e;
     cursor: pointer;
+    margin: 5px;
+    text-align: center;
 }
-.timings input:checked + label{
-    background: #0ef;
-    color: #000;
+.times .time:hover {
+    background-color: #0ef;
+}
+.times input {
+    display: none;
 }
 .price {
-    width: 100%;
-    box-sizing: border-box;
+    margin-top: 20px;
+}
+.price .text {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+.book-button-container {
+    margin-top: 20px;
+    text-align: center;
+}
+#book-button {
+    background-color: #007bff; /* Blue background */
+    color: white; /* White text */
+    border: none;
     padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    letter-spacing: 4px;
 }
-.price p{
-    margin: 5px 0;
-}
-.price p.text span{
-    color: rgb(33, 138, 33);
+#book-button:hover {
+    background-color: #f1683a; /* Darker blue on hover */
 }
