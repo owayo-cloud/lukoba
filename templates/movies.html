@@ -18,16 +18,20 @@
             <h1 class="movie-list-title">Movies</h1>
             <div class="movie-list-wrapper">
                 <div class="movie-list">
-                {% for movie in movies %}
-                    <div class="movie-list-item">
-                        <img class="movie-list-item-img" src="{{ movie.Poster }}" alt="{{ movie.Title }}">
-                        <div class="movie-list-item-info">
-                            <span class="movie-list-item-title">{{ movie.Title }}</span>
-                            <p class="movie-list-item-genre">{{ movie.Genre }}</p>
+                    {% for movie in movies %}
+                    <a href="/movies/{{movie.imdbID}}">
+
+                        <div class="movie-list-item">
+                            <img class="movie-list-item-img" src="{{ movie.Poster }}" alt="{{ movie.Title }}">
+                            <div class="movie-list-item-info">
+                                <span class="movie-list-item-title">{{ movie.Title }}</span>
+                                <p class="movie-list-item-genre">{{ movie.Genre }}</p>
+                            </div>
+                            <a class="movie-list-item-button" href="/watch/{{movie.id}}">Watch</a>
                         </div>
-                        <a class="movie-list-item-button" href="/watch/{{movie.id}}">Watch</a>
-                    </div>
-                {% endfor %}
+                    </a>
+
+                    {% endfor %}
                 </div>
                 <i class="fas fa-chevron-right arrow"></i>
             </div>

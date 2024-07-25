@@ -7,12 +7,13 @@ from jinja2 import Environment, FileSystemLoader
 from werkzeug.security import generate_password_hash, check_password_hash
 from http import cookies
 from db_setup import SessionLocal, init_db
-from models import User, Movie, Booking
+from models import Seat, Showtime, User, Movie, Booking
 from urllib.parse import parse_qs
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 import threading
 import sys
+from datetime import datetime, time
 
 # Initialize the database
 init_db()
@@ -21,7 +22,9 @@ OMDB_API_KEY = 'e89e6bd6'
 
 env = Environment(loader=FileSystemLoader('templates'))
 
-PREDEFINED_TITLES = ['Inception', 'The Dark Knight', 'Interstellar', 'The Matrix', 'Pulp Fiction', 'Fight Club', 'The Shawshank Redemption', 'The Godfather', 'The Avengers', 'The Social Network']
+PREDEFINED_TITLES = ['Inception', 'The Dark Knight', 'Interstellar', 'The Matrix', 'Pulp Fiction',
+                     'Fight Club', 'The Shawshank Redemption', 'The Godfather', 'The Avengers', 'The Social Network']
+
 
 def get_movie_data(title):
     url = f'http://www.omdbapi.com/?i={title}&apikey={OMDB_API_KEY}'
@@ -40,6 +43,7 @@ def search_movies(query):
     else:
         return []
 
+
 class RequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == '/':
@@ -48,6 +52,10 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.handle_movies()
         elif self.path.startswith('/movies?title='):
             self.handle_movies()
+        elif self.path.startswith('/movies/tt') and self.path.split('/')[-1] == 'book':
+            self.handle_book()
+        elif self.path.startswith('/movies/tt'):
+            self.handle_movie_detail()
         elif self.path == '/login':
             self.handle_login()
         elif self.path == '/register':
@@ -89,7 +97,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.handle_login_post()
         elif self.path == '/register':
             self.handle_register_post()
-        elif self.path == '/book':
+        elif self.path.startswith('/movies/tt') and self.path.split('/')[-1] == 'book':
             self.handle_book_post()
         elif self.path == '/dashboard/movies/add':
             self.handle_add_movie_post()
@@ -97,21 +105,44 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.send_error(404, "File not found")
 
     def handle_add_movie_post(self):
-        form = cgi.FieldStorage(fp=self.rfile, headers=self.headers, environ={'REQUEST_METHOD': 'POST'})
-        movie = form.getvalue('movie_id')
-        title = form.getvalue('title')
-        genre = form.getvalue('genre')
-        description = form.getvalue('description')
-        poster = form.getvalue('poster')
+        form = cgi.FieldStorage(fp=self.rfile, headers=self.headers, environ={
+                                'REQUEST_METHOD': 'POST'})
+        movie_id = form.getvalue('movie')
+        date = form.getvalue('date')
+        time_str = form.getvalue('time')
 
         db = SessionLocal()
-        new_movie = Movie(title=title, genre=genre, description=description, poster=poster)
-        db.add(new_movie)
+        # get movie with id
+        movie = db.query(Movie).filter(Movie.imdb == movie_id).first()
+        # if not found create
+        if not movie:
+            data = get_movie_data(movie_id)
+            if data:
+                title = data.get('Title')
+                genre = data.get('Genre')
+                description = data.get('Plot')
+                poster = data.get('Poster')
+                movie = Movie(title=title, genre=genre,
+                              description=description, poster=poster, imdb=movie_id)
+                db.add(movie)
+                db.commit()
+            else:
+                self.send_error(404, "Movie not found")
+                return
+
+        # Parse the date string
+        date_obj = datetime.strptime(date, '%Y-%m-%d')
+
+        # Extract the time portion as a time object
+        time_obj = time.fromisoformat(time_str)
+        showtime = Showtime(movie_id=movie.id, date=date_obj, time=time_obj)
+
+        db.add(showtime)
         db.commit()
         db.close()
-        
+
         self.send_response(302)
-        self.send_header('Location', '/dashboard/movies')
+        self.send_header('Location', f'/dashboard/movies/{movie_id}')
         self.end_headers()
 
     def handle_home(self):
@@ -124,14 +155,15 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
-        self.wfile.write(template.render(session=session, movies=movies).encode())
+        self.wfile.write(template.render(
+            session=session, movies=movies).encode())
 
     def handle_movies(self):
         session = self.get_session()
         query = self.path.split('?')[-1]
         query_params = parse_qs(query)
         title = query_params.get('title', [None])[0]
-        print(title,query_params)
+        print(title, query_params)
         movies = []
         if title:
             movies = search_movies(title)
@@ -143,7 +175,8 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
-        self.wfile.write(template.render(session=session,movies=movies).encode())
+        self.wfile.write(template.render(
+            session=session, movies=movies).encode())
 
     def handle_dashboard(self):
         session = self.get_session()
@@ -173,7 +206,8 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
             self.end_headers()
-            self.wfile.write(template.render(session=session,movies=movies).encode())
+            self.wfile.write(template.render(
+                session=session, movies=movies).encode())
         else:
             self.send_error(403, "Forbidden")
 
@@ -183,17 +217,48 @@ class RequestHandler(BaseHTTPRequestHandler):
             title = self.path.split('/')[-1]
             if title:
                 movie = get_movie_data(title)
-                #print(title,movie)
+                # get showtimes
+                db = SessionLocal()
+                movie_obj = db.query(Movie).filter_by(imdb=title).first()
+                if movie_obj:
+                    showtimes = movie_obj.showtimes
+                else:
+                    showtimes = None
+                db.close()
+
                 template = env.get_template('dashboard_movie_detail.html')
                 self.send_response(200)
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
                 self.wfile.write(template.render(
-                    session=session, movie=movie).encode()) 
+                    session=session, movie=movie, showtimes=showtimes).encode())
             else:
                 self.send_error(404, "Movie not found")
         else:
             self.send_error(403, "Forbidden")
+
+    def handle_movie_detail(self):
+        session = self.get_session()
+        title = self.path.split('/')[-1]
+        if title:
+            movie = get_movie_data(title)
+            # get showtimes
+            db = SessionLocal()
+            movie_obj = db.query(Movie).filter_by(imdb=title).first()
+            if movie_obj:
+                showtimes = movie_obj.showtimes
+            else:
+                showtimes = None
+            db.close()
+
+            template = env.get_template('movie_detail.html')
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html')
+            self.end_headers()
+            self.wfile.write(template.render(
+                session=session, movie=movie, showtimes=showtimes).encode())
+        else:
+            self.send_error(404, "Movie not found")
 
     def handle_dashboard_analytics(self):
         session = self.get_session()
@@ -205,7 +270,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.wfile.write(template.render(session=session).encode())
         else:
             self.send_error(403, "Forbidden")
-    
+
     def handle_dashboard_bookings(self):
         session = self.get_session()
         if session.get('is_admin') == 'true':
@@ -216,7 +281,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.wfile.write(template.render(session=session).encode())
         else:
             self.send_error(403, "Forbidden")
-    
+
     def handle_dashboard_users(self):
         session = self.get_session()
         if session.get('is_admin') == 'true':
@@ -227,7 +292,6 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.wfile.write(template.render(session=session).encode())
         else:
             self.send_error(403, "Forbidden")
-
 
     def handle_login(self):
         template = env.get_template('login.html')
@@ -248,22 +312,35 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(template.render(session=session).encode())
 
     def handle_book(self):
-        db = SessionLocal()
-        movies = db.query(Movie).all()
-        db.close()
-        template = env.get_template('booking.html')
+        title = self.path.split('/')[-2]
         session = self.get_session()
+
         if not session.get('user'):
             self.send_response(302)
             self.send_header('Location', '/login')
             self.end_headers()
             return
-        self.send_response(200)
-        self.send_header('Content-type', 'text/html')
-        self.end_headers()
-        # Pass session to the template
-        self.wfile.write(template.render(
-            movies=movies, session=session).encode())
+
+        if title:
+            # get showtimes
+            db = SessionLocal()
+            movie = db.query(Movie).filter_by(imdb=title).first()
+            if movie:
+                showtimes = movie.showtimes
+                bookings = movie.bookings
+                # get booked seats
+            else:
+                showtimes = None
+            db.close()
+
+            template = env.get_template('booking.html')
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html')
+            self.end_headers()
+            self.wfile.write(template.render(
+                session=session, movie=movie, bookings=bookings, showtimes=showtimes).encode())
+        else:
+            self.send_error(404, "Movie not found")
 
     def handle_login_post(self):
         form = cgi.FieldStorage(fp=self.rfile, headers=self.headers, environ={
@@ -278,7 +355,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.send_response(302)
             self.send_header('Location', '/')
             self.send_header('Set-Cookie', f'user={user.username}')
-            if user.is_admin: # type: ignore
+            if user.is_admin:  # type: ignore
                 self.send_header('Set-Cookie', 'is_admin=true')
             self.end_headers()
         else:
@@ -306,7 +383,11 @@ class RequestHandler(BaseHTTPRequestHandler):
     def handle_book_post(self):
         form = cgi.FieldStorage(fp=self.rfile, headers=self.headers, environ={
             'REQUEST_METHOD': 'POST'})
-        movie_id = form.getvalue('movie_id')
+        imdb = form.getvalue('imdb')
+        movie = form.getvalue('movie')
+        seats = form.getvalue('seats')
+        showtime = form.getvalue('showtime')
+
         session = self.get_session()
         if not session.get('user'):
             self.send_response(302)
@@ -320,15 +401,43 @@ class RequestHandler(BaseHTTPRequestHandler):
         else:
             user = None
         if user is not None:
-            new_booking = Booking(user_id=user.id, movie_id=movie_id)
+            new_booking = Booking(
+                user_id=user.id, movie_id=movie, showtime_id=showtime)
+
+            db.add(new_booking)
+            db.flush()  # This assigns an id to new_booking
+
+            # Create and associate seats
+            for seat_number in seats.split(','):
+                # Create new seat
+                seat = Seat(
+                    showtime_id=showtime,
+                    seat_number=seat_number,
+                )
+                db.add(seat)
+
+                new_booking.seats.append(seat)
+
+            # Update available seats in showtime obj
+            show_obj = db.query(Showtime).filter(
+                Showtime.id == showtime).first()
+            
+            if show_obj is not None:
+                show_obj.seats_available -= len(seats) # type: ignore
+
+            # Commit the transaction
+            db.commit()
+            db.close()
+            self.send_response(302)
+            self.send_header('Location', f'/movies/{imdb}')
+            self.end_headers()
+
         else:
-            new_booking = Booking(movie_id=movie_id)
-        db.add(new_booking)
-        db.commit()
-        db.close()
-        self.send_response(302)
-        self.send_header('Location', '/')
-        self.end_headers()
+            # db.add(new_booking)
+            db.close()
+            self.send_response(400)
+            self.send_header('Location', f'/movies/{imdb}')
+            self.end_headers()
 
     def handle_logout(self):  # Add this method
         self.send_response(302)
@@ -346,6 +455,8 @@ class RequestHandler(BaseHTTPRequestHandler):
             if 'is_admin' in cookie:
                 session['is_admin'] = cookie['is_admin'].value
         return session
+
+
 class ChangeHandler(FileSystemEventHandler):
     def __init__(self, restart_function):
         super().__init__()
@@ -356,10 +467,12 @@ class ChangeHandler(FileSystemEventHandler):
             print(f'{event.src_path} has been modified, restarting server...')
             self.restart_function()
 
+
 def restart_server():
     print('Restarting server...')
     python = sys.executable
     os.execl(python, python, *sys.argv)
+
 
 def run(server_class=HTTPServer, handler_class=RequestHandler, port=8000):
     server_address = ('', port)
@@ -382,6 +495,6 @@ def run(server_class=HTTPServer, handler_class=RequestHandler, port=8000):
     observer.stop()
     observer_thread.join()
 
+
 if __name__ == '__main__':
     run()
-

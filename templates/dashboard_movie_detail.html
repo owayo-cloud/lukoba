@@ -28,6 +28,93 @@
     .movie-details .details p {
         margin-bottom: 10px;
     }
+
+    .modal-overlay {
+        background: rgba(0, 0, 0, 0.7);
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .modal-wrapper {
+        width: 60vw;
+        height: 50vh;
+        background: white;
+        color: black;
+        border-radius: 10px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .btn {
+        padding: 8px;
+        background: rgb(255, 0, 0);
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 15px;
+        color: ghostwhite;
+        font-weight: 5px;
+        margin-left: auto;
+        margin-top: 10px;
+        margin-right: 10px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .open-modal-btn {
+        padding: 8px;
+        background: rgb(0, 81, 255);
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 15px;
+        color: ghostwhite;
+        font-weight: 5px;
+        margin-left: auto;
+        margin-top: 10px;
+        margin-right: 10px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .open-modal-btn:hover {
+        background-color: #860c0c;
+    }
+
+    .open-modal-btn:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.5);
+    }
+
+    .close-btn-wrapper {
+        display: flex;
+    }
+
+    .modal-content {
+        margin: 20px auto;
+        /* max-width: 210px; */
+        width: 100%;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    .form-group {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
 </style>
 {% endblock extrastyles %}
 
@@ -41,13 +128,12 @@
             <li><a href="#" class="active">/ {{movie.Title}}</a></li>
         </ul>
     </div>
-    <form method="post" action="/dashboard/movies/add">
-        <input type="hidden" name="title" value="{{movie.Title}}">
-        <input type="hidden" name="genre" value="{{movie.Genre}}">
-        <input type="hidden" name="description" value="{{movie.Plot}}">
-        <input type="hidden" name="poster" value="{{movie.Poster}}">
-        <button type="submit" style="cursor: pointer; background-color: #f1683a"  class="report"><i class='bx bx-comment-add'></i><span">Add Movie</span></button>
-    </form>
+    <div class="open-modal-btn-wrapper">
+        <button style="cursor: pointer; background-color: #f1683a" class="report open-modal-btn">
+            <i class='bx bx-comment-add'></i>
+            <span">Add Show Time</span>
+        </button>
+    </div>
 </div>
 
 <div class="movie-details">
@@ -72,5 +158,63 @@
         <p><strong>IMDB Votes:</strong> {{ movie.imdbVotes }}</p>
     </div>
 </div>
+{% if showtimes %}
+<div style="margin-top: 20px;margin-bottom: 20px;">
+    <h2>Show Times</h2>
+    <ul>
+        {% for showtime in showtimes %}
+        <li style="margin: 20px;font-weight: bold;">{{ showtime.date }} at {{ showtime.time }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+<div class="modal-overlay hide">
+    <div class="modal-wrapper">
+        <div class="close-btn-wrapper">
+            <button class="btn">
+                X
+            </button>
+        </div>
+        <h1>Show Movie</h1>
+        <div class="modal-content"
+            style="display:flex;flex-direction: column;align-items:center;justify-content: center;">
+            <h2>Add a showtime for this movie below</h2>
+            <form method="post" action="/dashboard/movies/add">
+                <div class="form-group">
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" name="date">
+                </div>
+                <div class="form-group">
+                    <label for="time">Time:</label>
+                    <input type="time" id="time" name="time">
+                </div>
+                <input type="hidden" name="movie" value="{{movie.imdbID}}">
 
+                <button type="submit" class="btn">Add Showtime</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+    const openBtn = document.querySelector(".open-modal-btn");
+    const modal = document.querySelector(".modal-overlay");
+    const closeBtn = document.querySelector(".close-modal-btn");
+
+    function openModal() {
+        modal.classList.remove("hide");
+    }
+
+    function closeModal(e, clickedOutside) {
+        if (clickedOutside) {
+            if (e.target.classList.contains("modal-overlay"))
+                modal.classList.add("hide");
+        } else modal.classList.add("hide");
+    }
+
+    openBtn.addEventListener("click", openModal);
+    modal.addEventListener("click", (e) => closeModal(e, true));
+    closeBtn.addEventListener("click", closeModal);
+
+</script>
 {% endblock content %}
