@@ -39,7 +39,7 @@ body {
     font-size: 14px;
 }
 .status .item:nth-child(1) {
-    background-color: #4caf50;
+    background-color: rgb(19, 204, 19);
 }
 .status .item:nth-child(2) {
     background-color: #f44336;
@@ -66,27 +66,30 @@ body {
     /*grid-template-columns: repeat(auto-fit, minmax(50px, 1fr)); /* Responsive grid layout */
     gap: 10px;
     justify-items: center; 
-    position: relative;
-    margin-bottom: 20px;
+    /*position: relative;
+    margin-bottom: 20px;*/
 }
 .all-seats .seat {
-    background-color: #34495e; 
+    background-color: rgb(19, 204, 19);
     height: 40px; 
     width: 40px; 
     border-radius: 5px;
-    border: 1px solid #fff; 
+    border: 1px solid #d1d8e0; 
     display: flex;
     justify-content: center;
     align-items: center;
     color: #ecf0f1; 
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
 }   
 .seat:hover {
     background-color: #0ef; 
 }
-.all-seats .seat.selected {
+.seat.selected{
     background-color: #ffc107;
+}
+.seat:hover:not(.booked) {
+    background-color: rgb(2, 6, 202);
 }
 .all-seats .seat.booked {
     background-color: #f44336;
@@ -165,5 +168,83 @@ body {
     letter-spacing: 4px;
 }
 #book-button:hover {
-    background-color: #f1683a; /* Darker blue on hover */
+    background-color: #f1683a; 
 }
+form {
+    margin-top: 20px;
+    text-align: center;
+}
+form label {
+    font-size: 16px;
+    display: block;
+    margin-bottom: 10px;
+    text-align: left;
+}
+.input-container {
+    position: relative;
+    display: flex;
+    align-items: center; 
+    width: 60%; 
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+form input[type="tel"],
+form input[type="text"] {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    width: 100%; 
+    padding-right: 40px; 
+    box-sizing: border-box;
+}
+.mpesa-logo {
+    position: absolute;
+    right: 10px;
+    top: 40%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: auto;
+    pointer-events: none;
+}
+.seat-icon {
+    position: absolute;
+    right: 10px;
+    top: 40%; 
+    transform: translateY(-50%); 
+    width: 24px; 
+    height: 24px;
+    background-image: url('/static/image/seat-icon.png'); 
+    background-size: cover;
+    pointer-events: none; 
+}
+form input[type="tel"]:focus,
+form input[type="text"]:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+form input[type="tel"]:hover,
+form input[type="text"]:hover {
+    border-color: #0056b3;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    form input[type="tel"],
+    form input[type="text"] {
+        width: 90%;
+        padding-right: 30px; /* Adjust for smaller screens */
+    }
+    
+    .label-text {
+        font-size: 14px;
+    }
+    
+    .mpesa-logo, .seat-icon {
+        width: 20px;
+    }
+}
+

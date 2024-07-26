@@ -26,43 +26,43 @@
             {% if showtimes %}
             <input type='hidden' value="{{movie.id}}" name="movieId">
             <input type='hidden' value="{{movie.imdb}}" name="movieImdb">
+            <input type='hidden' value="{{s_time.id}}" name="showtime">
 
+            {% if s_time %}
+            Showtime selected 
+            {{s_time.date}} at {{s_time.time}}
+
+            {% else %}
             <div class="timings">
                 <h3>Show Times</h3>
                 <div class="list-group">
                     {% for showtime in showtimes %}
                     <label class="list-group-item">
-                        <input class="form-check-input me-1" type="radio" value="{{showtime.id}}" name="showtime">
+                        <input class="form-check-input me-1" type="radio" value="{{showtime.id}}" name="showtime_sel">
                         {{showtime.date}} at {{showtime.time}}
+                        <div>
+                            <span class="badge bg-primary rounded-pill">{{showtime.seats_available}}</span>
+                        </div>
                     </label>
                     <br>
                     {% endfor %}
                 </div>
             </div>
-            <!-- <div class="timings">
-                <div class="date-selector">
-                    <label for="movie-date">Date:</label>
-                    <input type="date" id="movie-date" name="date">
-                </div>
-
-                <div class="times">
-                        <input type="radio" name="time" id="t1" value="12:00 PM">
-                        <label for="t1" class="time">12:00 PM</label>
-                        <input type="radio" name="time" id="t2" value="03:00 PM">
-                        <label for="t2" class="time">03:00 PM</label>
-                        <input type="radio" name="time" id="t3" value="06:00 PM">
-                        <label for="t3" class="time">06:00 PM</label>
-                        <input type="radio" name="time" id="t4" value="09:00 PM">
-                        <label for="t4" class="time">09:00 PM</label>
+            {% endif %}
+            <form method="post" action="/movies/{{ movie.imdbID }}/book">
+                <label for="phone_number">
+                    <div class="input-container">
+                        <input type="tel" id="phone_number" name="phone_number" placeholder="Phone Number" required>
+                        <img src="/static/image/M-PESA-logo-2.png" alt="M-Pesa Logo" class="mpesa-logo">
                     </div>
-               
-            </div> -->
-
-
-            <div class="price">
-                <p class="text">You have selected <span id="count">0</span> seat(s) for a price of Ksh.<span
-                        id="total">0</span></p>
-            </div>
+                </label>
+                <label for="seat_number">
+                    <div class="input-container">
+                        <input type="text" id="seat_number" name="seat_number" placeholder="Seat Number" readonly>
+                        <i class="seat-icon"></i>
+                    </div>
+                </label>                
+            </form>
             <div class="book-button-container">
                 <button id="book-button">Book Now</button>
             </div>

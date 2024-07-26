@@ -1,6 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
+<style>
+    .see-more {
+        display: inline-block;
+        text-decoration: none; 
+        color: #fff; 
+        background-color: #007d9c; 
+        padding: 10px 20px; 
+        border-radius: 5px; 
+        font-size: 16px; 
+        font-weight: bold; 
+        text-align: center; 
+        transition: background-color 0.3s ease, color 0.3s ease; 
+    }
+    .see-more:hover {
+        background-color: #f1683a; 
+        color: #e0e0e0; 
+    }
+</style>
 <!-- Carousel -->
 <div class="carousel">
     <div class="list">
@@ -12,8 +30,9 @@
                 <div class="genre">{{ movie.genre }}</div>
                 <div class="des">{{ movie.description }}</div>
                 <div class="buttons">
-                    <button id="extras">Trailer</button>
-                    <button> <a href="/movies/{{movie.imdb}}/book" class="btn btn-primary" style="text-decoration: none; color: #000;"> BOOK NOW</a></button>
+                    <!--<button id="extras">Trailer</button>-->
+                    <a href="/movies/{{movie.imdb}}" style="text-decoration: none; color: #000; " class="see-more">See More</a>
+                    <!--<button> <a href="/movies/{{movie.imdb}}/book" class="btn btn-primary" style="text-decoration: none; color: #000;"> BOOK NOW</a></button>-->
                 </div>
             </div>
         </div>

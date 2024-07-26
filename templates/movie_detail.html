@@ -4,79 +4,176 @@
 <title>LuKoBa | Movies</title>
 <link rel="stylesheet" href="/static/css/movies.css">
 <style>
-    /* Additional specific styles for this page */
+    /* General Styles */
+    .contain {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px; 
+    }
     .movie-details {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        justify-content: space-evenly;
-        margin-top: 20px;
         gap: 20px;
+        margin-top: 20px;
     }
-
     .movie-details .poster {
-        flex: 0 0 30%;
-        max-width: 200px;
+        flex: 0 0 35%; /* Increased flex-basis */
+        min-width: 300px; /* Minimum width for the poster */
+        max-width: 300px; /* Optional: Maximum width for larger screens */
     }
-
+    .movie-details .poster img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
     .movie-details .details {
-        flex: 0 0 70%;
+        flex: 0 0 65%; /* Adjusted flex-basis */
     }
-
     .movie-details .details h2 {
         margin-top: 0;
     }
-
     .movie-details .details p {
         margin-bottom: 10px;
     }
-
     .header {
         display: flex;
         align-items: center;
-        justify-content: space-evenly;
+        justify-content: space-between;
         margin-top: 20px;
-        gap: 20px;
-        margin-inline: 20px;
     }
-
-    .btn {
-        padding: 8px;
-        background: rgb(255, 0, 0);
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-        font-size: 15px;
-        color: ghostwhite;
-        font-weight: 5px;
-        margin-left: auto;
-        margin-top: 10px;
-        margin-right: 10px;
-        cursor: pointer;
-        border: none;
+    .header h1 {
+        color: #0ef;
+        letter-spacing: 10px;
+        font-size: 2em;
+        margin: 0;
+        position: relative;
+        transition: color 0.3s ease;
+    }
+    .header h1:hover {
+        color: #0c9;
+    }
+    .header h1::after {
+        content: '';
+        display: block;
+        width: 100%;
+        height: 2px;
+        background-color: #f1683a;
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+        transform-origin: bottom right;
+    }
+    .header h1:hover::after {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+    }
+    .btn, .report {
+        padding: 10px 20px;
         border-radius: 5px;
+        font-size: 15px;
+        font-weight: bold;
+        color: #fff;
+        text-decoration: none;
+        text-align: center;
         transition: background-color 0.3s ease;
     }
 
+    .btn {
+        background-color: rgb(255, 0, 0);
+        border: none;
+        cursor: pointer;
+    }
+    .btn:hover, .btn:focus {
+        background-color: rgb(200, 0, 0);
+        outline: none;
+    }
+    .report {
+        background-color: #007d9c;
+        cursor: pointer;
+    }
+    .report:hover, .report:focus {
+        background-color: #005f73;
+        outline: none;
+    }
+    .report.not-showing {
+        background-color: #f1683a;
+    }
+    .report.not-showing:hover, .report.not-showing:focus {
+        background-color: #0ef;
+        color:#000;
+    }
+    @media (max-width: 768px) {
+        .header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .header h1 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .movie-details {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .movie-details .poster {
+            min-width: 100%;
+            max-width: 100%;
+        }
+
+        .movie-details .poster img {
+            max-width: 300px; /* Adjusted max-width for smaller screens */
+        }
+
+        .movie-details .details {
+            padding: 0 10px;
+        }
+
+        .report {
+            margin-left: 0;
+            margin-top: 10px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .header h1 {
+            font-size: 1.2em;
+            letter-spacing: 5px;
+        }
+
+        .movie-details .poster img {
+            max-width: 200px; /* Adjusted max-width for very small screens */
+        }
+
+        .movie-details .details p {
+            font-size: 0.9em;
+        }
+
+        .btn, .report {
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+    }
 </style>
 {% endblock extrastyles %}
 
 {% block content %}
-<div class="header">
-    <div class="left">
-        <h1 style="letter-spacing: 10px;">MOVIE INFO</h1>
+<div class="contain">
+    <div class="header">
+        <h1>MOVIE INFO</h1>
+        {% if showtimes %}
+        <a href="/movies/{{movie.imdbID}}/book" class="report">
+            <span>Book Now</span>
+        </a>
+        {% else %}
+        <a class="report not-showing">
+            <span>Coming Soon</span>
+        </a>
+        {% endif %}
     </div>
-    {% if showtimes %}
-    <a href="/movies/{{movie.imdbID}}/book" style="cursor: pointer; background-color: #007d9c" class="report">
-        <span">Book Now</span>
-    </a>
-    {% else %}
-    <a style="cursor: pointer; background-color: #f1683a" class="report btn">
-        <span">Not Showing</span>
-    </a>
-    {% endif %}
-
-</div>
-<div >
-
     <div class="movie-details">
         <div class="poster">
             <img src="{{ movie.Poster }}" alt="Movie Poster">
@@ -100,11 +197,11 @@
         </div>
     </div>
     {% if showtimes %}
-    <div style="margin-top: 20px;margin-bottom: 20px;">
+    <div style="margin-top: 20px;">
         <h2>Show Times</h2>
         <ul>
             {% for showtime in showtimes %}
-            <li style="margin: 20px;font-weight: bold;">{{ showtime.date }} at {{ showtime.time }}</li>
+            <li style="margin: 10px 0; font-weight: bold;">{{ showtime.date }} at {{ showtime.time }}</li>
             {% endfor %}
         </ul>
     </div>

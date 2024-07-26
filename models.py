@@ -66,8 +66,7 @@ class Booking(Base):
     showtime_id = Column(Integer, ForeignKey('showtimes.id'))
     payment_id = Column(Integer, ForeignKey(
         'payments.id'), nullable=True)  # Optional
-    seats = relationship("Seat", secondary=booking_seats,
-                         back_populates="bookings")
+    seats = relationship("Seat", secondary=booking_seats, back_populates="bookings")
 
 
 class Payment(Base):

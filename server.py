@@ -1,8 +1,11 @@
+import base64
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import cgi
+import json
 import os
 import random
 import requests
+from requests.auth import HTTPBasicAuth
 from jinja2 import Environment, FileSystemLoader
 from werkzeug.security import generate_password_hash, check_password_hash
 from http import cookies
@@ -18,12 +21,42 @@ from datetime import datetime, time
 # Initialize the database
 init_db()
 
+
 OMDB_API_KEY = 'e89e6bd6'
 
 env = Environment(loader=FileSystemLoader('templates'))
 
 PREDEFINED_TITLES = ['Inception', 'The Dark Knight', 'Interstellar', 'The Matrix', 'Pulp Fiction',
                      'Fight Club', 'The Shawshank Redemption', 'The Godfather', 'The Avengers', 'The Social Network']
+
+def generate_access_token(consumer_key, consumer_secret):
+    api_url = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
+    response = requests.get(api_url, auth=HTTPBasicAuth(consumer_key, consumer_secret))
+    access_token = response.json()['access_token']
+    return access_token
+
+def lipa_na_mpesa_online(access_token, business_short_code, lipa_na_mpesa_online_passkey, amount, phone_number, callback_url, account_reference, transaction_desc):
+    api_url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest'
+    headers = {'Authorization': 'Bearer %s' % access_token}
+    timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+    data_to_encode = business_short_code + lipa_na_mpesa_online_passkey + timestamp
+    online_password = base64.b64encode(data_to_encode.encode()).decode('utf-8')
+
+    payload = {
+        "BusinessShortCode": "174379",    
+        "Password": "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMTYwMjE2MTY1NjI3",    
+        "Timestamp":"20160216165627",    
+        "TransactionType": "CustomerPayBillOnline",    
+        "Amount": "1",    
+        "PartyA":"254717702346",    
+        "PartyB":"174379",    
+        "PhoneNumber":"254717702346",    
+        "CallBackURL": "https://mydomain.com/pat",    
+        "AccountReference":"Test",    
+        "TransactionDesc":"Test"
+    }
+    response = requests.post(api_url, json=payload, headers=headers)
+    return response.json()
 
 
 def get_movie_data(title):
@@ -52,7 +85,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.handle_movies()
         elif self.path.startswith('/movies?title='):
             self.handle_movies()
-        elif self.path.startswith('/movies/tt') and self.path.split('/')[-1] == 'book':
+        elif self.path.startswith('/movies/tt') and (self.path.split('/')[-1] == 'book' or self.path.split('/')[-1].split('?')[0] == 'book' ):
             self.handle_book()
         elif self.path.startswith('/movies/tt'):
             self.handle_movie_detail()
@@ -101,6 +134,8 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.handle_book_post()
         elif self.path == '/dashboard/movies/add':
             self.handle_add_movie_post()
+        elif self.path == '/mpesa_callback':
+            self.handle_mpesa_callback_post()
         else:
             self.send_error(404, "File not found")
 
@@ -239,6 +274,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 
     def handle_movie_detail(self):
         session = self.get_session()
+        
         title = self.path.split('/')[-1]
         if title:
             movie = get_movie_data(title)
@@ -314,7 +350,10 @@ class RequestHandler(BaseHTTPRequestHandler):
     def handle_book(self):
         title = self.path.split('/')[-2]
         session = self.get_session()
-
+        query = self.path.split('?')[-1]
+        query_params = parse_qs(query)
+        showtime = query_params.get('s', [None])[0]
+        booked_seats = []
         if not session.get('user'):
             self.send_response(302)
             self.send_header('Location', '/login')
@@ -333,12 +372,17 @@ class RequestHandler(BaseHTTPRequestHandler):
                 showtimes = None
             db.close()
 
+            showtime_obj = db.query(Showtime).filter_by(id=showtime).first()
+            if showtime_obj:
+                # get booked seats
+                booked_seats = [seat.seat_number for seat in showtime_obj.seats]
+
             template = env.get_template('booking.html')
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
             self.end_headers()
             self.wfile.write(template.render(
-                session=session, movie=movie, bookings=bookings, showtimes=showtimes).encode())
+                session=session, movie=movie, bookings=booked_seats, s_time=showtime_obj, showtimes=showtimes).encode())
         else:
             self.send_error(404, "Movie not found")
 
@@ -387,6 +431,8 @@ class RequestHandler(BaseHTTPRequestHandler):
         movie = form.getvalue('movie')
         seats = form.getvalue('seats')
         showtime = form.getvalue('showtime')
+        phone_number = form.getvalue('phone_number')  # Collect phone number for payment
+        amount = form.getvalue('amount')  # Collect the amount for payment
 
         session = self.get_session()
         if not session.get('user'):
@@ -394,12 +440,14 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.send_header('Location', '/login')
             self.end_headers()
             return
+
         db = SessionLocal()
         if session is not None:
             user = db.query(User).filter(
                 User.username == session['user']).first()
         else:
             user = None
+
         if user is not None:
             new_booking = Booking(
                 user_id=user.id, movie_id=movie, showtime_id=showtime)
@@ -421,23 +469,58 @@ class RequestHandler(BaseHTTPRequestHandler):
             # Update available seats in showtime obj
             show_obj = db.query(Showtime).filter(
                 Showtime.id == showtime).first()
-            
+
             if show_obj is not None:
-                show_obj.seats_available -= len(seats) # type: ignore
+                show_obj.seats_available -= len(seats)  # type: ignore
 
             # Commit the transaction
             db.commit()
+            # M-Pesa integration
+            consumer_key = '3VfCkaY5Lxs9jZqCGn2lpRKdFeXladKgr08sQ41sHWUY0ppO'
+            consumer_secret = 'G9jR9ZWyb5XlXP8HmgbSgMmpXsmR8RkqfqSxD9Tzn5Ei6cScAXLhShryVDUP7pO1'
+            business_short_code = '174379'
+            lipa_na_mpesa_online_passkey = 'MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMTYwMjE2MTY1NjI3'
+            callback_url = "https://mydomain.com/pat"
+            account_reference = 'Test'
+            transaction_desc = 'Payment for booking'
+
+            access_token = generate_access_token(consumer_key, consumer_secret)
+            payment_response = lipa_na_mpesa_online(
+                access_token,
+                business_short_code,
+                lipa_na_mpesa_online_passkey,
+                amount,
+                phone_number,
+                callback_url,
+                account_reference,
+                transaction_desc
+            )
+
             db.close()
-            self.send_response(302)
-            self.send_header('Location', f'/movies/{imdb}')
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
             self.end_headers()
+            self.wfile.write(json.dumps(payment_response).encode('utf-8'))
 
         else:
-            # db.add(new_booking)
             db.close()
             self.send_response(400)
             self.send_header('Location', f'/movies/{imdb}')
             self.end_headers()
+
+    def handle_mpesa_callback_post(self):
+        content_length = int(self.headers['Content-Length'])
+        post_data = self.rfile.read(content_length)
+        callback_data = json.loads(post_data)
+
+        # Process the callback data
+        print("M-pesa Callback Data:", callback_data)
+
+        response = {'ResultCode': 0, 'ResultDesc': 'Accepted'}
+        self.send_response(200)
+        self.send_header('Content-type', 'application/json')
+        self.end_headers()
+        self.wfile.write(json.dumps(response).encode('utf-8'))
 
     def handle_logout(self):  # Add this method
         self.send_response(302)

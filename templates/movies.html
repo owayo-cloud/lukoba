@@ -2,7 +2,161 @@
 
 {% block extrastyles %}
 <title>LuKoBa | Movies</title>
-<link rel="stylesheet" href="/static/css/movies.css">
+<style>
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    .form_input {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    .form_input input[type="search"] {
+        padding: 10px;
+        font-size: 16px;
+        width: 40%;
+        border: 2px solid #134adf;
+        border-radius: 5px 0 0 5px;
+}
+    .form_input button {
+        padding: 10px;
+        background-color: #134adf;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 0 5px 5px 0;
+    }
+    .form_input button:hover {
+        background-color: #005f73;
+    }
+    .content-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .movie-list-container {
+        width: 100%;
+    }
+    .movie-list-title {
+        font-size: 2em;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    .movie-list-wrapper {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
+    .movie-list {
+        display: flex;
+    }
+    .movie-list-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0 10px;
+        width: 200px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        overflow: hidden;
+        background-color: transparent;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .movie-list-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    .movie-list-item-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .movie-list-item-button {
+        display: inline-block;
+        text-decoration: none;
+        color: #fff;
+        background-color: #007d9c;
+        padding: 10px 20px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        transition: background-color 0.3s ease;
+        margin-top: 5px;
+    }
+    .movie-list-item-button:hover,
+    .movie-list-item-button:focus {
+        background-color: #f1683a;
+        transform: scale(1.05);
+        outline: none;
+        color:#000;
+    }
+    .arrow {
+        display: none;
+        align-self: center;
+        font-size: 2em;
+        color: #007d9c;
+        cursor: pointer;
+    }
+    .arrow:hover {
+        color: #005f73;
+    }
+    @media (max-width: 768px) {
+        .form_input input[type="search"] {
+            width: 60%;
+        }
+
+        .movie-list-item {
+            width: 150px;
+        }
+
+        .movie-list-item-img {
+            height: 200px;
+        }
+
+        .movie-list-item-title {
+            font-size: 1em;
+        }
+
+        .movie-list-item-genre {
+            font-size: 0.8em;
+        }
+
+        .movie-list-item-button {
+            font-size: 0.9em;
+            padding: 5px 8px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .form_input input[type="search"] {
+            width: 80%;
+        }
+
+        .movie-list-item {
+            width: 100px;
+        }
+
+        .movie-list-item-img {
+            height: 150px;
+        }
+
+        .movie-list-item-title {
+            font-size: 0.9em;
+        }
+
+        .movie-list-item-genre {
+            font-size: 0.7em;
+        }
+
+        .movie-list-item-button {
+            font-size: 0.8em;
+            padding: 5px 6px;
+        }
+    }
+</style>
 {% endblock extrastyles %}
 
 {% block content %}
@@ -19,18 +173,10 @@
             <div class="movie-list-wrapper">
                 <div class="movie-list">
                     {% for movie in movies %}
-                    <a href="/movies/{{movie.imdbID}}">
-
-                        <div class="movie-list-item">
-                            <img class="movie-list-item-img" src="{{ movie.Poster }}" alt="{{ movie.Title }}">
-                            <div class="movie-list-item-info">
-                                <span class="movie-list-item-title">{{ movie.Title }}</span>
-                                <p class="movie-list-item-genre">{{ movie.Genre }}</p>
-                            </div>
-                            <a class="movie-list-item-button" href="/watch/{{movie.id}}">Watch</a>
-                        </div>
-                    </a>
-
+                    <div class="movie-list-item">
+                        <img class="movie-list-item-img" src="{{ movie.Poster }}" alt="{{ movie.Title }}">
+                        <a class="movie-list-item-button" href="/movies/{{movie.imdbID}}">See More</a>
+                    </div>
                     {% endfor %}
                 </div>
                 <i class="fas fa-chevron-right arrow"></i>
@@ -39,6 +185,7 @@
     </div>
 </div>
 {% endblock content %}
+
 {% block extrascripts %}
 <script src="/static/js/movies.js"></script>
 {% endblock extrascripts %}

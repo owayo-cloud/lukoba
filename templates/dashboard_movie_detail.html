@@ -3,21 +3,67 @@
 {% block extrastyles %}
 <link rel="stylesheet" href="/static/css/dashMovies.css">
 <style>
-    /* Additional specific styles for this page */
+    :root {
+        --background-color: #f9f9f9;
+        --text-color: #333;
+        --accent-color: #f1683a;
+        --button-bg-color: rgb(255, 0, 0);
+        --button-hover-bg-color: darkred;
+        --modal-bg-color: white;
+        --modal-overlay-color: rgba(0, 0, 0, 0.7);
+    }
+
+    body.dark-theme {
+        --background-color: #333;
+        --text-color: #f9f9f9;
+        --accent-color: #f1683a;
+        --button-bg-color: rgb(255, 0, 0);
+        --button-hover-bg-color: darkred;
+        --modal-bg-color: #444;
+        --modal-overlay-color: rgba(0, 0, 0, 0.9);
+    }
+
+    body.light-theme {
+        --background-color: #f9f9f9;
+        --text-color: #333;
+        --accent-color: #f1683a;
+        --button-bg-color: rgb(255, 0, 0);
+        --button-hover-bg-color: darkred;
+        --modal-bg-color: white;
+        --modal-overlay-color: rgba(0, 0, 0, 0.7);
+    }
+
+    body {
+        background-color: var(--background-color);
+        color: var(--text-color);
+    }
+
     .movie-details {
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-start;
         margin-top: 20px;
+        padding: 20px;
+        background-color: var(--background-color);
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .movie-details .poster {
         flex: 0 0 30%;
         max-width: 200px;
+        margin-bottom: 20px;
+    }
+
+    .movie-details .poster img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
     }
 
     .movie-details .details {
-        flex: 0 0 70%;
+        flex: 1;
         padding-left: 20px;
     }
 
@@ -27,93 +73,106 @@
 
     .movie-details .details p {
         margin-bottom: 10px;
+        font-size: 14px;
+        color: var(--text-color);
     }
 
     .modal-overlay {
-        background: rgba(0, 0, 0, 0.7);
+        display: none;
+        background: var(--modal-overlay-color);
         width: 100%;
         height: 100%;
         position: fixed;
         top: 0;
-        bottom: 0;
         left: 0;
-        right: 0;
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
     }
 
     .modal-wrapper {
         width: 60vw;
-        height: 50vh;
-        background: white;
-        color: black;
+        max-width: 800px;
+        background: var(--modal-bg-color);
+        color: var(--text-color);
         border-radius: 10px;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        position: relative;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
     .btn {
-        padding: 8px;
-        background: rgb(255, 0, 0);
+        padding: 8px 16px;
+        background-color: var(--button-bg-color);
         font-family: Verdana, Geneva, Tahoma, sans-serif;
         font-size: 15px;
         color: ghostwhite;
-        font-weight: 5px;
-        margin-left: auto;
-        margin-top: 10px;
-        margin-right: 10px;
+        font-weight: bold;
+        margin: 10px;
         cursor: pointer;
         border: none;
         border-radius: 5px;
         transition: background-color 0.3s ease;
     }
 
-    .open-modal-btn {
-        padding: 8px;
-        background: rgb(0, 81, 255);
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-        font-size: 15px;
-        color: ghostwhite;
-        font-weight: 5px;
-        margin-left: auto;
-        margin-top: 10px;
-        margin-right: 10px;
-        cursor: pointer;
-        border: none;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
+    .btn:hover {
+        background-color: var(--button-hover-bg-color);
     }
 
-    .open-modal-btn:hover {
-        background-color: #860c0c;
-    }
-
-    .open-modal-btn:focus {
-        outline: none;
-        box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.5);
-    }
-
-    .close-btn-wrapper {
-        display: flex;
+    .modal-content h1,
+    .modal-content h2 {
+        text-align: center;
+        margin-top: 0;
     }
 
     .modal-content {
-        margin: 20px auto;
-        /* max-width: 210px; */
-        width: 100%;
-    }
-
-    .hide {
-        display: none;
-    }
-
-    h1 {
-        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 
     .form-group {
-        margin-top: 20px;
-        margin-bottom: 20px;
+        margin: 10px 0;
+        width: 80%;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .form-group input[type="date"],
+    .form-group input[type="time"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .report.open-modal-btn {
+        cursor: pointer;
+        background-color: var(--accent-color);
+        border: none;
+        border-radius: 1px;
+        color: #fff;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .report.open-modal-btn i {
+        font-size: 20px;
+    }
+
+    .report.open-modal-btn:hover {
+        background-color: var(--accent-color);
+        transform: translateY(-2px);
     }
 </style>
 {% endblock extrastyles %}
@@ -129,9 +188,9 @@
         </ul>
     </div>
     <div class="open-modal-btn-wrapper">
-        <button style="cursor: pointer; background-color: #f1683a" class="report open-modal-btn">
+        <button class="report open-modal-btn">
             <i class='bx bx-comment-add'></i>
-            <span">Add Show Time</span>
+            <span>Add</span>
         </button>
     </div>
 </div>
@@ -141,7 +200,7 @@
         <img src="{{ movie.Poster }}" alt="Movie Poster">
     </div>
     <div class="details">
-        <h2>{{ movie.Title }}</h2>
+        <h2 style="color: #f1683a;">{{ movie.Title }}</h2>
         <p><strong>Year:</strong> {{ movie.Year }}</p>
         <p><strong>Rated:</strong> {{ movie.Rated }}</p>
         <p><strong>Released:</strong> {{ movie.Released }}</p>
@@ -171,31 +230,29 @@
 <div class="modal-overlay hide">
     <div class="modal-wrapper">
         <div class="close-btn-wrapper">
-            <button class="btn">
+            <button class="btn close-modal-btn">
                 X
             </button>
         </div>
-        <h1>Show Movie</h1>
-        <div class="modal-content"
-            style="display:flex;flex-direction: column;align-items:center;justify-content: center;">
+        <div class="modal-content">
+            <h1>Show Movie</h1>
             <h2>Add a showtime for this movie below</h2>
             <form method="post" action="/dashboard/movies/add">
                 <div class="form-group">
                     <label for="date">Date:</label>
-                    <input type="date" id="date" name="date">
+                    <input type="date" id="date" name="date" required>
                 </div>
                 <div class="form-group">
                     <label for="time">Time:</label>
-                    <input type="time" id="time" name="time">
+                    <input type="time" id="time" name="time" required>
                 </div>
                 <input type="hidden" name="movie" value="{{movie.imdbID}}">
-
                 <button type="submit" class="btn">Add Showtime</button>
             </form>
         </div>
     </div>
 </div>
-</div>
+
 <script>
     const openBtn = document.querySelector(".open-modal-btn");
     const modal = document.querySelector(".modal-overlay");
@@ -203,18 +260,23 @@
 
     function openModal() {
         modal.classList.remove("hide");
+        modal.style.display = 'flex';
     }
 
     function closeModal(e, clickedOutside) {
         if (clickedOutside) {
             if (e.target.classList.contains("modal-overlay"))
                 modal.classList.add("hide");
-        } else modal.classList.add("hide");
+                modal.style.display = 'none';
+        } else {
+            modal.classList.add("hide");
+            modal.style.display = 'none';
+        }
     }
 
     openBtn.addEventListener("click", openModal);
     modal.addEventListener("click", (e) => closeModal(e, true));
-    closeBtn.addEventListener("click", closeModal);
+    closeBtn.addEventListener("click", (e) => closeModal(e, false));
 
 </script>
 {% endblock content %}
