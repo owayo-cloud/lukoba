@@ -448,6 +448,8 @@ class RequestHandler(BaseHTTPRequestHandler):
         else:
             user = None
 
+        db = SessionLocal()
+        user = db.query(User).filter(User.username == session['user']).first()
         if user is not None:
             new_booking = Booking(
                 user_id=user.id, movie_id=movie, showtime_id=showtime)
@@ -475,6 +477,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 
             # Commit the transaction
             db.commit()
+
             # M-Pesa integration
             consumer_key = '3VfCkaY5Lxs9jZqCGn2lpRKdFeXladKgr08sQ41sHWUY0ppO'
             consumer_secret = 'G9jR9ZWyb5XlXP8HmgbSgMmpXsmR8RkqfqSxD9Tzn5Ei6cScAXLhShryVDUP7pO1'
@@ -495,6 +498,19 @@ class RequestHandler(BaseHTTPRequestHandler):
                 account_reference,
                 transaction_desc
             )
+            
+            # Check if payment was successful
+            if payment_response['ResponseCode'] == '0':
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps(payment_response).encode('utf-8'))
+            else:
+                # Handle failed payment
+                self.send_response(400)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'error': 'payment_failed'}).encode('utf-8'))
 
             db.close()
             self.send_response(200)

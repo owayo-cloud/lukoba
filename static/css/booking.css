@@ -205,7 +205,7 @@ form input[type="text"] {
     top: 40%;
     transform: translateY(-50%);
     width: 30px;
-    height: auto;
+    height: 20px;
     pointer-events: none;
 }
 .seat-icon {
@@ -215,7 +215,7 @@ form input[type="text"] {
     transform: translateY(-50%); 
     width: 24px; 
     height: 24px;
-    background-image: url('/static/image/seat-icon.png'); 
+    background-image: url('/static/image/seat.png'); 
     background-size: cover;
     pointer-events: none; 
 }
@@ -244,7 +244,13 @@ form input[type="text"]:hover {
     }
     
     .mpesa-logo, .seat-icon {
-        width: 20px;
+        position: relative;
+        margin-top: 10px;
+        height: 15px;
+
+    .all-seats{
+        flex-direction: column;
+    }
     }
 }
 

@@ -112,3 +112,19 @@ document.querySelector("input[name='showtime_sel']").addEventListener("click", f
     url.searchParams.set('s', e.target.value);
     window.location.href = url.toString();
 });
+
+function checkPayment() {
+    var phoneNumber = document.getElementById('phone_number').value;
+    var seatNumber = document.getElementById('seat_number').value;
+    
+    // Replace this with your actual payment check logic
+    var paymentMade = false; // This should be set to true if payment is confirmed
+
+    if (!paymentMade) {
+        alert('Please make the payment first before booking the seat.');
+        return false;
+    } else {
+        // Submit the form if payment is done
+        document.getElementById('booking-form').submit();
+    }
+}
