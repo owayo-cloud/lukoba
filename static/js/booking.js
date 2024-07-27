@@ -2,7 +2,8 @@
 let seats = document.querySelector(".all-seats");
 let rows = "EDCBA"; // Define 5 rows
 let cols = 5; // Define 5 columns
-
+let seatPrice = 200; // Define a constant price for each seat
+let totalAmount=0
 // Function to fetch booked seats
 async function fetchBookedSeats() {
     return JSON.parse(bookings?.replace(/'/g, '"'));
@@ -18,20 +19,11 @@ async function generateSeats() {
             let booked = bookedSeats?.find((seat) => seat === seatLabel) ? "booked" : "";
             seats.insertAdjacentHTML(
                 "beforeend",
-                '<div class="seat-wrapper">' +
-                    '<input type="checkbox" name="tickets" id="' +
-                    seatLabel +
-                    '" ' +
-                    (booked ? "disabled" : "") +
-                    "/>" +
-                    '<label for="' +
-                    seatLabel +
-                    '" class="seat ' +
-                    booked +
-                    '">' +
-                    seatLabel +
-                    "</label>" +
-                    "</div>"
+                `<div class="seat-wrapper">
+                    <input type="checkbox" name="tickets" id="${seatLabel}" ${booked ? "disabled" : ""}/>
+                    <label for="${seatLabel}" class="seat ${booked}">${seatLabel}</label>
+                    <span class="seat-price">${seatPrice}</span>
+                </div>`
             );
         }
     }
@@ -45,9 +37,19 @@ async function generateSeats() {
                 let checkbox = document.getElementById(label.getAttribute("for"));
                 checkbox.checked = !checkbox.checked;
                 document.getElementById("seat_number").value = checkbox.checked ? label.textContent : '';
+
+                updateTotalAmount();
             }
         });
     });
+}
+
+// Function to update total amount
+function updateTotalAmount() {
+    let selectedSeats = document.querySelectorAll(".seat.selected");
+    totalAmount = selectedSeats.length * seatPrice;
+    document.getElementById("total_amount").textContent = totalAmount;
+    document.getElementById("seat_price").value = totalAmount;
 }
 
 // Generate seats on page load
@@ -75,7 +77,6 @@ document.querySelector("#book-button").addEventListener("click", function () {
     submitBookingForm(movieImdb, movieId, selectedSeatLabels, showTime);
 });
 
-
 function submitBookingForm(imdb, movie, seats, showtime) {
     // Create a form element
     const form = document.createElement("form");
@@ -88,7 +89,10 @@ function submitBookingForm(imdb, movie, seats, showtime) {
         movie: movie,
         seats: seats,
         showtime: showtime,
-    };
+    }; 
+
+    fields['phone_number'] = document.getElementById('phone_number').value;
+    fields['amount'] = totalAmount
 
     for (const [name, value] of Object.entries(fields)) {
         const input = document.createElement("input");
@@ -113,18 +117,3 @@ document.querySelector("input[name='showtime_sel']").addEventListener("click", f
     window.location.href = url.toString();
 });
 
-function checkPayment() {
-    var phoneNumber = document.getElementById('phone_number').value;
-    var seatNumber = document.getElementById('seat_number').value;
-    
-    // Replace this with your actual payment check logic
-    var paymentMade = false; // This should be set to true if payment is confirmed
-
-    if (!paymentMade) {
-        alert('Please make the payment first before booking the seat.');
-        return false;
-    } else {
-        // Submit the form if payment is done
-        document.getElementById('booking-form').submit();
-    }
-}

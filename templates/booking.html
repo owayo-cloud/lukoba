@@ -5,7 +5,6 @@
 {% endblock extrastyles %}
 
 {% block content %}
-
 <div class="mid">
     <div class="tickets">
         <div class="ticket-selector">
@@ -24,14 +23,12 @@
                 </div>
             </div>
             {% if showtimes %}
-            <input type='hidden' value="{{movie.id}}" name="movieId">
-            <input type='hidden' value="{{movie.imdb}}" name="movieImdb">
-            <input type='hidden' value="{{s_time.id}}" name="showtime">
+
+        
 
             {% if s_time %}
             Showtime selected 
             {{s_time.date}} at {{s_time.time}}
-
             {% else %}
             <div class="timings">
                 <h3>Show Times</h3>
@@ -49,10 +46,10 @@
                 </div>
             </div>
             {% endif %}
-            <form method="post" action="/movies/{{ movie.imdbID }}/book">
+            <form method="post" action="/movies/{{ movie.imdbID }}/book" id="booking-form">
                 <label for="phone_number">
                     <div class="input-container">
-                        <input type="tel" id="phone_number" name="phone_number" placeholder="Phone Number" required>
+                        <input type="text" id="phone_number" name="phone_number" placeholder="Phone Number" required>
                         <img src="/static/image/M-PESA-logo-2.png" alt="M-Pesa Logo" class="mpesa-logo">
                     </div>
                 </label>
@@ -61,17 +58,23 @@
                         <input type="text" id="seat_number" name="seat_number" placeholder="Seat Number" readonly>
                         <i class="seat-icon"></i>
                     </div>
-                </label>                
+                </label>
+                <input type="hidden" id="seat_price" name="seat_price" value="">
+                <input type='hidden' value="{{movie.id}}" name="movieId">
+                <input type='hidden' value="{{movie.imdb}}" name="movieImdb">
+                <input type='hidden' value="{{s_time.id}}" name="showtime">
+                <div class="total-amount">
+                    Total Amount: <span id="total_amount">0</span>
+                </div>              
             </form>
             <div class="book-button-container">
-                <button id="book-button" onclick="checkpayment()">Book Now</button>
+                <button id="book-button">Book Now</button>
             </div>
             {% else %}
             <div class="timings">
                 No Show Times Added
             </div>
             {% endif %}
-
         </div>
     </div>
 </div>

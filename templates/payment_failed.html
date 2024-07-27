@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block extrastyles %}
+<link rel="stylesheet" href="/static/css/payment.css">
+{% endblock extrastyles %}
+
+{% block content %}
+<style>
+
+.receipt-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace; /* Classic receipt font */
+}
+
+.receipt-header {
+    border-bottom: 2px dashed #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.receipt-header h2 {
+    color: #333;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.receipt-header p {
+    font-size: 1em;
+    color: #777;
+}
+
+.receipt-details {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.detail {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.detail .label {
+    font-weight: bold;
+    color: #333;
+}
+
+.detail .value {
+    color: #555;
+}
+
+.status-failed {
+    color: #f44336; /* Red color for failure */
+}
+
+.receipt-footer {
+    border-top: 2px dashed #ddd;
+    padding-top: 10px;
+    margin-top: 20px;
+}
+
+.receipt-footer p {
+    font-size: 1em;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+.home-button {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+.home-button:hover {
+    background-color: #0056b3;
+}
+
+</style>
+<div class="receipt-container">
+    <div class="receipt-header">
+        <h2>Payment Receipt</h2>
+        <p>Unfortunately, your payment could not be processed.</p>
+    </div>
+    <div class="receipt-details">
+        <div class="detail">
+            <span class="label">Username:</span>
+            <span class="value">{{ username }}</span>
+        </div>
+        <div class="detail">
+            <span class="label">Seat Number:</span>
+            <span class="value">{{ seat_number }}</span>
+        </div>
+        <div class="detail">
+            <span class="label">Payment Status:</span>
+            <span class="value status-failed">Failed</span>
+        </div>
+    </div>
+    <div class="receipt-footer">
+        <p>Please try again or contact support for assistance.</p>
+        <a href="/" class="home-button">Return to Home</a>
+    </div>
+</div>
+{% endblock content %}

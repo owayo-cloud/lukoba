@@ -10,7 +10,7 @@ from jinja2 import Environment, FileSystemLoader
 from werkzeug.security import generate_password_hash, check_password_hash
 from http import cookies
 from db_setup import SessionLocal, init_db
-from models import Seat, Showtime, User, Movie, Booking
+from models import Seat, Showtime, User, Movie, Booking,Payment
 from urllib.parse import parse_qs
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
@@ -47,11 +47,11 @@ def lipa_na_mpesa_online(access_token, business_short_code, lipa_na_mpesa_online
         "Password": "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMTYwMjE2MTY1NjI3",    
         "Timestamp":"20160216165627",    
         "TransactionType": "CustomerPayBillOnline",    
-        "Amount": "1",    
+        "Amount": f"{amount}",    
         "PartyA":"254717702346",    
         "PartyB":"174379",    
-        "PhoneNumber":"254717702346",    
-        "CallBackURL": "https://mydomain.com/pat",    
+        "PhoneNumber":f'{phone_number}',    
+        "CallBackURL": callback_url,    
         "AccountReference":"Test",    
         "TransactionDesc":"Test"
     }
@@ -87,6 +87,8 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.handle_movies()
         elif self.path.startswith('/movies/tt') and (self.path.split('/')[-1] == 'book' or self.path.split('/')[-1].split('?')[0] == 'book' ):
             self.handle_book()
+        elif self.path.startswith('/movies/tt') and self.path.split('/')[-1] == 'payment':
+            self.handle_payment_status()
         elif self.path.startswith('/movies/tt'):
             self.handle_movie_detail()
         elif self.path == '/login':
@@ -296,6 +298,25 @@ class RequestHandler(BaseHTTPRequestHandler):
         else:
             self.send_error(404, "Movie not found")
 
+    def handle_payment_status(self):
+        session = self.get_session()
+        
+        booking = self.path.split('/')[-2]
+        booking_obj = None
+        db = SessionLocal()
+
+        if booking:
+            db = SessionLocal()
+            booking_obj = db.query(Booking).filter_by(id=booking).first()
+            db.close()
+
+        template = env.get_template('payment.html')
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+        self.wfile.write(template.render(
+                session=session, booking=booking_obj).encode())
+
     def handle_dashboard_analytics(self):
         session = self.get_session()
         if session.get('is_admin') == 'true':
@@ -433,7 +454,9 @@ class RequestHandler(BaseHTTPRequestHandler):
         showtime = form.getvalue('showtime')
         phone_number = form.getvalue('phone_number')  # Collect phone number for payment
         amount = form.getvalue('amount')  # Collect the amount for payment
-
+        
+        
+        print(showtime, imdb, movie, phone_number,amount)
         session = self.get_session()
         if not session.get('user'):
             self.send_response(302)
@@ -448,42 +471,14 @@ class RequestHandler(BaseHTTPRequestHandler):
         else:
             user = None
 
-        db = SessionLocal()
         user = db.query(User).filter(User.username == session['user']).first()
         if user is not None:
-            new_booking = Booking(
-                user_id=user.id, movie_id=movie, showtime_id=showtime)
-
-            db.add(new_booking)
-            db.flush()  # This assigns an id to new_booking
-
-            # Create and associate seats
-            for seat_number in seats.split(','):
-                # Create new seat
-                seat = Seat(
-                    showtime_id=showtime,
-                    seat_number=seat_number,
-                )
-                db.add(seat)
-
-                new_booking.seats.append(seat)
-
-            # Update available seats in showtime obj
-            show_obj = db.query(Showtime).filter(
-                Showtime.id == showtime).first()
-
-            if show_obj is not None:
-                show_obj.seats_available -= len(seats)  # type: ignore
-
-            # Commit the transaction
-            db.commit()
-
             # M-Pesa integration
             consumer_key = '3VfCkaY5Lxs9jZqCGn2lpRKdFeXladKgr08sQ41sHWUY0ppO'
             consumer_secret = 'G9jR9ZWyb5XlXP8HmgbSgMmpXsmR8RkqfqSxD9Tzn5Ei6cScAXLhShryVDUP7pO1'
             business_short_code = '174379'
             lipa_na_mpesa_online_passkey = 'MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMTYwMjE2MTY1NjI3'
-            callback_url = "https://mydomain.com/pat"
+            callback_url = "https://200a-41-72-192-194.ngrok-free.app/mpesa_callback"
             account_reference = 'Test'
             transaction_desc = 'Payment for booking'
 
@@ -498,19 +493,43 @@ class RequestHandler(BaseHTTPRequestHandler):
                 account_reference,
                 transaction_desc
             )
-            
+            print(payment_response)
             # Check if payment was successful
             if payment_response['ResponseCode'] == '0':
-                self.send_response(200)
-                self.send_header('Content-type', 'application/json')
+                new_booking = Booking(
+                    user_id=user.id, movie_id=movie, showtime_id=showtime)
+
+                db.add(new_booking)
+                db.flush()  # This assigns an id to new_booking
+
+                # Create and associate seats
+                for seat_number in seats.split(','):
+                    # Create new seat
+                    seat = Seat(
+                        showtime_id=showtime,
+                        seat_number=seat_number,
+                    )
+                    db.add(seat)
+
+                    new_booking.seats.append(seat)
+
+                # Update available seats in showtime obj
+                show_obj = db.query(Showtime).filter(
+                    Showtime.id == showtime).first()
+
+                if show_obj is not None:
+                    show_obj.seats_available -= len(seats)  # type: ignore
+
+                # Commit the transaction
+                db.commit()
+                self.send_response(302)
+                self.send_header('Location', f'/movies/{imdb}/{new_booking.id}/payment')
                 self.end_headers()
-                self.wfile.write(json.dumps(payment_response).encode('utf-8'))
             else:
                 # Handle failed payment
-                self.send_response(400)
-                self.send_header('Content-type', 'application/json')
+                self.send_response(302)
+                self.send_header('Location', f'/movies/{imdb}/payment_failed')
                 self.end_headers()
-                self.wfile.write(json.dumps({'error': 'payment_failed'}).encode('utf-8'))
 
             db.close()
             self.send_response(200)

@@ -9,7 +9,6 @@ booking_seats = Table('booking_seats', Base.metadata,
                           'seats.id'), primary_key=True)
                       )
 
-
 class User(Base):
     __tablename__ = 'users'
 
