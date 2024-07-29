@@ -16,7 +16,7 @@
     {% for movie in movies %}
     <a class="rec_card" href="/dashboard/movies/{{movie.imdbID}}">
         <div class="movie">
-            <div >
+            <div>
                 <img src="{{movie.Poster}}" alt="">
                 <div class="caption text-center">{{movie.Title}}</div>
                 <p>{{movie.Year}}</p>
@@ -26,6 +26,122 @@
     {% endfor %}
 </div>
 
+<style>
+    body {
+        color: var(--text-color);
+        background-color: var(--background-color);
+    }
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    .breadcrumb {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+    .breadcrumb li {
+        display: inline;
+    }
+    .breadcrumb li a {
+        text-decoration: none;
+        color: #007bff;
+    }
+    .breadcrumb li.active {
+        color: #000;
+    }
+    .report {
+        text-decoration: none;
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 15px;
+        border-radius: 5px;
+    }
+    .report i {
+        margin-right: 5px;
+    }
+    .rec_head {
+        padding-top: 10px;
+        padding-left: 0px;
+        justify-content: space-between;
+        display: flex;
+    }
+    .rec_head h2 {
+        display: flex;
+        margin-left: 25px;
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: 10px;
+        margin-bottom: 0px;
+        text-transform: capitalize;
+    }
+    .movies {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 20px;
+        gap: 20px;
+        justify-content: space-around;
+    }
+    .rec_card {
+        text-decoration: none;
+        color: inherit;
+    }
+    .rec_card .movie {
+        text-align: center;
+        margin: 10px;
+        width: 200px;
+    }
+    .rec_card .movie img {
+        max-width: 100%;
+        height: auto;
+        width: 200px;
+        height: 300px;
+        border-radius: 8px; 
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .rec_card .movie img:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    }
+    .rec_card .movie .caption {
+        color: var(--caption-color);
+        display: flex;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 500;
+        margin-top: 10px;
+        max-width: 200px;
+        flex-wrap: wrap;
+        cursor: pointer;
+    }
+    .rec_card .movie p {
+        color: var(--year-color);
+        margin-top: 5px;
+        font-size: 16px;
+        text-align: center;
+        cursor: pointer;
+    }
+    figure {
+        cursor: pointer;
+    }
 
+    /* Light theme colors */
+    :root {
+        --text-color: #000;
+        --background-color: #fff;
+        --caption-color: #000;
+        --year-color: #007bff;
+    }
 
+    /* Dark theme colors */
+    [data-theme="dark"] {
+        --text-color: #fff;
+        --background-color: #121212;
+        --caption-color: #fff;
+        --year-color: #0ef;
+    }
+</style>
 {% endblock content %}

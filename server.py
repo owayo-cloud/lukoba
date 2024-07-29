@@ -455,7 +455,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         phone_number = form.getvalue('phone_number')  # Collect phone number for payment
         amount = form.getvalue('amount')  # Collect the amount for payment
         
-        
+
         print(showtime, imdb, movie, phone_number,amount)
         session = self.get_session()
         if not session.get('user'):
@@ -478,7 +478,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             consumer_secret = 'G9jR9ZWyb5XlXP8HmgbSgMmpXsmR8RkqfqSxD9Tzn5Ei6cScAXLhShryVDUP7pO1'
             business_short_code = '174379'
             lipa_na_mpesa_online_passkey = 'MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMTYwMjE2MTY1NjI3'
-            callback_url = "https://200a-41-72-192-194.ngrok-free.app/mpesa_callback"
+            callback_url = "https://7a6c-41-72-192-194.ngrok-free.app/mpesa_callback"
             account_reference = 'Test'
             transaction_desc = 'Payment for booking'
 
