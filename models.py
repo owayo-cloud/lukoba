@@ -60,7 +60,7 @@ class Booking(Base):
     __tablename__ = 'bookings'
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey('users.id'))
+    user_id = Column(Integer, ForeignKey('users.username'))
     movie_id = Column(Integer, ForeignKey('movies.id'))
     showtime_id = Column(Integer, ForeignKey('showtimes.id'))
     payment_id = Column(Integer, ForeignKey(

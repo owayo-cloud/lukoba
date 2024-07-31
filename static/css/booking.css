@@ -7,36 +7,34 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 90vh;
-    width: 90vw; 
     padding: 20px;
-    box-sizing: border-box;
 }
 .tickets {
-    background: #1e272e;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-    width: 100%; 
-    max-width: 700px;
-    color: #ffffff;
+    max-width: 800px;
+    margin: 0 auto;
+}
+.ticket-selector .heading {
+    margin-bottom: 20px;
 }
 .ticket-selector .heading .title {
     font-size: 24px;
     font-weight: bold;
-    margin-bottom: 10px;
     letter-spacing: 4px;
+}
+.seats {
+    display: none; /* Hidden initially */
 }
 .seats .status {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 .status .item {
     padding: 5px 10px;
     border-radius: 5px;
     background-color: #e0e0e0;
     font-size: 14px;
+    align-items: center;
 }
 .status .item:nth-child(1) {
     background-color: rgb(19, 204, 19);
@@ -47,18 +45,12 @@ body {
 .status .item:nth-child(3) {
     background-color: #ffc107;
 }
-.seats .screen {
+.screen {
     background: linear-gradient(to bottom, #e6eaec, #49637c);
-    height: 30px;
-    border-radius: 1px;
-    margin: 20px 0;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    font-weight: bold;
-    font-size: 14px;
+    height: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
 }
 .all-seats {
     display: grid;
@@ -100,8 +92,23 @@ body {
     display: none;
 }
 .timings {
-    margin: 20px 0;
+    margin-bottom: 10px;
 }
+.list-group {
+    padding: 0;
+}
+.list-group-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.list-group-item input[type="radio"] {
+    margin-right: 10px;
+}
+
 .date-selector {
     margin-bottom: 10px;
     text-align: center;
@@ -230,7 +237,22 @@ form input[type="tel"]:hover,
 form input[type="text"]:hover {
     border-color: #0056b3;
 }
+.badge-seats {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: transparent; /* Primary color for badge */
+    color: #12c412;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+}
 
+.badge-seats::before {
+    content: "Seats Available: ";
+    font-weight: normal;
+    color: #ff0000; /* Light color for the label */
+}
 /* Media queries for responsiveness */
 @media (max-width: 768px) {
     form input[type="tel"],

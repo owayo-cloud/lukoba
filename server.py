@@ -370,10 +370,10 @@ class RequestHandler(BaseHTTPRequestHandler):
 
     def handle_book(self):
         title = self.path.split('/')[-2]
-        session = self.get_session()
+        session = self.get_session() 
         query = self.path.split('?')[-1]
         query_params = parse_qs(query)
-        showtime = query_params.get('s', [None])[0]
+        showtime = query_params.get('s', [None])[0] #extracts the value of the s parameter If s is not present, showtime will be None.
         booked_seats = []
         if not session.get('user'):
             self.send_response(302)
@@ -456,7 +456,12 @@ class RequestHandler(BaseHTTPRequestHandler):
         amount = form.getvalue('amount')  # Collect the amount for payment
         
 
-        print(showtime, imdb, movie, phone_number,amount)
+        print("Showtime:", showtime)
+        print("IMDB:", imdb)
+        print("Movie ID:", movie)
+        print("Phone Number:", phone_number)
+        print("Amount:", amount)
+
         session = self.get_session()
         if not session.get('user'):
             self.send_response(302)
@@ -473,13 +478,40 @@ class RequestHandler(BaseHTTPRequestHandler):
 
         user = db.query(User).filter(User.username == session['user']).first()
         if user is not None:
+            try:
+                movie = int(movie) # Retrieve the movie name using the movie_id
+            except ValueError:
+
+                if movie is not None:
+                    print('Movie not found for ID:', movie)
+                    db.close()
+                    self.send_response(400)
+                    self.send_header('Content-type', 'text/html')
+                    self.end_headers()
+                    self.wfile.write("Error.".encode('utf-8'))
+                    return
+            
+            # Retrieve the movie title using the movie_id
+            movie = db.query(Movie).filter(Movie.id == movie).first()
+            if not movie:
+                print("Movie not found for ID:", movie)
+                db.close()
+                self.send_response(400)
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
+                self.wfile.write("Movie not found.".encode('utf-8'))
+                return
+        
+            movie_title = movie.title
+            print('movie title:', movie_title)
+            
             # M-Pesa integration
             consumer_key = '3VfCkaY5Lxs9jZqCGn2lpRKdFeXladKgr08sQ41sHWUY0ppO'
             consumer_secret = 'G9jR9ZWyb5XlXP8HmgbSgMmpXsmR8RkqfqSxD9Tzn5Ei6cScAXLhShryVDUP7pO1'
             business_short_code = '174379'
             lipa_na_mpesa_online_passkey = 'MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMTYwMjE2MTY1NjI3'
             callback_url = "https://7a6c-41-72-192-194.ngrok-free.app/mpesa_callback"
-            account_reference = 'Test'
+            account_reference = 'LuKoBa'
             transaction_desc = 'Payment for booking'
 
             access_token = generate_access_token(consumer_key, consumer_secret)
@@ -493,7 +525,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                 account_reference,
                 transaction_desc
             )
-            print(payment_response)
+            print("Payment Response:", payment_response)
             # Check if payment was successful
             if payment_response['ResponseCode'] == '0':
                 new_booking = Booking(

@@ -4,6 +4,7 @@ let rows = "EDCBA"; // Define 5 rows
 let cols = 5; // Define 5 columns
 let seatPrice = 200; // Define a constant price for each seat
 let totalAmount=0
+
 // Function to fetch booked seats
 async function fetchBookedSeats() {
     return JSON.parse(bookings?.replace(/'/g, '"'));
@@ -22,7 +23,6 @@ async function generateSeats() {
                 `<div class="seat-wrapper">
                     <input type="checkbox" name="tickets" id="${seatLabel}" ${booked ? "disabled" : ""}/>
                     <label for="${seatLabel}" class="seat ${booked}">${seatLabel}</label>
-                    <span class="seat-price">${seatPrice}</span>
                 </div>`
             );
         }
@@ -52,9 +52,6 @@ function updateTotalAmount() {
     document.getElementById("seat_price").value = totalAmount;
 }
 
-// Generate seats on page load
-generateSeats();
-
 // handle btn click
 document.querySelector("#book-button").addEventListener("click", function () {
     // get seats
@@ -64,10 +61,10 @@ document.querySelector("#book-button").addEventListener("click", function () {
         selectedSeatLabels.push(seat.textContent);
     });
     // get show time from input named showtime
-    let showTime = document.querySelector('input[name="showtime"]')?.value;
+    let showTime = document.querySelector('input[name="showtime"]').value;
     // get movie id
-    let movieId = document.querySelector('input[name="movieId"]')?.value;
-    let movieImdb = document.querySelector('input[name="movieImdb"]')?.value;
+    let movieId = document.querySelector('input[name="movieId"]').value;
+    let movieImdb = document.querySelector('input[name="movieImdb"]').value;
     // validate data
     if (selectedSeatLabels.length === 0 || !showTime || !movieId) {
         alert("Please select seats and show time");
@@ -110,10 +107,11 @@ function submitBookingForm(imdb, movie, seats, showtime) {
     document.body.removeChild(form);
 }
 
-document.querySelector("input[name='showtime_sel']").addEventListener("click", function (e) {
-    // pass as query to url
-    const url = new URL(window.location.href);
-    url.searchParams.set('s', e.target.value);
-    window.location.href = url.toString();
+// Show seats only after selecting a showtime
+document.querySelectorAll("input[name='showtime_sel']").forEach(radio => {
+    radio.addEventListener("change", function (e) {
+        document.querySelector(".seats").style.display = "block";
+        document.getElementById("showtime").value = e.target.value;
+        generateSeats();
+    });
 });
-
