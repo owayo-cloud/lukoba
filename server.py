@@ -4,6 +4,7 @@ import cgi
 import json
 import os
 import random
+import subprocess
 import requests
 from requests.auth import HTTPBasicAuth
 from jinja2 import Environment, FileSystemLoader
@@ -28,6 +29,8 @@ env = Environment(loader=FileSystemLoader('templates'))
 
 PREDEFINED_TITLES = ['Inception', 'The Dark Knight', 'Interstellar', 'The Matrix', 'Pulp Fiction',
                      'Fight Club', 'The Shawshank Redemption', 'The Godfather', 'The Avengers', 'The Social Network']
+def run_migrations():
+    subprocess.run(["alembic", "upgrade", "head"])
 
 def generate_access_token(consumer_key, consumer_secret):
     api_url = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
@@ -303,11 +306,14 @@ class RequestHandler(BaseHTTPRequestHandler):
         
         booking = self.path.split('/')[-2]
         booking_obj = None
+        user = None
         db = SessionLocal()
 
         if booking:
             db = SessionLocal()
             booking_obj = db.query(Booking).filter_by(id=booking).first()
+            if booking_obj:
+                user = db.query(User).filter_by(id=booking_obj.user_id).first()
             db.close()
 
         template = env.get_template('payment.html')
@@ -315,7 +321,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/html')
         self.end_headers()
         self.wfile.write(template.render(
-                session=session, booking=booking_obj).encode())
+                session=session, booking=booking_obj,user=user).encode())
 
     def handle_dashboard_analytics(self):
         session = self.get_session()
@@ -510,7 +516,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             consumer_secret = 'G9jR9ZWyb5XlXP8HmgbSgMmpXsmR8RkqfqSxD9Tzn5Ei6cScAXLhShryVDUP7pO1'
             business_short_code = '174379'
             lipa_na_mpesa_online_passkey = 'MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMTYwMjE2MTY1NjI3'
-            callback_url = "https://7a6c-41-72-192-194.ngrok-free.app/mpesa_callback"
+            callback_url = "https://1c67-41-72-192-194.ngrok-free.app///mpesa_callback"
             account_reference = 'LuKoBa'
             transaction_desc = 'Payment for booking'
 
@@ -529,7 +535,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             # Check if payment was successful
             if payment_response['ResponseCode'] == '0':
                 new_booking = Booking(
-                    user_id=user.id, movie_id=movie, showtime_id=showtime)
+                    user_id=user.id, movie_id=movie.id, showtime_id=showtime)
 
                 db.add(new_booking)
                 db.flush()  # This assigns an id to new_booking

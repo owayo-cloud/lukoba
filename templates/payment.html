@@ -13,11 +13,16 @@
     <div class="receipt-details">
         <div class="detail">
             <span class="label">Username:</span>
-            <span class="value">{{ user }}</span>
+            <span class="value">{{ user.username }}</span>
         </div>
         <div class="detail">
-            <span class="label">Seat Number:</span>
-            <span class="value">{{ seat_number }}</span>
+            <span class="label">Seat Numbes:</span>
+            <span class="value">
+          {% for seat in booking.seats %}
+    {{ seat.seat_number }},
+{% endfor %}
+
+            </span>
         </div>
         <div class="detail">
             <span class="label">Payment Status:</span>
