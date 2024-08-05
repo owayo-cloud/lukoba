@@ -66,7 +66,7 @@ class Booking(Base):
     payment_id = Column(Integer, ForeignKey(
         'payments.id'), nullable=True)  # Optional
     seats = relationship("Seat", secondary=booking_seats, back_populates="bookings")
-
+    movie = relationship("Movie", back_populates="bookings")
 
 class Payment(Base):
     __tablename__ = 'payments'

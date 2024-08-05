@@ -335,13 +335,16 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.send_error(403, "Forbidden")
 
     def handle_dashboard_bookings(self):
+        db = SessionLocal()
+        bookings = db.query(Booking).all()
+        db.close()
         session = self.get_session()
         if session.get('is_admin') == 'true':
             template = env.get_template('dashboard_bookings.html')
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
             self.end_headers()
-            self.wfile.write(template.render(session=session).encode())
+            self.wfile.write(template.render(session=session , bookings=bookings).encode())
         else:
             self.send_error(403, "Forbidden")
 

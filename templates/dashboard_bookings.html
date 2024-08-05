@@ -28,7 +28,14 @@
                 </tr>
             </thead>
             <tbody>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{booking.User}}</td>
+                <td>{{booking.Movie}}</td>
+                <td>{{booking.Showtime}}</td>
+            </tr>
                 <!-- Booking rows will be populated here -->
+            {% endfor %}
             </tbody>
         </table>
     </div>
