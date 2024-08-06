@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block extrastyles %}
+<style>
+    :root {
+        --text-color: #333;
+        --accent-color: #f1683a;
+        --form-bg-color: #68f8fdce;
+        --form-border-color: #ddd;
+    }
+
+    body {
+        color: var(--text-color);
+    }
+
+    .contact-container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background: var(--form-bg-color);
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-info {
+        margin-bottom: 20px;
+    }
+
+    .contact-info p {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    .social-media-section {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .social-media {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .social-media a {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        filter: grayscale(100%); /* Grey scale by default */
+        transition: filter .1s; /* Smooth transition */
+    }
+
+    .social-media a:hover {
+        filter: grayscale(0%); /* Remove grey scale on hover */
+    }
+
+    .social-media img {
+        width: 100%;
+        height: auto;
+    }
+
+    .follow-us {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .follow-us a {
+        color: var(--accent-color);
+        text-decoration: none;
+    }
+
+    .follow-us a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock extrastyles %}
+
+{% block content %}
+<div class="contact-container">
+    <div class="contact-info">
+        <p>If you have any questions or feedback, feel free to reach out to us.</p>
+        <p>Email: <a href="mailto:lukoba@gmail.com">lukoba@gmail.com</a></p>
+        <p>Phone: <a href="tel:+254717702346">+254 717 702 346</a></p>
+    </div>
+
+    <div class="social-media-section">
+        <div class="follow-us">
+            <p>Follow us on:</p>
+        </div>
+        <div class="social-media">
+            <a href="https://twitter.com" target="_blank">
+                <img src="/static/image/twitter.png" alt="Twitter">
+            </a>
+            <a href="https://instagram.com" target="_blank">
+                <img src="/static/image/instagram.png" alt="Instagram">
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

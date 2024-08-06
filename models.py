@@ -32,7 +32,6 @@ class Movie(Base):
     bookings = relationship("Booking", backref="movie")
     showtimes = relationship("Showtime", backref="movie")
 
-
 class Showtime(Base):
     __tablename__ = 'showtimes'
 
@@ -43,8 +42,6 @@ class Showtime(Base):
     seats_available = Column(Integer,default=25)
     bookings = relationship("Booking", backref="showtime")
     seats = relationship("Seat", backref="showtime")
-
-
 class Seat(Base):
     __tablename__ = 'seats'
 
@@ -54,8 +51,6 @@ class Seat(Base):
     is_booked = Column(Boolean, default=True)
     bookings = relationship(
         "Booking", secondary=booking_seats, back_populates="seats")
-
-
 class Booking(Base):
     __tablename__ = 'bookings'
 
@@ -66,7 +61,6 @@ class Booking(Base):
     payment_id = Column(Integer, ForeignKey(
         'payments.id'), nullable=True)  # Optional
     seats = relationship("Seat", secondary=booking_seats, back_populates="bookings")
-    movie = relationship("Movie", back_populates="bookings")
 
 class Payment(Base):
     __tablename__ = 'payments'

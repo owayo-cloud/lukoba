@@ -84,6 +84,8 @@ class RequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == '/':
             self.handle_home()
+        elif self.path == '/contacts':
+            self.handle_contacts()
         elif self.path == '/movies':
             self.handle_movies()
         elif self.path.startswith('/movies?title='):
@@ -139,6 +141,9 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.handle_book_post()
         elif self.path == '/dashboard/movies/add':
             self.handle_add_movie_post()
+        elif self.path.startswith('/dashboard/movies/delete/'):
+            showtime_id = int(self.path.split('/')[-1])
+            self.handle_delete_showtime(showtime_id)
         elif self.path == '/mpesa_callback':
             self.handle_mpesa_callback_post()
         else:
@@ -185,6 +190,20 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.send_header('Location', f'/dashboard/movies/{movie_id}')
         self.end_headers()
 
+    def handle_delete_showtime(self, showtime_id):
+        db = SessionLocal()
+        showtime = db.query(Showtime).filter(Showtime.id == showtime_id).first()
+        if showtime:
+            db.delete(showtime)
+            db.commit()
+            db.close()
+            self.send_response(302)
+            self.send_header('Location', f'/dashboard/movies/{showtime.movie_id}?showtime_deleted=true')
+            self.end_headers()
+        else:
+            db.close()
+            self.send_error(404, "Showtime not found")
+
     def handle_home(self):
         db = SessionLocal()
         movies = db.query(Movie).all()
@@ -197,6 +216,14 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(template.render(
             session=session, movies=movies).encode())
+        
+    def handle_contacts(self):
+        template = env.get_template('contacts.html')
+        session = self.get_session()
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+        self.wfile.write(template.render(session=session).encode())
 
     def handle_movies(self):
         session = self.get_session()

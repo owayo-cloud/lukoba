@@ -1,7 +1,6 @@
 {% extends 'dashboard_base.html' %}
 
 {% block extrastyles %}
-<link rel="stylesheet" href="/static/css/dashMovies.css">
 <style>
     :root {
         --background-color: #f9f9f9;
@@ -174,6 +173,58 @@
         background-color: var(--accent-color);
         transform: translateY(-2px);
     }
+
+    .showtimes {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        background: var(--background-color);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .showtimes h2 {
+        margin-bottom: 10px;
+    }
+
+    .showtimes ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .showtimes li {
+        margin: 10px 0;
+        font-weight: bold;
+        padding: 10px;
+        background-color: var(--accent-color);
+        color: #000;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .close-btn-wrapper {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .showtimes ul li .delete-btn {
+        background: none;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 0;
+        cursor: pointer;
+        transition: color 0.3s ease;
+        font-size: 20px;
+    }
+
+    .showtimes ul li .delete-btn i {
+        color: red;
+    }
+
+    .showtimes ul li .delete-btn:hover i {
+        color: #ff1a1a;
+    }
 </style>
 {% endblock extrastyles %}
 
@@ -218,16 +269,22 @@
     </div>
 </div>
 {% if showtimes %}
-<div style="margin-top: 20px;margin-bottom: 20px;">
+<div class="showtimes">
     <h2>Show Times</h2>
     <ul>
         {% for showtime in showtimes %}
-        <li style="margin: 20px;font-weight: bold;">{{ showtime.date }} at {{ showtime.time }}</li>
+        <li>Available on {{ showtime.date }} at {{ showtime.time }}
+            <form method="post" action="/dashboard/movies/delete/{{ showtime.id }}" style="display:inline;">
+                <button type="submit" class="delete-btn">
+                    <i class="bx bx-trash"></i>
+                </button>
+            </form>
+        </li>
         {% endfor %}
     </ul>
 </div>
 {% endif %}
-<div class="modal-overlay hide">
+<div class="modal-overlay">
     <div class="modal-wrapper">
         <div class="close-btn-wrapper">
             <button class="btn close-modal-btn">
@@ -259,17 +316,13 @@
     const closeBtn = document.querySelector(".close-modal-btn");
 
     function openModal() {
-        modal.classList.remove("hide");
         modal.style.display = 'flex';
     }
 
     function closeModal(e, clickedOutside) {
-        if (clickedOutside) {
-            if (e.target.classList.contains("modal-overlay"))
-                modal.classList.add("hide");
-                modal.style.display = 'none';
-        } else {
-            modal.classList.add("hide");
+        if (clickedOutside && e.target.classList.contains("modal-overlay")) {
+            modal.style.display = 'none';
+        } else if (!clickedOutside) {
             modal.style.display = 'none';
         }
     }
@@ -278,5 +331,29 @@
     modal.addEventListener("click", (e) => closeModal(e, true));
     closeBtn.addEventListener("click", (e) => closeModal(e, false));
 
+    // Check for showtime_added query parameter
+    function getQueryParams() {
+        const params = {};
+        const queryString = window.location.search.substring(1);
+        const paramPairs = queryString.split("&");
+        paramPairs.forEach(pair => {
+            const [key, value] = pair.split("=");
+            params[decodeURIComponent(key)] = decodeURIComponent(value);
+        });
+        return params;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const params = getQueryParams();
+        if (params.showtime_added === "true") {
+            alert("Showtime has been added successfully!");
+        } else if (params.showtime_added === "false") {
+            alert("Showtime could not be added. It already exists.");
+        } else if (params.showtime_deleted === "true") {
+            alert("Showtime has been deleted successfully!");
+        } else if (params.showtime_deleted === "false") {
+            alert("Showtime could not be deleted.");
+        }
+    });
 </script>
 {% endblock content %}
