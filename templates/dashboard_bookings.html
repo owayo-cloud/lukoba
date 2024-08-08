@@ -21,6 +21,7 @@
         <table>
             <thead>
                 <tr>
+                    <th>Id</th>
                     <th>User</th>
                     <th>Movie</th>
                     <th>Booking Date</th>
@@ -30,8 +31,9 @@
             <tbody>
             {% for booking in bookings %}
             <tr>
-                <td>{{booking.User}}</td>
-                <td>{{booking.Movie}}</td>
+                <td>{{booking.id}}</td>
+                <td>{{booking.user.username}}</td>
+                <td>{{booking.showtime.movie.title}}</td>
                 <td>{{booking.Showtime}}</td>
             </tr>
                 <!-- Booking rows will be populated here -->

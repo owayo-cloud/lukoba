@@ -18,6 +18,7 @@ from watchdog.events import FileSystemEventHandler
 import threading
 import sys
 from datetime import datetime, time
+from sqlalchemy.orm import joinedload
 
 # Initialize the database
 init_db()
@@ -148,6 +149,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.handle_mpesa_callback_post()
         else:
             self.send_error(404, "File not found")
+            
 
     def handle_add_movie_post(self):
         form = cgi.FieldStorage(fp=self.rfile, headers=self.headers, environ={
@@ -361,19 +363,28 @@ class RequestHandler(BaseHTTPRequestHandler):
         else:
             self.send_error(403, "Forbidden")
 
+
     def handle_dashboard_bookings(self):
         db = SessionLocal()
-        bookings = db.query(Booking).all()
-        db.close()
-        session = self.get_session()
-        if session.get('is_admin') == 'true':
-            template = env.get_template('dashboard_bookings.html')
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            self.wfile.write(template.render(session=session , bookings=bookings).encode())
-        else:
-            self.send_error(403, "Forbidden")
+        try:
+            bookings = db.query(Booking).options(
+                joinedload(Booking.user),
+                joinedload(Booking.showtime),
+                joinedload(Booking.payment)
+            ).all()
+            
+            session = self.get_session()
+            if session.get('is_admin') == 'true':
+                template = env.get_template('dashboard_bookings.html')
+                self.send_response(200)
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
+                self.wfile.write(template.render(session=session, bookings=bookings).encode())
+            else:
+                self.send_error(403, "Forbidden")
+        finally:
+            db.close()
+
 
     def handle_dashboard_users(self):
         session = self.get_session()
@@ -423,7 +434,6 @@ class RequestHandler(BaseHTTPRequestHandler):
             movie = db.query(Movie).filter_by(imdb=title).first()
             if movie:
                 showtimes = movie.showtimes
-                bookings = movie.bookings
                 # get booked seats
             else:
                 showtimes = None
@@ -490,13 +500,6 @@ class RequestHandler(BaseHTTPRequestHandler):
         showtime = form.getvalue('showtime')
         phone_number = form.getvalue('phone_number')  # Collect phone number for payment
         amount = form.getvalue('amount')  # Collect the amount for payment
-        
-
-        print("Showtime:", showtime)
-        print("IMDB:", imdb)
-        print("Movie ID:", movie)
-        print("Phone Number:", phone_number)
-        print("Amount:", amount)
 
         session = self.get_session()
         if not session.get('user'):
@@ -519,7 +522,6 @@ class RequestHandler(BaseHTTPRequestHandler):
             except ValueError:
 
                 if movie is not None:
-                    print('Movie not found for ID:', movie)
                     db.close()
                     self.send_response(400)
                     self.send_header('Content-type', 'text/html')
@@ -530,7 +532,6 @@ class RequestHandler(BaseHTTPRequestHandler):
             # Retrieve the movie title using the movie_id
             movie = db.query(Movie).filter(Movie.id == movie).first()
             if not movie:
-                print("Movie not found for ID:", movie)
                 db.close()
                 self.send_response(400)
                 self.send_header('Content-type', 'text/html')
@@ -540,6 +541,27 @@ class RequestHandler(BaseHTTPRequestHandler):
         
             movie_title = movie.title
             print('movie title:', movie_title)
+
+            show_obj = db.query(Showtime).filter(Showtime.id == showtime).first()
+            if not show_obj:
+                self.send_response(400)
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
+                self.wfile.write("Showtime not found.".encode('utf-8'))
+                return
+            
+            #check if seats are available
+            booked_seats = db.query(Seat).filter(Seat.showtime_id == showtime, Seat.is_booked == True).all()
+            booked_seat_numbers = {seat.seat_number for seat in booked_seats}
+            selected_seats = seats.split(',')
+            print(f"Selected Seats Count: {selected_seats}")
+
+            if any(seat in booked_seat_numbers for seat in selected_seats):
+                self.send_response(400)
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
+                self.wfile.write("Some selected seats are already booked.".encode('utf-8'))
+                return
             
             # M-Pesa integration
             consumer_key = '3VfCkaY5Lxs9jZqCGn2lpRKdFeXladKgr08sQ41sHWUY0ppO'
@@ -564,18 +586,24 @@ class RequestHandler(BaseHTTPRequestHandler):
             print("Payment Response:", payment_response)
             # Check if payment was successful
             if payment_response['ResponseCode'] == '0':
+                # create payment
+                payment = Payment(payment_method='mpesa', amount=amount, transaction_id=phone_number)
+                db.add(payment)
+                db.flush()
+
                 new_booking = Booking(
-                    user_id=user.id, movie_id=movie.id, showtime_id=showtime)
+                    user_id=user.id, showtime_id=showtime,payment_id=payment.id)
 
                 db.add(new_booking)
                 db.flush()  # This assigns an id to new_booking
 
                 # Create and associate seats
-                for seat_number in seats.split(','):
+                for seat_number in selected_seats:
                     # Create new seat
                     seat = Seat(
                         showtime_id=showtime,
                         seat_number=seat_number,
+                        is_booked = True
                     )
                     db.add(seat)
 
@@ -586,8 +614,9 @@ class RequestHandler(BaseHTTPRequestHandler):
                     Showtime.id == showtime).first()
 
                 if show_obj is not None:
-                    show_obj.seats_available -= len(seats)  # type: ignore
-
+                    seats_to_decrease = len(selected_seats)
+                    show_obj.seats_available -= seats_to_decrease  # type: ignore
+                    print(f"Updated Seats Available: {show_obj.seats_available}")
                 # Commit the transaction
                 db.commit()
                 self.send_response(302)
@@ -619,7 +648,14 @@ class RequestHandler(BaseHTTPRequestHandler):
         # Process the callback data
         print("M-pesa Callback Data:", callback_data)
 
+        payment_status = callback_data.get('Body',{}).get('stkCallback', {}).get('ResultCode')
+
+        if payment_status == 0: #0 indicates success in m-pesa transactions
+            # payment was successful
+            print("Payment successful. Proceed.")
+
         response = {'ResultCode': 0, 'ResultDesc': 'Accepted'}
+        
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
         self.end_headers()

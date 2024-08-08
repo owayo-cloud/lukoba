@@ -2,7 +2,7 @@
 let seats = document.querySelector(".all-seats");
 let rows = "EDCBA"; // Define 5 rows
 let cols = 5; // Define 5 columns
-let seatPrice = 200; // Define a constant price for each seat
+let seatPrice = 1; // Define a constant price for each seat
 let totalAmount=0
 
 // Function to fetch booked seats
@@ -17,12 +17,12 @@ async function generateSeats() {
     for (let row = 0; row < rows.length; row++) {
         for (let col = 1; col <= cols; col++) {
             let seatLabel = rows[row] + col;
-            let booked = bookedSeats?.find((seat) => seat === seatLabel) ? "booked" : "";
+            let isBooked = bookedSeats?.find((seat) => seat === seatLabel);
             seats.insertAdjacentHTML(
                 "beforeend",
                 `<div class="seat-wrapper">
-                    <input type="checkbox" name="tickets" id="${seatLabel}" ${booked ? "disabled" : ""}/>
-                    <label for="${seatLabel}" class="seat ${booked}">${seatLabel}</label>
+                    <input type="checkbox" name="tickets" id="${seatLabel}" ${isBooked ? "disabled" : ""}/>
+                    <label for="${seatLabel}" class="seat ${isBooked ? "booked" : "available"}">${seatLabel}</label>
                 </div>`
             );
         }

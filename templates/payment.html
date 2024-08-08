@@ -17,9 +17,7 @@
         </div>
         <div class="detail">
             <span class="label">Seat Number:</span>
-            <span class="value">{{user.seat_Number}}
-
-            </span>
+            <span class="value">{{ booking.seat_number }}</span>
         </div>
         <div class="detail">
             <span class="label">Payment Status:</span>
@@ -28,7 +26,11 @@
     </div>
     <div class="receipt-footer">
         <p>Have a great time at the movie!</p>
-        <a href="/home" class="home-button">Done</a>
+        <form action="/generate_pdf" method="post">
+            <input type="hidden" name="booking_id" value="{{ booking.id }}">
+            <input type="hidden" name="user_id" value="{{ user.id }}">
+            <button type="submit" class="home-button">Done</button>
+        </form>
     </div>
 </div>
 {% endblock content %}
