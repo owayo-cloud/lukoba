@@ -17,12 +17,12 @@ async function generateSeats() {
     for (let row = 0; row < rows.length; row++) {
         for (let col = 1; col <= cols; col++) {
             let seatLabel = rows[row] + col;
-            let isBooked = bookedSeats?.find((seat) => seat === seatLabel);
+            let Booked = bookedSeats?.find((seat) => seat === seatLabel);
             seats.insertAdjacentHTML(
                 "beforeend",
                 `<div class="seat-wrapper">
-                    <input type="checkbox" name="tickets" id="${seatLabel}" ${isBooked ? "disabled" : ""}/>
-                    <label for="${seatLabel}" class="seat ${isBooked ? "booked" : "available"}">${seatLabel}</label>
+                    <input type="checkbox" name="tickets" id="${seatLabel}" ${Booked ? "disabled" : ""}/>
+                    <label for="${seatLabel}" class="seat ${Booked ? "booked" : "available"}">${seatLabel}</label>
                 </div>`
             );
         }

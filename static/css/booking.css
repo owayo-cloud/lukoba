@@ -37,17 +37,6 @@ body {
     color: #333;
     align-items: center;
 }
-.status .available {
-    background-color: #13cc13; /* Green for available */
-}
-
-.status .booked {
-    background-color: #f44336; /* Red for booked */
-}
-
-.status .selected {
-    background-color: #ffc107; /* Yellow for selected */
-}
 .status .item:nth-child(1) {
     background-color: rgb(19, 204, 19);
 }
