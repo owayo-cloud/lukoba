@@ -2,82 +2,91 @@ body {
     background: linear-gradient(135deg, #034044 0%, #381c02 100%);
     margin: 0;
     padding: 0;
+    color: #333;
 }
 .mid {
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 100vh;
     padding: 20px;
 }
 .tickets {
+    background: #1e272e;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    width: 100%; 
     max-width: 800px;
-    margin: 0 auto;
-}
-.ticket-selector .heading {
-    margin-bottom: 20px;
+    color: #f5f5f5;
 }
 .ticket-selector .heading .title {
     font-size: 24px;
     font-weight: bold;
+    margin-bottom: 20px;
     letter-spacing: 4px;
+    text-align: center;
 }
-.seats {
-    display: none; /* Hidden initially */
+.seats{
+    margin-top: 20px;
 }
 .seats .status {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     margin-bottom: 10px;
+    font-size: 14px;
 }
 .status .item {
     padding: 5px 10px;
     border-radius: 5px;
-    background-color: #e0e0e0;
-    font-size: 14px;
-    color: #333;
-    align-items: center;
+    background-color: #e9ecef;
+    text-align: center;
 }
 .status .item:nth-child(1) {
     background-color: rgb(19, 204, 19);
+    color: #155724;
 }
 .status .item:nth-child(2) {
     background-color: #f44336;
+    color: #9b0f05;
 }
 .status .item:nth-child(3) {
     background-color: #ffc107;
+    color: #7a5f0c;
 }
 .screen {
+    margin: 10px auto;
+    width: 90%;
+    height: 30px;
     background: linear-gradient(to bottom, #e6eaec, #49637c);
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
-    height: 20px;
-    margin-bottom: 20px;
-    border-radius: 5px;
+    border-radius: 1px;
+}
+.seat-wrapper {
+    position: relative;
+    width: 20%;
 }
 .all-seats {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    /*grid-template-columns: repeat(auto-fit, minmax(50px, 1fr)); /* Responsive grid layout */
     gap: 10px;
     justify-items: center; 
-    /*position: relative;
-    margin-bottom: 20px;*/
-}
-.all-seats .seat {
-    background-color: rgb(19, 204, 19);
-    height: 40px; 
-    width: 40px; 
-    border-radius: 5px;
-    border: 1px solid #d1d8e0; 
-    display: flex;
-    justify-content: center;
     align-items: center;
-    color: #ecf0f1; 
+    padding: 20px 0;
+}
+.seat-wrapper .seat {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+    background-color:rgb(19, 204, 19);
+    border-radius: 1px;
+    text-align: center;
     cursor: pointer;
-    transition: all 0.3s ease;
-}  
-.all-seats .seat:hover:not(.booked){
-    background-color: #0e6ac9;
+    transition: background-color 0.3s ease;
 } 
+.seat:hover {
+    background-color: #0ef; 
+}
 .seat.selected{
     background-color: #ffc107;
 }
@@ -86,85 +95,47 @@ body {
 }
 .all-seats .seat.booked {
     background-color: #f44336;
-    cursor: not-allowed !important;
-    text-decoration: line-through;
-    color: #fff;
+    cursor: not-allowed;
 }
 /* Hide checkboxes beside seats */
 .all-seats input[type="checkbox"] {
     display: none;
 }
 .timings {
-    margin-bottom: 10px;
-}
-.list-group {
-    padding: 0;
-}
-.list-group-item {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    margin-bottom: 5px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.list-group-item input[type="radio"] {
-    margin-right: 10px;
-}
-
-.date-selector {
-    margin-bottom: 10px;
-    text-align: center;
-}
-.date-selector label {
-    display: block;
-    margin-bottom: 5px;
-    font-size: 16px;
-}
-.date-selector input[type="date"] {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #0ef;
-    border-radius: 5px;
-    width: 100%;
-    max-width: 300px;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
-}
-.date-selector input[type="date"]:focus {
-    border-color: #f1683a; /* pale violet red border on focus */
-    outline: none;
-}
-.times {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-}
-.times .time {
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #34495e;
-    cursor: pointer;
-    margin: 5px;
-    text-align: center;
-}
-.times .time:hover {
-    background-color: #0ef;
-}
-.times input {
-    display: none;
-}
-.price {
-    margin-top: 5px;
-}
-.price .text {
-    font-size: 18px;
-    font-weight: bold;
+    margin: 20px 0;
     text-align: center;
 }
 .book-button-container {
     margin-top: 20px;
     text-align: center;
+}
+.total-amount {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #fff;
+}
+.list-group-item:hover {
+    background-color: #f1f1f1;
+}
+
+.list-group-item input[type="radio"] {
+    margin-right: 10px;
+}
+
+.badge {
+    padding: 5px 10px;
+    font-size: 14px;
 }
 #book-button {
     background-color: #007bff; /* Blue background */
@@ -240,42 +211,38 @@ form input[type="tel"]:hover,
 form input[type="text"]:hover {
     border-color: #0056b3;
 }
-.badge-seats {
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 5px;
-    background-color: transparent; /* Primary color for badge */
-    color: #12c412;
-    font-size: 14px;
-    font-weight: bold;
-    text-align: center;
-}
 
-.badge-seats::before {
-    content: "Seats Available: ";
-    font-weight: normal;
-    color: #ff0000; /* Light color for the label */
-}
 /* Media queries for responsiveness */
-@media (max-width: 768px) {
-    form input[type="tel"],
-    form input[type="text"] {
-        width: 90%;
-        padding-right: 30px; /* Adjust for smaller screens */
+@media (max-width: 576px) {
+    .tickets {
+        max-width: 400px;
     }
-    
-    .label-text {
-        font-size: 14px;
-    }
-    
-    .mpesa-logo, .seat-icon {
-        position: relative;
-        margin-top: 10px;
-        height: 15px;
 
-    .all-seats{
-        flex-direction: column;
+    .ticket-selector .heading .title {
+        font-size: 16px;
     }
+
+    .all-seats {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .seat-wrapper {
+        width: 80%;
+    }
+
+    .screen {
+        height: 20px;
+    }
+
+    #book-button {
+        font-size: 10px;
+        padding: 5px 10px;
+    }
+
+    .total-amount {
+        font-size: 12px;
     }
 }
-
+.seat-price{
+    display: none;
+}

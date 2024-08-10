@@ -335,14 +335,21 @@ class RequestHandler(BaseHTTPRequestHandler):
         
         booking = self.path.split('/')[-2]
         booking_obj = None
+        seat_number  = None
         user = None
+        
+
         db = SessionLocal()
 
         if booking:
             db = SessionLocal()
             booking_obj = db.query(Booking).filter_by(id=booking).first()
+            seat_number = db.query(Seat).filter_by(id=booking).first()
             if booking_obj:
                 user = db.query(User).filter_by(id=booking_obj.user_id).first()
+                if seat_number:
+                    seat = db.query(Seat).filter_by(id=seat_number.booking_id).first()                          
+
             db.close()
 
         template = env.get_template('payment.html')
@@ -350,7 +357,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/html')
         self.end_headers()
         self.wfile.write(template.render(
-                session=session, booking=booking_obj,user=user).encode())
+                session=session, booking=booking_obj,user=user, seat_number=seat_number, seat=seat).encode())
 
     def handle_dashboard_analytics(self):
         session = self.get_session()
