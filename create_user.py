@@ -2,7 +2,6 @@ import argparse
 from werkzeug.security import generate_password_hash
 from db_setup import SessionLocal, init_db
 from models import User
-from validate_email import validate_email  # Assuming you have a method to validate email format
 
 init_db()
 

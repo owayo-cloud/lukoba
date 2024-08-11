@@ -125,10 +125,14 @@ function submitBookingForm(imdb, movie, seats, showtime) {
     document.body.removeChild(form);
 }
 
-document.querySelector("input[name='showtime_sel']").addEventListener("click", function (e) {
-    // pass as query to url
-    const url = new URL(window.location.href);
-    url.searchParams.set('s', e.target.value);
-    window.location.href = url.toString();
+// Add event listeners to all showtime selection inputs
+let showtimeInputs = document.querySelectorAll("input[name='showtime_sel']");
+showtimeInputs.forEach((input) => {
+    input.addEventListener("click", function (e) {
+        // pass as query to url
+        const url = new URL(window.location.href);
+        url.searchParams.set('s', e.target.value);
+        window.location.href = url.toString();
+    });
 });
 
