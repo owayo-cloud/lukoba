@@ -8,7 +8,6 @@ from db_setup import SessionLocal
 from models import User, Movie, Showtime, Seat, Booking, Payment
 from sqlalchemy import func
 from datetime import datetime, timedelta
-import csv
 
 # Initialize database session
 db = SessionLocal()
@@ -132,7 +131,7 @@ def generate_report(filename):
     payments = db.query(Payment).all()
     data = [['Payment ID', 'Amount', 'Payment Method', 'Transaction ID']]
     for payment in payments:
-        data.append([payment.id, f"${payment.amount:.2f}", payment.payment_method, payment.transaction_id]) # type: ignore
+        data.append([payment.id, f"Ksh{payment.amount:.2f}", payment.payment_method, payment.transaction_id]) # type: ignore
 
     table = Table(data)
     table.setStyle(table_style)

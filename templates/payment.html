@@ -26,11 +26,9 @@
     </div>
     <div class="receipt-footer">
         <p>Have a great time at the movie!</p>
-        <form action="/generate_pdf" method="post">
             <input type="hidden" name="booking_id" value="{{ booking.id }}">
             <input type="hidden" name="user_id" value="{{ user.id }}">
-            <button type="submit" class="home-button">Done</button>
-        </form>
+            <a href="/" style="text-decoration: none;"><button type="submit" class="home-button">Done</button></a>
     </div>
 </div>
 {% endblock content %}

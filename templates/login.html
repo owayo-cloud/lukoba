@@ -58,18 +58,15 @@
         eyeIcon.classList.add('fa-eye'); // Add open eye icon
     }
 }
-    document.getElementById('loginBtn').addEventListener('click', function(event){
-        var email = document.getElementById('lEmail').value;
-        var password = document.getElementById('lPass').value;
+document.getElementById('loginBtn').addEventListener('click', function(event) {
+    var email = document.getElementById('lEmail').value;
+    var password = document.getElementById('lPass').value;
 
-        // if all validations pass
-        if (email && password){
-            return ;
-        } else{
-            alert("Login failed. Unrecognized user.");
-            event.preventDefault(); //prevents form submission
-        }
-    });
-
+    // If either the email or password is missing
+    if (!email || !password) {
+        alert("Login failed. Unrecognized user.");
+        event.preventDefault(); // Prevent form submission
+    }
+});
 </script>
 {% endblock extrascripts %}

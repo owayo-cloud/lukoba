@@ -4,6 +4,7 @@ let rows = "EDCBA"; // Define 5 rows
 let cols = 5; // Define 5 columns
 let seatPrice = 1; // Define a constant price for each seat
 let totalAmount=0
+let selectedSeats = [];
 // Function to fetch booked seats
 async function fetchBookedSeats() {
     return JSON.parse(bookings?.replace(/'/g, '"'));
@@ -35,8 +36,22 @@ async function generateSeats() {
             if (!label.classList.contains("booked")) {
                 label.classList.toggle("selected");
                 let checkbox = document.getElementById(label.getAttribute("for"));
-                checkbox.checked = !checkbox.checked;
-                document.getElementById("seat_number").value = checkbox.checked ? label.textContent : '';
+
+                if (!label.classList.contains("selected")){
+                    //deselect the seat
+                    label.classList.remove("selected");
+                    checkbox.checked = false;
+                    selectedSeats = selectedSeats.filter(seat => seat !== label.textContent);
+                }else{
+                    //select the seat
+                    label.classList.add("selected");
+                    checkbox.checked = true;
+                    if(!selectedSeats.includes(label.textContent)){
+                        selectedSeats.push(label.textContent);
+                    }
+                }
+
+                document.getElementById("seat_number").value = selectedSeats.join(',');
 
                 updateTotalAmount();
             }
@@ -87,7 +102,7 @@ function submitBookingForm(imdb, movie, seats, showtime) {
     const fields = {
         imdb: imdb,
         movie: movie,
-        seats: seats,
+        seats: seats.join(','),
         showtime: showtime,
     }; 
 

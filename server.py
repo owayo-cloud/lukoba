@@ -149,7 +149,6 @@ class RequestHandler(BaseHTTPRequestHandler):
         else:
             self.send_error(404, "File not found")
             
-
     def handle_add_movie_post(self):
         form = cgi.FieldStorage(fp=self.rfile, headers=self.headers, environ={
                                 'REQUEST_METHOD': 'POST'})
@@ -269,9 +268,6 @@ class RequestHandler(BaseHTTPRequestHandler):
         else:
             self.send_error(403, "Forbidden")
 
-
-        
-
     def handle_dashboard_movies(self):
         session = self.get_session()
         if session.get('is_admin') == 'true':
@@ -349,7 +345,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         
         booking = self.path.split('/')[-2]
         booking_obj = None
-        seat_number  = None
+        seat_number  = []
         user = None
         
 
@@ -360,6 +356,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             booking_obj = db.query(Booking).filter_by(id=booking).first()
             seat_number = db.query(Seat).filter_by(id=booking).first()
             if booking_obj:
+                #fetc the user associated with the booking
                 user = db.query(User).filter_by(id=booking_obj.user_id).first()
                 if seat_number:
                     seat = db.query(Seat).filter_by(id=seat_number.booking_id).first()                          
@@ -383,7 +380,6 @@ class RequestHandler(BaseHTTPRequestHandler):
                 joinedload(Booking.payment),
             ).all()
 
-            
             session = self.get_session() #retrieves current session from data
             if session.get('is_admin') == 'true':
                 template = env.get_template('dashboard_bookings.html')
@@ -679,7 +675,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 
     def handle_logout(self):  # Add this method
         self.send_response(302)
-        self.send_header('Location', '/')
+        self.send_header('Location', '/login')
         self.send_header('Set-Cookie', 'user=')
         self.send_header('Set-Cookie', 'is_admin=')
         self.end_headers()

@@ -88,8 +88,6 @@ def create_movies(movie_titles):
     print(f"{len(movie_titles)} movies added.")
 
 # Function to create showtimes
-
-
 def create_showtimes(num_showtimes):
     db = SessionLocal()
     movies = db.query(Movie).all()
@@ -152,16 +150,14 @@ def create_bookings(num_bookings):
     print(f"{num_bookings} bookings with seats created.")
 
 # Function to create payments
-
-
 def create_payments():
     db = SessionLocal()
     bookings = db.query(Booking).all()
     for booking in bookings:
         # Calculate the total cost based on the number of seats booked
         num_seats = len(db.query(Seat).filter_by(booking_id=booking.id).all())
-        amount = num_seats * 200  # Cost per seat is 200 shillings
-        payment_method = random.choice(['Credit Card', 'PayPal', 'Cash'])
+        amount = num_seats * 1  # Cost per seat is 200 shillings
+        payment_method = random.choice(['mpesa'])
         transaction_id = fake.uuid4()
         new_payment = Payment(amount=amount, payment_method=payment_method,
                               transaction_id=transaction_id)
