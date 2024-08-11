@@ -24,8 +24,9 @@
                     <th>Id</th>
                     <th>User</th>
                     <th>Movie</th>
-                    <th>Booking Date</th>
-                    <th>Showtime</th>
+                    <th>Time</th>
+                    <th>Date</th>
+                    <th>Amount</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,9 +35,10 @@
                 <td>{{booking.id}}</td>
                 <td>{{booking.user.username}}</td>
                 <td>{{booking.showtime.movie.title}}</td>
-                <td>{{booking.Showtime}}</td>
+                <td>{{booking.showtime.time}}</td>
+                <td>{{booking.showtime.date}}</td>
+                <td>{{booking.payment.amount}}</td>
             </tr>
-                <!-- Booking rows will be populated here -->
             {% endfor %}
             </tbody>
         </table>

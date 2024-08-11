@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Example data for insights
-    document.getElementById('tickets-sold').textContent = '1,074';
-    document.getElementById('visitors').textContent = '3,944';
-    document.getElementById('conversion-rate').textContent = '12.4%';
-    document.getElementById('revenue').textContent = '$6,742';
+    document.getElementById('tickets-sold').textContent = '{{ tickets_sold }}';
+    document.getElementById('visitors').textContent = '{{ total_users }}';
+    document.getElementById('conversion-rate').textContent = '{{ conversion_rate}}';
+    document.getElementById('revenue').textContent = '\$${{ total_revenue }}';
 
     // Tickets Sold Chart
     const ticketsSoldCtx = document.getElementById('ticketsSoldChart').getContext('2d');

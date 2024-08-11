@@ -8,6 +8,7 @@ import subprocess
 import requests
 from requests.auth import HTTPBasicAuth
 from jinja2 import Environment, FileSystemLoader
+from sqlalchemy import func
 from werkzeug.security import generate_password_hash, check_password_hash
 from http import cookies
 from db_setup import SessionLocal, init_db
@@ -101,12 +102,10 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.handle_login()
         elif self.path == '/register':
             self.handle_register()
-        elif self.path == '/dashboard':
-            self.handle_dashboard()
         elif self.path == '/dashboard/movies':
             self.handle_dashboard_movies()
-        elif self.path == '/dashboard/analytics':
-            self.handle_dashboard_analytics()
+        elif self.path == '/dashboard':
+            self.handle_dashboard()
         elif self.path == '/dashboard/bookings':
             self.handle_dashboard_bookings()
         elif self.path == '/dashboard/users':
@@ -246,17 +245,32 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(template.render(
             session=session, movies=movies).encode())
-
+        
     def handle_dashboard(self):
         session = self.get_session()
         if session.get('is_admin') == 'true':
-            template = env.get_template('dashboard.html')
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            self.wfile.write(template.render(session=session).encode())
+            db = SessionLocal()
+            try:
+                # Fetching data from the database
+                tickets_sold = db.query(Booking).count()
+                total_users = db.query(User).count()
+                total_revenue = db.query(func.sum(Payment.amount)).scalar()
+                conversion_rate = (tickets_sold / total_users) * 100 if total_users > 0 else 0
+
+                print(tickets_sold, total_users, total_revenue, conversion_rate)
+                
+                template = env.get_template('dashboard.html')
+                self.send_response(200)
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
+                self.wfile.write(template.render(session=session, tickets_sold=tickets_sold, total_users=total_users, total_revenue=total_revenue, conversion_rate=conversion_rate).encode())
+            finally:
+                db.close()
         else:
             self.send_error(403, "Forbidden")
+
+
+        
 
     def handle_dashboard_movies(self):
         session = self.get_session()
@@ -359,32 +373,22 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(template.render(
                 session=session, booking=booking_obj,user=user, seat_number=seat_number, seat=seat).encode())
 
-    def handle_dashboard_analytics(self):
-        session = self.get_session()
-        if session.get('is_admin') == 'true':
-            template = env.get_template('dashboard_analytics.html')
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            self.wfile.write(template.render(session=session).encode())
-        else:
-            self.send_error(403, "Forbidden")
-
-
     def handle_dashboard_bookings(self):
-        db = SessionLocal()
+        db = SessionLocal() #creates new session with the DB(SQLAlchemy)
         try:
-            bookings = db.query(Booking).options(
+            bookings = db.query(Booking).options( #queries the booking table to retrieve all booking records
+                #joined.load(optimize the query by loading related objects in a single query)
                 joinedload(Booking.user),
                 joinedload(Booking.showtime),
-                joinedload(Booking.payment)
+                joinedload(Booking.payment),
             ).all()
+
             
-            session = self.get_session()
+            session = self.get_session() #retrieves current session from data
             if session.get('is_admin') == 'true':
                 template = env.get_template('dashboard_bookings.html')
-                self.send_response(200)
-                self.send_header('Content-type', 'text/html')
+                self.send_response(200)#status code for OK
+                self.send_header('Content-type', 'text/html') #indicates response is a HTML code
                 self.end_headers()
                 self.wfile.write(template.render(session=session, bookings=bookings).encode())
             else:
@@ -392,17 +396,22 @@ class RequestHandler(BaseHTTPRequestHandler):
         finally:
             db.close()
 
-
     def handle_dashboard_users(self):
-        session = self.get_session()
-        if session.get('is_admin') == 'true':
-            template = env.get_template('dashboard_users.html')
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            self.wfile.write(template.render(session=session).encode())
-        else:
-            self.send_error(403, "Forbidden")
+        db = SessionLocal()
+        try:
+            users = db.query(User).all()
+
+            session = self.get_session()
+            if session.get('is_admin') == 'true':
+                template = env.get_template('dashboard_users.html')
+                self.send_response(200)
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
+                self.wfile.write(template.render(session=session, users=users).encode())
+            else:
+                self.send_error(403, "Forbidden")
+        finally:
+            db.close()
 
     def handle_login(self):
         template = env.get_template('login.html')

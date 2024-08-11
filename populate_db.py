@@ -22,9 +22,11 @@ fake = Faker()
 def get_movie_data(title):
     url = f'http://www.omdbapi.com/?t={title}&apikey={OMDB_API_KEY}'
     response = requests.get(url)
+    print(f"Fetching data for {title}, Status code: {response.status_code}")
     if response.status_code == 200:
         return response.json()
     else:
+        print(f"Failed to fetch data for {title}")
         return None
 
 # Function to search for movies using OMDb API
@@ -60,8 +62,14 @@ def create_users(num_users):
 
 # Function to create movies using OMDb API
 def create_movies(movie_titles):
+    # Check if movie_titles is None or empty
+    if not movie_titles:
+        print("No movie titles provided.")
+        return
+    
     db = SessionLocal()
     for title in movie_titles:
+        print(movie_titles)
         movie_data = get_movie_data(title)
         if movie_data and movie_data.get('Response') == 'True':
             new_movie = Movie(
@@ -133,7 +141,8 @@ def create_bookings(num_bookings):
                 db.add(new_seat)
                 db.commit()
 
-            showtime.seats_available -= num_seats_to_book
+            #decrease the number of available seats by the number of booked seats
+            showtime.seats_available -= num_seats_to_book # type: ignore
             db.commit()
         else:
             print(

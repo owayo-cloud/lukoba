@@ -18,13 +18,27 @@
         <table>
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>User Name</th>
                     <th>E-mail</th>
-                    <th>Date Registered</th>
+                    <th>Role</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- registered users rows will be populated here -->
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        {% if user.is_admin %}
+                            Admin
+                        {% else %}
+                            Client
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>

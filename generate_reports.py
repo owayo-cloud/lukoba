@@ -8,6 +8,7 @@ from db_setup import SessionLocal
 from models import User, Movie, Showtime, Seat, Booking, Payment
 from sqlalchemy import func
 from datetime import datetime, timedelta
+import csv
 
 # Initialize database session
 db = SessionLocal()
@@ -49,14 +50,14 @@ def generate_report(filename):
     elements = []
 
     # Add title
-    elements.append(Paragraph("Cinema Booking System Report", title_style))
+    elements.append(Paragraph("Lukoba Online Movie Ticket Booking System Report", title_style))
 
     # Add Users section
     elements.append(Paragraph("Users", heading_style))
     user_data = [['ID', 'Username', 'Email', 'Admin']]
     for user in db.query(User).all():
         user_data.append([user.id, user.username, user.email,
-                         'Yes' if user.is_admin else 'No'])
+                         'Yes' if user.is_admin else 'No']) # type: ignore
 
     user_table = Table(user_data, colWidths=[
                        0.5*inch, 2.5*inch, 2.5*inch, 1*inch])
@@ -70,8 +71,8 @@ def generate_report(filename):
     for movie in db.query(Movie).all():
         movie_data.append([
             movie.id,
-            movie.title[:30] + '...' if len(movie.title) > 30 else movie.title,
-            movie.genre[:20] + '...' if len(movie.genre) > 20 else movie.genre,
+            movie.title[:30] + '...' if len(movie.title) > 30 else movie.title, # type: ignore
+            movie.genre[:20] + '...' if len(movie.genre) > 20 else movie.genre, # type: ignore
             movie.imdb
         ])
 
@@ -85,15 +86,15 @@ def generate_report(filename):
     elements.append(Paragraph("Showtimes", heading_style))
     showtime_data = [['ID', 'Movie Title', 'Date', 'Time', 'Seats Available']]
     for showtime in db.query(Showtime).all():
-        movie_title = db.query(Movie).filter(Movie.id == showtime.movie_id).first().title[:30] + '...' if len(db.query(Movie).filter(
-            Movie.id == showtime.movie_id).first().title) > 30 else db.query(Movie).filter(Movie.id == showtime.movie_id).first().title
+        movie_title = db.query(Movie).filter(Movie.id == showtime.movie_id).first().title[:30] + '...' if len(db.query(Movie).filter( # type: ignore
+            Movie.id == showtime.movie_id).first().title) > 30 else db.query(Movie).filter(Movie.id == showtime.movie_id).first().title # type: ignore
         showtime_data.append([
             showtime.id,
             movie_title,
             showtime.date.strftime('%Y-%m-%d'),
             showtime.time.strftime('%H:%M:%S'),
             showtime.seats_available
-        ])
+        ]) # type: ignore
 
     showtime_table = Table(showtime_data, colWidths=[
                            0.5*inch, 2.5*inch, 1.5*inch, 1.25*inch, 1.25*inch])
@@ -106,9 +107,9 @@ def generate_report(filename):
     booking_data = [['ID', 'User', 'Movie', 'Seats Booked', 'Total Cost']]
     for booking in db.query(Booking).all():
         user = db.query(User).filter(
-            User.id == booking.user_id).first().username
-        movie_title = db.query(Movie).filter(Movie.id == db.query(Showtime).filter(Showtime.id == booking.showtime_id).first().movie_id).first().title[:30] + '...' if len(db.query(Movie).filter(Movie.id == db.query(Showtime).filter(
-            Showtime.id == booking.showtime_id).first().movie_id).first().title) > 30 else db.query(Movie).filter(Movie.id == db.query(Showtime).filter(Showtime.id == booking.showtime_id).first().movie_id).first().title
+            User.id == booking.user_id).first().username # type: ignore
+        movie_title = db.query(Movie).filter(Movie.id == db.query(Showtime).filter(Showtime.id == booking.showtime_id).first().movie_id).first().title[:30] + '...' if len(db.query(Movie).filter(Movie.id == db.query(Showtime).filter( # type: ignore
+            Showtime.id == booking.showtime_id).first().movie_id).first().title) > 30 else db.query(Movie).filter(Movie.id == db.query(Showtime).filter(Showtime.id == booking.showtime_id).first().movie_id).first().title # type: ignore
         seats_booked = db.query(Seat).filter(
             Seat.booking_id == booking.id).count()
         total_cost = seats_booked * 200
@@ -118,13 +119,24 @@ def generate_report(filename):
             movie_title,
             seats_booked,
             total_cost
-        ])
+        ]) # type: ignore
 
     booking_table = Table(booking_data, colWidths=[
                           0.5*inch, 2*inch, 2*inch, 1.5*inch, 1.5*inch])
     booking_table.setStyle(table_style)
     elements.append(booking_table)
     elements.append(PageBreak())
+
+    #Add Payment section
+    elements.append(Paragraph("Payments Report", heading_style))
+    payments = db.query(Payment).all()
+    data = [['Payment ID', 'Amount', 'Payment Method', 'Transaction ID']]
+    for payment in payments:
+        data.append([payment.id, f"${payment.amount:.2f}", payment.payment_method, payment.transaction_id]) # type: ignore
+
+    table = Table(data)
+    table.setStyle(table_style)
+    elements.append(table)
 
     # Add Total Revenue section
     elements.append(Paragraph("Total Revenue", heading_style))
@@ -150,7 +162,7 @@ def generate_report(filename):
             total_seats,
             available_seats,
             booked_seats
-        ])
+        ]) # type: ignore
 
     seat_table = Table(seat_data, colWidths=[
                        0.5*inch, 1.5*inch, 1.5*inch, 1.5*inch])
@@ -167,7 +179,7 @@ def generate_report(filename):
         total_bookings = db.query(Booking).join(Seat).filter(Seat.showtime_id.in_(
             [showtime.id for showtime in db.query(Showtime).filter(Showtime.movie_id == movie.id).all()])).count()
         highest_booking_data.append([
-            movie.title[:30] + '...' if len(movie.title) > 30 else movie.title,
+            movie.title[:30] + '...' if len(movie.title) > 30 else movie.title, # type: ignore
             total_bookings
         ])
 
@@ -183,15 +195,15 @@ def generate_report(filename):
     upcoming_showtime_data = [
         ['ID', 'Movie Title', 'Date', 'Time', 'Seats Available']]
     for showtime in db.query(Showtime).filter(Showtime.date >= datetime.now().date(), Showtime.date <= upcoming_date.date()).all():
-        movie_title = db.query(Movie).filter(Movie.id == showtime.movie_id).first().title[:30] + '...' if len(db.query(Movie).filter(
-            Movie.id == showtime.movie_id).first().title) > 30 else db.query(Movie).filter(Movie.id == showtime.movie_id).first().title
+        movie_title = db.query(Movie).filter(Movie.id == showtime.movie_id).first().title[:30] + '...' if len(db.query(Movie).filter( # type: ignore
+            Movie.id == showtime.movie_id).first().title) > 30 else db.query(Movie).filter(Movie.id == showtime.movie_id).first().title # type: ignore
         upcoming_showtime_data.append([
             showtime.id,
             movie_title,
             showtime.date.strftime('%Y-%m-%d'),
             showtime.time.strftime('%H:%M:%S'),
             showtime.seats_available
-        ])
+        ]) # type: ignore
 
     upcoming_showtime_table = Table(upcoming_showtime_data, colWidths=[
                                     0.5*inch, 2.5*inch, 1.5*inch, 1.25*inch, 1.25*inch])
@@ -203,8 +215,6 @@ def generate_report(filename):
     print(f"Report generated: {filename}")
 
 # Main function
-
-
 def main():
     parser = argparse.ArgumentParser(
         description="Generate a report from the database")
