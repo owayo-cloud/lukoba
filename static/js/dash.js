@@ -2,7 +2,7 @@
 const sideLinks = document.querySelectorAll('.sidebar .sideMenu li a:not(.logout)');
 sideLinks.forEach(item => {
     const li = item.parentElement;
-    item.addEventListener('click', () => {
+    item.addEventListener('click', () => { //adds event listener to a link when it's clicked
         sideLinks.forEach(i => {
             i.parentElement.classList.remove('active');
         })
@@ -10,7 +10,7 @@ sideLinks.forEach(item => {
     })
 });
 
-const menuBar = document.querySelector('.content nav .bx.bx-menu');
+const menuBar = document.querySelector('.content nav .bx.bx-menu'); //Selects the menu bar icon (.bx-menu) and the sidebar container.
 const sideBar = document.querySelector('.sidebar');
 
 menuBar.addEventListener('click', () => {

@@ -102,7 +102,7 @@ function showSpecificSlider(index) {
     }, timeAutoNext);
 }
 
-// Update active class for the carousel and thumbnails
+// Update active class for the current slide(carousel and it's corresponding thumbnails)
 function updateActiveClass() {
     let SliderItemsDom = SliderDom.querySelectorAll('.item');
     let thumbnailItemsDom = thumbnailBorderDom.querySelectorAll('.item');

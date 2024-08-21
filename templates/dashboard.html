@@ -1,8 +1,69 @@
 {% extends 'dashboard_base.html' %}
 {% block content %}
+{% block extrastyles %}
+<style>
+    .insights {
+        list-style: none;
+        padding: 20px;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px; /* Gap between items */
+    }
+
+    .insights li {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin: 10px;
+        flex: 1 1 calc(25% - 20px); /* Adjusts item width */
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-width: 200px; /* Ensures items don't shrink too much */
+    }
+
+    .insights li i {
+        font-size: 36px; /* Icon size */
+        color: #007bff; /* Icon color */
+        margin-right: 15px; /* Space between icon and text */
+    }
+
+    .insights li .info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .insights li .info p {
+        margin: 0;
+        font-size: 14px;
+        color: #666;
+    }
+
+    .insights li .info h3 {
+        margin: 5px 0 0;
+        font-size: 24px;
+        color: #333;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .insights li {
+            flex: 1 1 calc(50% - 20px); /* Adjusts item width for medium screens */
+        }
+    }
+
+    @media (max-width: 480px) {
+        .insights li {
+            flex: 1 1 100%; /* Stacks items vertically for small screens */
+        }
+    }
+</style>
+{% endblock extrastyles %}
 <div class="header">
     <div class="left">
-        <h1 style="letter-spacing: 10px;">DASHBOARD</h1>
+        <h1 style="letter-spacing: 10px;">ANALYSIS</h1>
         <ul class="breadcrumb">
             <li><a href="#">Dashboard</a></li>
         </ul>
@@ -30,18 +91,6 @@
             <h3 id="revenue">Ksh {{ total_revenue }}</h3>
         </span></li>
 </ul>
-<div class="bottom_data">
-    <div class="orders">
-        <div class="chart-container">
-            <canvas id="revenueChart"></canvas>
-        </div>
-    </div>
-    <div class="reminders">
-        <div class="chart-container">
-            <canvas id="ticketsSoldChart"></canvas>
-        </div>
-    </div>
-</div>
 {% endblock content %}
 
 {% block extrascript %}
