@@ -1,3 +1,4 @@
+{% load static %}
 {% extends "base.html" %}
 
 {% block content %}
@@ -23,7 +24,7 @@
 <div class="carousel">
     <div class="list">
         {% for movie in movies %}
-        <div class="item {% if loop.first %}active{% endif %}">
+        <div class="item {% if forloop.first %}active{% endif %}">
             <img src="{{ movie.poster }}" alt="{{ movie.title }}">
             <div class="content">
                 <div class="title">{{ movie.title }}</div>
@@ -31,7 +32,7 @@
                 <div class="des">{{ movie.description }}</div>
                 <div class="buttons">
                     <!--<button id="extras">Trailer</button>-->
-                    <a href="/movies/{{movie.imdb}}" style="text-decoration: none; color: #000; " class="see-more">See More</a>
+                    <a href="{% url 'movie_detail' movie.imdb %}" style="text-decoration: none; color: #000; " class="see-more">See More</a>
                     <!--<button> <a href="/movies/{{movie.imdb}}/book" class="btn btn-primary" style="text-decoration: none; color: #000;"> BOOK NOW</a></button>-->
                 </div>
             </div>
@@ -42,7 +43,7 @@
     <!-- Thumbnails -->
     <div class="thumbnail">
         {% for movie in movies %}
-        <div class="item {% if loop.first %}active{% endif %}">
+        <div class="item {% if forloop.first %}active{% endif %}">
             <img src="{{ movie.poster }}" alt="{{ movie.title }}">
             <div class="content">
                 <div class="title">{{ movie.title }}</div>
@@ -63,5 +64,5 @@
 {% endblock content %}
 
 {% block extrascripts %}
-<script src="/static/js/script.js"></script>
+<script src="{% static 'js/script.js' %}"></script>
 {% endblock extrascripts %}

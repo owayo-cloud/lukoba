@@ -4,8 +4,8 @@
     <div class="left">
         <h1 style="letter-spacing: 10px;">BOOKINGS</h1>
         <ul class="breadcrumb">
-            <a href="/dashboard">Dashboard</a>
-            <li><a href="#" class="active">/Bookings</a></li>
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+            <li><a href="{% url 'dashboard_bookings' %}" class="active">/Bookings</a></li>
         </ul>
     </div>
 </div>
@@ -37,7 +37,7 @@
                 <td>{{booking.showtime.movie.title}}</td>
                 <td>{{booking.showtime.time}}</td>
                 <td>{{booking.showtime.date}}</td>
-                <td>{{booking.payment.amount}}</td>
+                <td>Ksh {{booking.payment.amount|floatformat:2}}</td>
             </tr>
             {% endfor %}
             </tbody>

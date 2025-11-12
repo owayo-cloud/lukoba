@@ -1,7 +1,8 @@
+{% load static %}
 {% extends "base.html" %}
 
 {% block extrastyles %}
-<link rel="stylesheet" href="/static/css/booking.css">
+<link rel="stylesheet" href="{% static 'css/booking.css' %}">
 {% endblock extrastyles %}
 
 {% block content %}
@@ -26,9 +27,11 @@
 
         
 
-            {% if s_time %}
-            Showtime selected 
-            {{s_time.date}} at {{s_time.time}}
+            {% if showtime_obj %}
+            <div class="timings">
+                <h3>Showtime selected: {{showtime_obj.date}} at {{showtime_obj.time}}</h3>
+                <p>Available seats: {{showtime_obj.seats_available}}</p>
+            </div>
             {% else %}
             <div class="timings">
                 <h3>Show Times</h3>
@@ -46,11 +49,12 @@
                 </div>
             </div>
             {% endif %}
-            <form method="post" action="/movies/{{ movie.imdbID }}/book" id="booking-form">
+            <form method="post" action="{% url 'book_post' movie.imdb %}" id="booking-form">
+                {% csrf_token %}
                 <label for="phone_number">
                     <div class="input-container">
                         <input type="text" id="phone_number" name="phone_number" placeholder="Phone Number" required>
-                        <img src="/static/image/M-PESA-logo-2.png" alt="M-Pesa Logo" class="mpesa-logo">
+                        <img src="{% static 'image/M-PESA-logo-2.png' %}" alt="M-Pesa Logo" class="mpesa-logo">
                     </div>
                 </label>
                 <label for="seat_number">
@@ -60,9 +64,13 @@
                     </div>
                 </label>
                 <input type="hidden" id="seat_price" name="seat_price" value="">
-                <input type='hidden' value="{{movie.id}}" name="movieId">
-                <input type='hidden' value="{{movie.imdb}}" name="movieImdb">
-                <input type='hidden' value="{{s_time.id}}" name="showtime">
+                <input type="hidden" id="seats" name="seats" value="">
+                <input type="hidden" id="amount" name="amount" value="">
+                <input type='hidden' value="{{movie.id}}" name="movie">
+                <input type='hidden' value="{{movie.imdb}}" name="imdb">
+                {% if showtime_obj %}
+                <input type='hidden' value="{{showtime_obj.id}}" name="showtime">
+                {% endif %}
                 <div class="total-amount">
                     Total Amount: <span id="total_amount">0</span>
                 </div>              
@@ -82,7 +90,7 @@
 
 {% block extrascripts %}
 <script type="text/javascript">
-    var bookings = "{{bookings}}";
+    var bookings = {{ booked_seats|safe|default:"[]" }};
 </script>
-<script src="/static/js/booking.js"></script>
+<script src="{% static 'js/booking.js' %}"></script>
 {% endblock extrascripts %}

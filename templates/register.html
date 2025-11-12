@@ -1,10 +1,11 @@
+{% load static %}
 {% extends "base.html" %}
 
 
 {% block extrastyles %}
 <title>Registration</title>
-<link rel="stylesheet" href="/static/css/signLog.css">
-<link rel="stylesheet" href="/static/css/style.css">
+<link rel="stylesheet" href="{% static 'css/signLog.css' %}">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
 {% endblock extrastyles %}
 
 {% block content %}
@@ -12,6 +13,7 @@
     <div class="form_box">
         <h2 id="title">sign up</h2>
         <form method="post">
+            {% csrf_token %}
             <div class="input_group">
                 <div class="input_field" id="nameField">
                     <i class="fa-regular fa-user"></i>
@@ -26,12 +28,15 @@
                     <input type="password" id="signupPassword" placeholder="Password" name="password" required>
                     <span class="toggle-password" onclick="togglePassword('signupPassword', this)"><i class="fa-solid fa-eye"></i></span>
                 </div>
+                {% if error %}
+                <div style="color: red; margin-bottom: 10px;">{{ error }}</div>
+                {% endif %}
                 <button type="submit">REGISTER</button>
             </div>
         </form>
         <div class="form_footer" id="rForm_footer">
             <hr>
-            <p>Already have an account? <a href="/login">Login</a></p>
+            <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
         </div>
     </div>
 </div>

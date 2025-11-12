@@ -1,9 +1,10 @@
+{% load static %}
 {% extends "base.html" %}
 
 
 {% block extrastyles %}
 <title>Login</title>
-<link rel="stylesheet" href="/static/css/signLog.css">
+<link rel="stylesheet" href="{% static 'css/signLog.css' %}">
 {% endblock extrastyles %}
 
 {% block content %}
@@ -11,6 +12,7 @@
     <div class="form_box">
         <h2>Login</h2>
         <form method="post">
+            {% csrf_token %}
             <div class="input_group">
                 <div class="input_field">
                     <i class="fa-regular fa-envelope"></i>
@@ -25,16 +27,16 @@
                     <input type="checkbox" id="rememberMe" name="remember">
                     <label for="rememberMe">Remember Me</label>
                 </div>-->
+                {% if error %}
+                <div style="color: red; margin-bottom: 10px;">{{ error }}</div>
+                {% endif %}
                 <button type="submit" id="loginBtn">Login</button>
             </div>  
         </form>
         <div class="form_footer" id="lForm_footer">
-           <div>
-            {{session.error}}
-            </div>
              <hr>
             <!--<p>Forgot Password? <a href="/forgot-password"('forgot')">Click Here</a></p>-->
-            <p> Don't have an account yet? <a href="/register">Sign Up</a></p>
+            <p> Don't have an account yet? <a href="{% url 'register' %}">Sign Up</a></p>
         </div>
     </div>
 </div>

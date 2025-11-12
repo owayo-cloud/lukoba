@@ -1,3 +1,4 @@
+{% load static %}
 {% extends "base.html" %}
 
 {% block extrastyles %}
@@ -161,7 +162,7 @@
 
 {% block content %}
 <div class="container">
-    <form action="/movies" method="get" id="search-form">
+    <form action="{% url 'movies' %}" method="get" id="search-form">
         <div class="form_input">
             <input type="search" placeholder="Search for Movies..." name="title" id="search-input">
             <button class="search-btn" type="submit"><i class="bx bx-search"></i></button>
@@ -175,7 +176,7 @@
                     {% for movie in movies %}
                     <div class="movie-list-item">
                         <img class="movie-list-item-img" src="{{ movie.Poster }}" alt="{{ movie.Title }}">
-                        <a class="movie-list-item-button" href="/movies/{{movie.imdbID}}">See More</a>
+                        <a class="movie-list-item-button" href="{% url 'movie_detail' movie.imdbID %}">See More</a>
                     </div>
                     {% endfor %}
                 </div>
@@ -187,5 +188,5 @@
 {% endblock content %}
 
 {% block extrascripts %}
-<script src="/static/js/movies.js"></script>
+<script src="{% static 'js/movies.js' %}"></script>
 {% endblock extrascripts %}

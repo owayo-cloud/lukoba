@@ -1,20 +1,21 @@
+{% load static %}
 {% extends 'dashboard_base.html' %}
 {% block extrastyles %}
-<link rel="stylesheet" href="../static/css/dashMovies.css">
+<link rel="stylesheet" href="{% static 'css/dashMovies.css' %}">
 {% endblock extrastyles %}
 {% block content %}
 <div class="header">
     <div class="left">
         <h1 style="letter-spacing: 10px;">MOVIES</h1>
         <ul class="breadcrumb">
-            <a href="/dashboard">Dashboard</a>
-            <li><a href="/dashboard/movies" class="active">/Movies</a></li>
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+            <li><a href="{% url 'dashboard_movies' %}" class="active">/Movies</a></li>
         </ul>
     </div>
 </div>
 <div class="movies">
     {% for movie in movies %}
-    <a class="rec_card" href="/dashboard/movies/{{movie.imdbID}}">
+    <a class="rec_card" href="{% url 'dashboard_movie_detail' movie.imdbID %}">
         <div class="movie">
             <div>
                 <img src="{{movie.Poster}}" alt="">

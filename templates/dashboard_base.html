@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LuKoBa | Dashboard</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="/static/css/dash.css">
+    <link rel="stylesheet" href="{% static 'css/dash.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     {% block extrastyles %}
     
@@ -15,22 +16,22 @@
 <body>
     <!--Side Menu-->
     <div class="sidebar">
-        <a href="/" class="logo"><i class='bx bxs-camera-movie'></i><div class="logo_name"><span>LuKoBa</span>Shows</div></a>
+        <a href="{% url 'home' %}" class="logo"><i class='bx bxs-camera-movie'></i><div class="logo_name"><span>LuKoBa</span>Shows</div></a>
         <ul class="sideMenu">
-            <li><a href="/dashboard"><i class='bx bxs-dashboard'></i>Analysis</a></li>
-            <li><a href="/dashboard/movies"><i class='bx bx-film'></i>Movies</a></li>
-            <li><a href="/dashboard/bookings"><i class='bx bx-book-content'></i>Bookings</a></li>
-            <li><a href="/dashboard/users"><i class='bx bx-group'></i>Users</a></li>
+            <li><a href="{% url 'dashboard' %}"><i class='bx bxs-dashboard'></i>Analysis</a></li>
+            <li><a href="{% url 'dashboard_movies' %}"><i class='bx bx-film'></i>Movies</a></li>
+            <li><a href="{% url 'dashboard_bookings' %}"><i class='bx bx-book-content'></i>Bookings</a></li>
+            <li><a href="{% url 'dashboard_users' %}"><i class='bx bx-group'></i>Users</a></li>
         </ul>
         <ul class="sideMenu">
-            <li><a href="/logout"><i class='bx bx-log-out'></i>Sign Out</a></li>
+            <li><a href="{% url 'logout' %}"><i class='bx bx-log-out'></i>Sign Out</a></li>
         </ul>
     </div>
     <!--Main Page-->
     <div class="content">
         <nav>
             <i class='bx bx-menu'></i>
-            <form action="/dashboard/movies" method="get" id="search-form">
+            <form action="{% url 'dashboard_movies' %}" method="get" id="search-form">
                 <div class="form_input">
                     <input type="search" placeholder="Search..." name="title" id="search-input">
                     <button class="search-btn" type="submit"><i class='bx bx-search'></i></button>
@@ -41,7 +42,7 @@
             <a href="#" class="notify"><i class='bx bx-bell'></i><span class="count">12</span></a>
             <div class="profile">
                 <div class="info">
-                    <p>Hello, <b id="admin-name">{{session['user']}}</b></p>
+                    <p>Hello, <b id="admin-name">{{ user.username }}</b></p>
                     <small class="text-muted">Admin</small>
                 </div>
             </div>
@@ -59,6 +60,6 @@
 
 
 {% block extrascript %}
-<script src="/static/js/dash.js"></script>
+<script src="{% static 'js/dash.js' %}"></script>
 {% endblock extrascript %}
     

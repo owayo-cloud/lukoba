@@ -1,8 +1,9 @@
+{% load static %}
 {% extends "base.html" %}
 
 {% block extrastyles %}
 <title>LuKoBa | Movies</title>
-<link rel="stylesheet" href="/static/css/movies.css">
+<link rel="stylesheet" href="{% static 'css/movies.css' %}">
 <style>
     /* General Styles */
     .contain {
@@ -165,7 +166,7 @@
     <div class="header">
         <h1>MOVIE INFO</h1>
         {% if showtimes %}
-        <a href="/movies/{{movie.imdbID}}/book" class="report">
+        <a href="{% url 'booking' movie.imdbID %}" class="report">
             <span>Book Now</span>
         </a>
         {% else %}
@@ -209,5 +210,5 @@
 </div>
 {% endblock content %}
 {% block extrascripts %}
-<script src="/static/js/movies.js"></script>
+<script src="{% static 'js/movies.js' %}"></script>
 {% endblock extrascripts %}

@@ -68,7 +68,7 @@
             <li><a href="#">Dashboard</a></li>
         </ul>
     </div>
-    <a href="/reports" class="report"><i class='bx bx-cloud-download'></i><span>Download CSV</span></a>
+    <a href="{% url 'reports' %}" class="report"><i class='bx bx-cloud-download'></i><span>Download Report</span></a>
 </div>
 <ul class="insights">
     <li><i class='bx bx-calendar-check'></i><span class="info">
@@ -83,18 +83,19 @@
         </span></li>
         <li><i class='bx bx-trending-up'></i><span class="info">
             <p>Conversion Rate</p>
-            <h3 id="conversion-rate">{{ conversion_rate }}</h3>
+            <h3 id="conversion-rate">{{ conversion_rate|floatformat:2 }}%</h3>
             
         </span></li>
     <li><i class='bx bx-money'></i></i><span class="info">
             <p>Revenue</p>
-            <h3 id="revenue">Ksh {{ total_revenue }}</h3>
+            <h3 id="revenue">Ksh {{ total_revenue|floatformat:2 }}</h3>
         </span></li>
 </ul>
 {% endblock content %}
 
+{% load static %}
 {% block extrascript %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="../static/js/dash.js"></script>
-<!--<script src="/static/js/dashAnalytics.js"></script>-->
+<script src="{% static 'js/dash.js' %}"></script>
+<!--<script src="{% static 'js/dashAnalytics.js' %}"></script>-->
 {% endblock extrascript %}

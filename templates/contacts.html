@@ -1,3 +1,4 @@
+{% load static %}
 {% extends "base.html" %}
 
 {% block extrastyles %}
@@ -90,10 +91,10 @@
         </div>
         <div class="social-media">
             <a href="https://twitter.com" target="_blank">
-                <img src="/static/image/twitter.png" alt="Twitter">
+                <img src="{% static 'image/twitter.png' %}" alt="Twitter">
             </a>
             <a href="https://instagram.com" target="_blank">
-                <img src="/static/image/instagram.png" alt="Instagram">
+                <img src="{% static 'image/instagram.png' %}" alt="Instagram">
             </a>
         </div>
     </div>

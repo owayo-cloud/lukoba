@@ -1,7 +1,8 @@
+{% load static %}
 {% extends "base.html" %}
 
 {% block extrastyles %}
-<link rel="stylesheet" href="/static/css/payment.css">
+<link rel="stylesheet" href="{% static 'css/payment.css' %}">
 {% endblock extrastyles %}
 
 {% block content %}
@@ -97,21 +98,13 @@
     </div>
     <div class="receipt-details">
         <div class="detail">
-            <span class="label">Username:</span>
-            <span class="value">{{ username }}</span>
-        </div>
-        <div class="detail">
-            <span class="label">Seat Number:</span>
-            <span class="value">{{ seat_number }}</span>
-        </div>
-        <div class="detail">
             <span class="label">Payment Status:</span>
             <span class="value status-failed">Failed</span>
         </div>
     </div>
     <div class="receipt-footer">
         <p>Please try again or contact support for assistance.</p>
-        <a href="/" class="home-button">Return to Home</a>
+        <a href="{% url 'home' %}" class="home-button">Return to Home</a>
     </div>
 </div>
 {% endblock content %}

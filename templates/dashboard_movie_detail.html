@@ -233,8 +233,8 @@
     <div class="left">
         <h1 style="letter-spacing: 10px;">MOVIE INFO</h1>
         <ul class="breadcrumb">
-            <a href="/dashboard">Dashboard</a>
-            <a href="/dashboard/movies" class="active">/ Movies</a>
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+            <a href="{% url 'dashboard_movies' %}" class="active">/ Movies</a>
             <li><a href="#" class="active">/ {{movie.Title}}</a></li>
         </ul>
     </div>
@@ -274,7 +274,8 @@
     <ul>
         {% for showtime in showtimes %}
         <li>Available on {{ showtime.date }} at {{ showtime.time }}
-            <form method="post" action="/dashboard/movies/delete/{{ showtime.id }}" style="display:inline;">
+            <form method="post" action="{% url 'delete_showtime' showtime.id %}" style="display:inline;">
+                {% csrf_token %}
                 <button type="submit" class="delete-btn">
                     <i class="bx bx-trash"></i>
                 </button>
@@ -294,7 +295,8 @@
         <div class="modal-content">
             <h1>Show Movie</h1>
             <h2>Add a showtime for this movie below</h2>
-            <form method="post" action="/dashboard/movies/add">
+            <form method="post" action="{% url 'add_movie_showtime' movie.imdbID %}">
+                {% csrf_token %}
                 <div class="form-group">
                     <label for="date">Date:</label>
                     <input type="date" id="date" name="date" required>
